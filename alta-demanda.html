@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Punto de Alta Demanda — Soy Rappi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    @font-face { font-family:'PPObjectSans'; src:local('PP Object Sans Bold'),local('PPObjectSans-Bold'); font-weight:700; }
+    .nav-font { font-family:'PPObjectSans','Inter',sans-serif; font-weight:700; }
+    body { font-family:'Inter',sans-serif; background:#f4f6fb; }
+    html { scroll-behavior:smooth; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-up  { animation: fadeUp 0.7s ease forwards; }
+    .fade-up-2{ animation: fadeUp 0.7s 0.15s ease both; }
+    .fade-up-3{ animation: fadeUp 0.7s 0.3s ease both; }
+
+    /* ── Phone mockup ── */
+    .phone-frame {
+      width: 260px;
+      height: 530px;
+      background: #1a1a2e;
+      border-radius: 40px;
+      border: 7px solid #2d2d3d;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06);
+      flex-shrink: 0;
+    }
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 72px; height: 20px;
+      background: #1a1a2e;
+      border-radius: 0 0 12px 12px;
+      z-index: 10;
+    }
+    .phone-screen {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    /* Progress bar */
+    .phone-progress {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f3663d, #ff3d55);
+      width: 0%;
+      z-index: 20;
+      border-radius: 0 2px 0 0;
+      transition: none;
+    }
+    .phone-progress.animating {
+      transition: width 4s linear;
+    }
+
+    /* Slide text fade */
+    .step-text-panel {
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .step-text-panel.hidden-panel {
+      opacity: 0;
+      transform: translateX(20px);
+      pointer-events: none;
+    }
+
+    /* Step arrow hover */
+    .pad-arrow { transition: background 0.2s; }
+    .pad-arrow:hover { background: #f3663d !important; }
+    .pad-arrow:hover svg { stroke: #fff !important; }
+
+    /* Benefits numbered list */
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .benefit-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #9b59b6;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .teal-note-list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 12px;
+      color: #2d4a44;
+      font-size: 0.97rem;
+      line-height: 1.65;
+    }
+    .teal-note-list li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 10px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #1fd6b3;
+    }
+
+    /* Section card */
+    .section-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.07);
+      padding: 52px;
+    }
+
+    @keyframes badgePop {
+      0%,100%{transform:scale(1)} 50%{transform:scale(1.08)}
+    }
+    .badge-pop { animation: badgePop 2.4s ease-in-out infinite; }
+
+    /* ── Benefit icon animations ── */
+    @keyframes iconFloat {
+      0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)}
+    }
+    @keyframes iconClock {
+      0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)}
+    }
+    @keyframes iconBounce {
+      0%,100%{transform:scale(1)} 40%{transform:scale(1.18)} 60%{transform:scale(0.95)}
+    }
+    @keyframes iconRise {
+      0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-6px) scale(1.12)}
+    }
+    @keyframes iconCompass {
+      0%,100%{transform:rotate(0deg)} 33%{transform:rotate(25deg)} 66%{transform:rotate(-15deg)}
+    }
+  </style>
+
+<style id="mob-nav-css">
+/* ── Mobile nav ── */
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:10px;flex-shrink:0;}
+@media(max-width:767px){
+  .mob-btn{display:flex;}
+  .mob-logo-wrap{left:0!important;position:relative!important;}
+  #nav-registrarse,a.nav-cta-btn{display:none!important;}
+}
+.mob-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s;}
+.mob-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-btn.is-open span:nth-child(2){opacity:0;}
+.mob-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mob-nav-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#082028 0%,#041218 100%);z-index:197;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#mob-nav-panel .mob-inner{padding-top:96px;padding-bottom:60px;}
+.mob-section-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.09);cursor:pointer;text-align:left;}
+.mob-section-btn svg{transition:transform .2s;flex-shrink:0;}
+.mob-section-btn.mob-open svg{transform:rotate(180deg);}
+.mob-sub{background:rgba(0,0,0,0.25);display:none;}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:13px 32px;color:#c7e9e4;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mob-sub a:active{background:rgba(31,214,179,0.15);}
+.mob-plain-link{display:flex;align-items:center;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.09);}
+.mob-cta-wrap{padding:28px 24px;}
+.mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
+</style>
+</head>
+<body>
+
+  <!-- ══════════════ NAVBAR ══════════════ -->
+  <nav class="sticky top-0 z-50 shadow-lg" style="background:linear-gradient(90deg,#1fd6b3 0%,#23acb7 100%);">
+    <div class="max-w-8xl mx-auto px-6">
+      <div class="flex items-center justify-between h-24">
+
+        <div class="flex items-center gap-3 flex-shrink-0" style="position:relative;left:120px;">
+          <a href="index.html"><img src="soyrappi_logo.png" alt="Soy Rappi" style="width:200px;height:auto;object-fit:contain;" /></a>
+          <img src="bandera_col.png" alt="Colombia" style="width:75px;height:75px;object-fit:contain;flex-shrink:0;margin-left:-40px;" />
+        </div>
+
+        <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
+          <!-- Ganancias dropdown -->
+          <div class="relative" id="nav-ganancias">
+            <button onclick="toggleGananciasDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Ganancias <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="ganancias-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;">
+              <a href="cuenta-bancaria.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg></span>
+                ¿Cómo recibir ganancias?
+              </a>
+              <a href="cuanto-ganar.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                ¿Cuánto puedes ganar?
+              </a>
+              <a href="incentivos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                Incentivos
+              </a>
+              <a href="referidos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+                Referidos
+              </a>
+              <a href="propinas.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span>
+                Propinas
+              </a>
+              <a href="alta-demanda.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;background:rgba(243,102,61,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(243,102,61,0.15)'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </span>
+                Punto de Alta Demanda
+              </a>
+              <a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f5a623,#f3663d);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                Beneficios Exclusivos
+              </a>
+            </div>
+          </div>
+
+          <!-- Estados -->
+          <div class="relative" id="nav-estados">
+            <button onclick="toggleEstadosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Estados <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="estados-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);min-width:220px;overflow:hidden;z-index:200;">
+              <a href="sistema-de-estados.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1a1a2e,#3d3d6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/></svg></span>
+                Sistema de estados
+              </a>
+            </div>
+          </div>
+
+          <div class="relative" id="nav-beneficios"><button onclick="toggleBeneficiosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Beneficios <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="beneficios-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;"><a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Beneficios Exclusivos</a><a href="seguro-accidentes.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>Seguro de Accidentes</a></div></div>
+          <div class="relative" id="nav-turbo"><button onclick="toggleTurboDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Turbo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="turbo-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:300px;overflow:hidden;z-index:200;"><a href="turbo.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Todo lo que debes saber sobre Turbo</a></div></div>
+          <div class="relative" id="nav-evoluciona"><button onclick="toggleEvolucionaDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">SoyRappi Evoluciona <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="evoluciona-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:280px;overflow:hidden;z-index:200;"><a href="soyrappi-evoluciona.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>Te escuchamos</a></div></div>
+          <a href="#" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Conoce más</a>
+          <a href="#" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Pregúntanos</a>
+        </div>
+
+        <a href="index.html#registro" class="nav-font flex-shrink-0 bg-white hover:bg-gray-100 font-bold px-10 py-3.5 rounded-full text-base transition-colors shadow-md" style="color:#1fd6b3;position:relative;right:80px;">
+          Regístrate
+        </a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section class="py-24 relative overflow-hidden" style="background:linear-gradient(135deg,#f3663d 0%,#ff3d55 100%);">
+    <!-- Decorative circles -->
+    <div style="position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.07);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-80px;left:-40px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,0.06);pointer-events:none;"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+
+<h1 class="font-black fade-up-2" style="font-size:clamp(2rem,3.8vw,3.2rem);color:#fff;line-height:1.15;text-shadow:0 3px 20px rgba(0,0,0,0.2);margin-bottom:24px;">
+        ¡Maximiza tus ganancias con los Puntos de Alta Demanda!
+      </h1>
+
+      <p class="fade-up-3" style="color:rgba(255,255,255,0.9);font-size:1.1rem;font-weight:500;line-height:1.65;max-width:600px;margin:0 auto;">
+        Ubícate estratégicamente donde más pedidos se concentran y <strong style="color:#fff;">aumenta tus ingresos cada vez que te conectas.</strong>
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ══════════════ CONTENIDO ══════════════ -->
+  <main class="py-16" style="background:#f4f6fb;">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col gap-12">
+
+
+      <!-- ── SECCIÓN 1: ¿Qué son? ── -->
+      <div class="section-card text-center">
+        <h2 class="font-black mb-6" style="font-size:clamp(1.8rem,4vw,2.6rem);color:#f3663d;line-height:1.15;">
+          ¿Qué son los puntos de alta demanda?
+        </h2>
+        <p style="color:#3d3d3d;font-size:1.05rem;line-height:1.75;max-width:760px;margin:0 auto;">
+          Los puntos de alta demanda son aquellas ubicaciones donde se concentran las tiendas/restaurantes con alto flujo de pedido. ¡Con los puntos de alta demanda podrás <strong style="color:#f3663d;">aumentar tus ganancias</strong> al poder recibir y gestionar más pedidos!
+        </p>
+      </div>
+
+
+      <!-- ── SECCIÓN 2: ¿Cómo me registro? — Editorial Dark ── -->
+      <div style="background:linear-gradient(135deg,#1e2a4a 0%,#0f1828 100%);border-radius:28px;overflow:hidden;position:relative;">
+
+        <!-- Ícono gigante decorativo de fondo -->
+        <div id="ed-bg-icon" style="position:absolute;right:2%;top:50%;transform:translateY(-50%);width:clamp(220px,35vw,360px);height:clamp(220px,35vw,360px);color:rgba(255,255,255,0.05);pointer-events:none;user-select:none;"></div>
+
+        <!-- Franja superior: título izquierda + ícono badge derecha -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;padding:44px 52px 28px;border-bottom:1px solid rgba(255,255,255,0.08);">
+          <div>
+            <p style="color:rgba(255,255,255,0.4);font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin:0 0 8px;">Paso a paso</p>
+            <h2 style="color:#fff;font-size:clamp(1.3rem,2.8vw,2rem);font-weight:800;margin:0;line-height:1.2;">¿Cómo me registro y activo<br/>un Punto de Alta Demanda en la app?</h2>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;">
+            <div id="ed-icon-badge" style="width:58px;height:58px;border-radius:16px;background:rgba(243,102,61,0.18);border:1.5px solid rgba(243,102,61,0.45);display:flex;align-items:center;justify-content:center;color:#f3663d;transition:opacity 0.2s;"></div>
+            <span id="ed-step-label" style="color:rgba(255,255,255,0.3);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;">PASO 01 / 06</span>
+          </div>
+        </div>
+
+        <!-- Cuerpo: phone izquierda + texto derecha -->
+        <div style="display:flex;align-items:center;gap:0;padding:48px 52px 52px;">
+
+          <!-- Phone con perspectiva 3D + marco plateado -->
+          <div style="flex-shrink:0;perspective:1400px;margin-right:52px;">
+            <div style="transform:perspective(1400px) rotateY(-10deg) rotateX(3deg);transform-style:preserve-3d;filter:drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 0 30px rgba(255,255,255,0.08));">
+              <!-- Marco metálico plateado -->
+              <div style="padding:5px;background:linear-gradient(160deg,#ffffff 0%,#d4d8de 25%,#f2f4f6 50%,#a8adb5 75%,#e0e3e8 100%);border-radius:44px;box-shadow:0 0 0 1px rgba(255,255,255,0.6),inset 0 1px 2px rgba(255,255,255,0.8);">
+                <!-- Cuerpo interior oscuro -->
+                <div style="width:240px;height:500px;background:#111;border-radius:40px;overflow:hidden;position:relative;">
+                  <!-- Track imágenes -->
+                  <div id="ph-track" style="display:flex;width:600%;height:100%;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);">
+                    <img src="alta demanda 1 .jpg"  style="width:16.666%;height:100%;object-fit:cover;object-position:top;flex-shrink:0;" />
+                    <img src="alta demanda 2.jpg"   style="width:16.666%;height:100%;object-fit:cover;object-position:top;flex-shrink:0;" />
+                    <img src="alta demanda 3.jpg"   style="width:16.666%;height:100%;object-fit:cover;object-position:top;flex-shrink:0;" />
+                    <img src="alta demanda 4 .jpg"  style="width:16.666%;height:100%;object-fit:cover;object-position:top;flex-shrink:0;" />
+                    <img src="alta demanda 5.jpg"   style="width:16.666%;height:100%;object-fit:cover;object-position:top;flex-shrink:0;" />
+                    <img src="alta demanda 6.jpg"   style="width:16.666%;height:100%;object-fit:cover;object-position:top;flex-shrink:0;" />
+                  </div>
+                  <!-- Notch -->
+                  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:66px;height:18px;background:#111;border-radius:0 0 10px 10px;z-index:30;"></div>
+                  <!-- Reflejo metálico -->
+                  <div style="position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,255,255,0.12) 0%,transparent 35%);pointer-events:none;z-index:20;"></div>
+                  <!-- Progress -->
+                  <div id="ph-progress" style="position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,#f3663d,#ff3d55);width:0%;z-index:25;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Texto del paso -->
+          <div style="flex:1;min-width:0;">
+            <!-- Línea decorativa naranja -->
+            <div style="width:40px;height:3px;background:#f3663d;border-radius:2px;margin-bottom:24px;"></div>
+
+            <!-- Texto con overflow-hidden para animación de clip -->
+            <div style="overflow:hidden;">
+              <p id="ph-text" style="color:#fff;font-size:clamp(1rem,1.8vw,1.4rem);font-weight:600;line-height:1.6;margin:0;transition:opacity 0.4s ease,transform 0.4s ease;">
+                Ingresa al menú de tu aplicación.
+              </p>
+            </div>
+
+            <!-- Dots minimalistas -->
+            <div style="display:flex;gap:6px;align-items:center;margin-top:36px;">
+              <button onclick="phGo(0)" class="ph-dot" style="height:3px;width:28px;border-radius:2px;background:#f3663d;border:none;cursor:pointer;transition:all 0.3s;padding:0;"></button>
+              <button onclick="phGo(1)" class="ph-dot" style="height:3px;width:12px;border-radius:2px;background:rgba(255,255,255,0.2);border:none;cursor:pointer;transition:all 0.3s;padding:0;"></button>
+              <button onclick="phGo(2)" class="ph-dot" style="height:3px;width:12px;border-radius:2px;background:rgba(255,255,255,0.2);border:none;cursor:pointer;transition:all 0.3s;padding:0;"></button>
+              <button onclick="phGo(3)" class="ph-dot" style="height:3px;width:12px;border-radius:2px;background:rgba(255,255,255,0.2);border:none;cursor:pointer;transition:all 0.3s;padding:0;"></button>
+              <button onclick="phGo(4)" class="ph-dot" style="height:3px;width:12px;border-radius:2px;background:rgba(255,255,255,0.2);border:none;cursor:pointer;transition:all 0.3s;padding:0;"></button>
+              <button onclick="phGo(5)" class="ph-dot" style="height:3px;width:12px;border-radius:2px;background:rgba(255,255,255,0.2);border:none;cursor:pointer;transition:all 0.3s;padding:0;"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── SECCIÓN 3: Beneficios — Infografía ── -->
+      <div class="section-card">
+        <h2 class="font-black text-center mb-10" style="font-size:clamp(1.6rem,3.5vw,2.4rem);color:#f3663d;line-height:1.2;">
+          ¿Cuáles son los beneficios de aprovechar los<br/>Puntos de Alta Demanda?
+        </h2>
+
+        <!-- Grid 3+2 de tarjetas infografía -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:24px;">
+
+          <!-- Card 1 -->
+          <div style="background:linear-gradient(135deg,#fff7f4,#fff0ea);border:1.5px solid rgba(243,102,61,0.2);border-radius:20px;padding:28px 22px;text-align:center;">
+            <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 24px rgba(243,102,61,0.3);">
+              <svg style="animation:iconFloat 2.2s ease-in-out infinite;" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            <div style="font-size:2rem;font-weight:900;color:#f3663d;line-height:1;margin-bottom:8px;">+50%</div>
+            <p style="margin:0;font-size:0.88rem;color:#2d1a10;line-height:1.5;">Aumenta tus ganancias durante tu conexión</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div style="background:linear-gradient(135deg,#f0fdf9,#e6faf5);border:1.5px solid rgba(31,214,179,0.28);border-radius:20px;padding:28px 22px;text-align:center;">
+            <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 24px rgba(31,214,179,0.28);">
+              <svg style="animation:iconClock 4s linear infinite;" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div style="font-size:1.3rem;font-weight:900;color:#0e8a74;line-height:1.1;margin-bottom:8px;">Menos espera</div>
+            <p style="margin:0;font-size:0.88rem;color:#0e3a30;line-height:1.5;">Disminuye el tiempo en tienda o restaurante</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div style="background:linear-gradient(135deg,#f5f0ff,#ede8ff);border:1.5px solid rgba(162,89,255,0.22);border-radius:20px;padding:28px 22px;text-align:center;">
+            <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 24px rgba(162,89,255,0.28);">
+              <svg style="animation:iconBounce 1.8s ease-in-out infinite;" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            </div>
+            <div style="font-size:1.3rem;font-weight:900;color:#6d28d9;line-height:1.1;margin-bottom:8px;">Más pedidos</div>
+            <p style="margin:0;font-size:0.88rem;color:#2d1a4a;line-height:1.5;">Incrementa la cantidad de pedidos por conexión</p>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:680px;margin:0 auto 28px;">
+
+          <!-- Card 4 -->
+          <div style="background:linear-gradient(135deg,#fff7f4,#fff0ea);border:1.5px solid rgba(243,102,61,0.2);border-radius:20px;padding:28px 22px;text-align:center;">
+            <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#f3663d,#ff8c42);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 24px rgba(243,102,61,0.25);">
+              <svg style="animation:iconRise 2s ease-in-out infinite;" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <div style="font-size:1.3rem;font-weight:900;color:#c0392b;line-height:1.1;margin-bottom:8px;">Horas pico</div>
+            <p style="margin:0;font-size:0.88rem;color:#2d1a10;line-height:1.5;">Aprovecha mejor las horas de alta demanda</p>
+          </div>
+
+          <!-- Card 5 -->
+          <div style="background:linear-gradient(135deg,#f0fdf9,#e6faf5);border:1.5px solid rgba(31,214,179,0.28);border-radius:20px;padding:28px 22px;text-align:center;">
+            <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 8px 24px rgba(31,214,179,0.25);">
+              <svg style="animation:iconCompass 3s ease-in-out infinite;" xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            </div>
+            <div style="font-size:1.3rem;font-weight:900;color:#0e8a74;line-height:1.1;margin-bottom:8px;">Menos km</div>
+            <p style="margin:0;font-size:0.88rem;color:#0e3a30;line-height:1.5;">Recorre menores distancias entre pedidos</p>
+          </div>
+        </div>
+
+        <!-- Ten en cuenta -->
+        <div style="background:#f0fdf9;border:1.5px solid rgba(31,214,179,0.3);border-radius:16px;padding:24px 28px;">
+          <p style="color:#0e6655;font-weight:700;font-size:0.95rem;margin:0 0 12px;">Ten en cuenta:</p>
+          <ul class="teal-note-list list-none p-0 m-0">
+            <li>El número de pedidos depende de la demanda que haya en las tiendas/restaurantes que conforman el punto de alta demanda.</li>
+            <li>La posibilidad de activarte en las zonas de alta demanda depende del número de repartidores que estén en la fila virtual. Lo anterior, con el fin de que haya suficientes pedidos para todos los repartidores.</li>
+          </ul>
+        </div>
+      </div>
+
+
+      <!-- ── CTA ── -->
+      <div class="rounded-3xl p-10 text-center" style="background:linear-gradient(135deg,#f3663d 0%,#ff3d55 100%);">
+        <div class="text-4xl mb-4">📍</div>
+        <h3 class="font-black text-white mb-3" style="font-size:1.8rem;text-shadow:0 2px 12px rgba(0,0,0,0.18);">¡Únete a los puntos de Alta Demanda<br/>y gana más!</h3>
+        <p class="mb-8 max-w-md mx-auto" style="color:rgba(255,255,255,0.88);">Cada conexión es una oportunidad. Posiciónate en los puntos correctos y maximiza tus ingresos.</p>
+        <a href="index.html#registro"
+           class="inline-flex items-center gap-3 text-white font-bold px-10 py-4 rounded-full text-lg transition-all shadow-xl hover:scale-105"
+           style="background:linear-gradient(90deg,#1fd6b3 0%,#23acb7 100%);">
+          <img src="bigote.png" alt="" style="width:28px;height:auto;filter:brightness(0) invert(1);" />
+          Regístrate y empieza a ganar
+        </a>
+      </div>
+
+
+    </div>
+  </main>
+
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <section class="py-12" style="background:#f4f4f4;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="flex flex-col gap-6">
+          <img src="soyrappi_logo.png" alt="Soy Rappi" style="width:160px;height:auto;object-fit:contain;filter:brightness(0) saturate(100%) invert(45%) sepia(80%) saturate(500%) hue-rotate(330deg);" />
+          <div class="flex gap-4 items-center">
+            <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="w-12 h-10 rounded-lg flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-2xl font-black text-gray-800 mb-6">¿Nos visitas de otro país?</h3>
+          <div class="grid grid-cols-3 gap-x-8 gap-y-3">
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇦🇷</span> Argentina</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇧🇷</span> Brasil</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇨🇱</span> Chile</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇨🇷</span> Costa Rica</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇪🇨</span> Ecuador</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇲🇽</span> México</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇵🇪</span> Perú</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇺🇾</span> Uruguay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="py-4 px-6 flex justify-between items-center text-xs text-gray-400" style="background:#e8e8e8;">
+    <span>© 2026 Rappi Inc. Todos los derechos reservados.</span>
+    <span>🇨🇴 Colombia</span>
+  </div>
+
+
+  <script>
+    /* ── Step icons (one per slide) ── */
+    var phIconsSVG = [
+      /* 1 — Menú */
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>',
+      /* 2 — Punto de alta demanda (pin) */
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+      /* 3 — Activar (rayo) */
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+      /* 4 — Tiendas disponibles (edificio/tienda) */
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+      /* 5 — Llévame (flecha navegación) */
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>',
+      /* 6 — Fila virtual (reloj) */
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+    ];
+
+    /* ── Phone Auto-Loop Slider — Editorial ── */
+    var phCurrent = 0;
+    var phTotal   = 6;
+    var phTimer   = null;
+    var INTERVAL  = 4000;
+
+    var phTexts = [
+      'Ingresa al <strong style="color:#f3663d;">menú</strong> de tu aplicación.',
+      'Selecciona la opción <strong style="color:#f3663d;">"Punto de Alta Demanda"</strong>.',
+      'Selecciona <strong style="color:#f3663d;">"Activar el punto ahora"</strong>.',
+      'Verás las <strong style="color:#f3663d;">tiendas disponibles</strong> en el punto donde estás ubicado.',
+      'Selecciona <strong style="color:#f3663d;">"Llévame a este punto"</strong> y la app te dirigirá a la tienda con mayor flujo de pedidos.',
+      'Observa el <strong style="color:#f3663d;">tiempo en la fila virtual</strong>. Una vez recibas un pedido, acércate a recogerlo, <strong style="color:#f3663d;">¡y listo!</strong>'
+    ];
+
+    function phGo(n) {
+      phCurrent = ((n % phTotal) + phTotal) % phTotal;
+      var padded = (phCurrent + 1 < 10 ? '0' : '') + (phCurrent + 1);
+      var icon = phIconsSVG[phCurrent];
+
+      /* Deslizar track de imágenes */
+      document.getElementById('ph-track').style.transform =
+        'translateX(-' + (phCurrent * (100 / phTotal)) + '%)';
+
+      /* Ícono gigante de fondo */
+      document.getElementById('ed-bg-icon').innerHTML = icon;
+
+      /* Badge ícono top-right: flip out → update → flip in */
+      var badge = document.getElementById('ed-icon-badge');
+      badge.style.transition = 'opacity 0.15s, transform 0.15s';
+      badge.style.opacity = '0';
+      badge.style.transform = 'scale(0.8)';
+      setTimeout(function() {
+        badge.innerHTML = icon;
+        badge.style.opacity = '1';
+        badge.style.transform = 'scale(1)';
+        document.getElementById('ed-step-label').textContent = 'PASO ' + padded + ' / 06';
+      }, 160);
+
+      /* Texto: slide up out → cambiar → slide up in */
+      var txt = document.getElementById('ph-text');
+      txt.style.opacity = '0';
+      txt.style.transform = 'translateY(16px)';
+      setTimeout(function() {
+        txt.innerHTML = phTexts[phCurrent];
+        txt.style.opacity = '1';
+        txt.style.transform = 'translateY(0)';
+      }, 220);
+
+      /* Dots — líneas horizontales */
+      document.querySelectorAll('.ph-dot').forEach(function(d, i) {
+        if (i === phCurrent) {
+          d.style.width = '28px';
+          d.style.background = '#f3663d';
+        } else {
+          d.style.width = '12px';
+          d.style.background = 'rgba(255,255,255,0.2)';
+        }
+      });
+
+      /* Progress bar */
+      var bar = document.getElementById('ph-progress');
+      bar.style.transition = 'none';
+      bar.style.width = '0%';
+      void bar.offsetWidth;
+      bar.style.transition = 'width ' + INTERVAL + 'ms linear';
+      bar.style.width = '100%';
+
+      /* Auto-loop */
+      clearTimeout(phTimer);
+      phTimer = setTimeout(function() { phGo(phCurrent + 1); }, INTERVAL);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      phGo(0);
+    });
+
+    /* ── Dropdowns ── */
+    function toggleGananciasDrop() {
+      var d = document.getElementById('ganancias-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-ganancias').contains(e.target))
+        document.getElementById('ganancias-drop').style.display = 'none';
+    });
+    function toggleEstadosDrop() {
+      var d = document.getElementById('estados-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-estados').contains(e.target))
+        document.getElementById('estados-drop').style.display = 'none';
+    });
+  </script>
+
+
+<script>
+/* navbar-fix: unified dropdowns */
+(function(){
+  function navCloseAll(){['ganancias-drop','estados-drop','beneficios-drop','turbo-drop','evoluciona-drop','nav-drop'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});}
+  function mkToggle(dropId){return function(){var d=document.getElementById(dropId);if(!d)return;var show=d.style.display==='none'||!d.style.display;navCloseAll();if(show)d.style.display='block';};}
+  window.toggleGananciasDrop=mkToggle('ganancias-drop');
+  window.toggleEstadosDrop=mkToggle('estados-drop');
+  window.toggleBeneficiosDrop=mkToggle('beneficios-drop');
+  window.toggleBeneficiosDrop2=mkToggle('beneficios-drop');
+  window.toggleTurboDrop=mkToggle('turbo-drop');
+  window.toggleEvolucionaDrop=mkToggle('evoluciona-drop');
+  window.toggleDrop=mkToggle('nav-drop');
+  document.addEventListener('click',function(e){
+    var ids=['nav-ganancias','nav-estados','nav-beneficios','nav-turbo','nav-evoluciona'];
+    var inside=ids.some(function(id){var el=document.getElementById(id);return el&&el.contains(e.target);});
+    if(!inside)navCloseAll();
+  });
+})();
+</script>
+
+<script id="mob-nav-js">
+(function(){
+  if(document.getElementById('mob-nav-panel')) return;
+  // Hamburger button
+  var btn = document.createElement('button');
+  btn.className='mob-btn';
+  btn.setAttribute('aria-label','Menú');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  btn.onclick = toggleMobNav;
+  var nav = document.querySelector('nav');
+  var row = nav && nav.querySelector('.flex.items-center.justify-between');
+  if(row){ row.appendChild(btn); }
+
+  // Fix logo left offset on mobile via JS (in case inline style overrides CSS)
+  var logoWrap = row && row.querySelector('.flex.items-center.gap-3.flex-shrink-0, .flex.items-center.gap-3');
+  if(logoWrap) logoWrap.classList.add('mob-logo-wrap');
+
+  // Mobile panel
+  var panel = document.createElement('div');
+  panel.id='mob-nav-panel';
+  panel.innerHTML=[
+    '<div class="mob-inner">',
+    // Ganancias
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Ganancias<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="cuenta-bancaria.html">¿Cómo recibir ganancias?</a>',
+      '<a href="cuanto-ganar.html">¿Cuánto puedes ganar?</a>',
+      '<a href="incentivos.html">Incentivos</a>',
+      '<a href="referidos.html">Referidos</a>',
+      '<a href="propinas.html">Propinas</a>',
+      '<a href="alta-demanda.html">Punto de Alta Demanda</a>',
+    '</div>',
+    // Estados
+    '<a href="sistema-de-estados.html" class="mob-plain-link">Estados</a>',
+    // Beneficios
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Beneficios<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="beneficios-exclusivos.html">Beneficios Exclusivos</a>',
+      '<a href="seguro-accidentes.html">Seguro de Accidentes</a>',
+    '</div>',
+    // Turbo
+    '<a href="turbo.html" class="mob-plain-link">Turbo</a>',
+    // Evoluciona
+    '<a href="soyrappi-evoluciona.html" class="mob-plain-link">SoyRappi Evoluciona</a>',
+    // CTA
+    '<div class="mob-cta-wrap"><a href="index.html#registro">Regístrate</a></div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(panel);
+
+  window.toggleMobNav = function(){
+    var p = document.getElementById('mob-nav-panel');
+    var b = document.querySelector('.mob-btn');
+    var open = p && p.style.display==='block';
+    if(p) p.style.display = open?'none':'block';
+    if(b) b.classList.toggle('is-open',!open);
+    document.body.style.overflow = open?'':'hidden';
+  };
+  window.mobToggleSec = function(hdr){
+    var sub = hdr.nextElementSibling;
+    if(!sub) return;
+    var open = sub.style.display==='block';
+    sub.style.display = open?'none':'block';
+    hdr.classList.toggle('mob-open',!open);
+  };
+  // Close mobile menu on nav link click
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#mob-nav-panel a')){
+      var p=document.getElementById('mob-nav-panel');
+      var b=document.querySelector('.mob-btn');
+      if(p) p.style.display='none';
+      if(b) b.classList.remove('is-open');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+
+# Archivos fuente pesados que el sitio no usa (pasan el limite de GitHub)
+*.mov
+*.MOV
+*.zip
+REPUTACIÓN-HERO-COMPLETO-16-9.mp4
+drive-download-20260617T182018Z-3-001/

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propinas — Soy Rappi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    @font-face { font-family:'PPObjectSans'; src:local('PP Object Sans Bold'),local('PPObjectSans-Bold'); font-weight:700; }
+    .nav-font { font-family:'PPObjectSans','Inter',sans-serif; font-weight:700; }
+    body { font-family:'Inter',sans-serif; background:#f9f9fb; }
+    html { scroll-behavior:smooth; }
+
+    /* Hero */
+    .hero-propinas {
+      position: relative;
+      background: #0a0a0a;
+    }
+
+    /* Bullet teal */
+    .teal-list li {
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 14px;
+      color: #1e2a4a;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .teal-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #1fd6b3;
+    }
+
+    /* Step badge */
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f3663d, #ff3d55);
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: 900;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(243,102,61,0.35);
+    }
+
+    /* Card sections */
+    .section-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.07);
+      padding: 48px;
+    }
+
+    /* Circle image */
+    .circle-img {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+    }
+    .circle-bg {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: #fef3e2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Bounce coin anim for hero icon */
+    @keyframes coinBounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      40%       { transform: translateY(-14px) rotate(8deg); }
+      70%       { transform: translateY(-6px) rotate(-4deg); }
+    }
+    .coin-bounce { animation: coinBounce 2.8s ease-in-out infinite; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease forwards; }
+    .fade-up-2 { animation: fadeUp 0.7s 0.15s ease both; }
+    .fade-up-3 { animation: fadeUp 0.7s 0.3s ease both; }
+
+    /* Carrito animado */
+    @keyframes cartFloat {
+      0%,100% { transform: translateY(0) rotate(-2deg); }
+      50%      { transform: translateY(-12px) rotate(2deg); }
+    }
+    @keyframes itemDrop {
+      0%,50%,100% { opacity:0; transform:translateY(-14px) scale(0.7); }
+      25%,38%     { opacity:1; transform:translateY(0) scale(1); }
+    }
+    @keyframes wheelSpin {
+      to { transform: rotate(360deg); }
+    }
+    .cart-float  { animation: cartFloat 2.6s ease-in-out infinite; }
+    .item-drop-1 { animation: itemDrop 2.8s 0s   ease-in-out infinite; }
+    .item-drop-2 { animation: itemDrop 2.8s 0.6s ease-in-out infinite; }
+    .item-drop-3 { animation: itemDrop 2.8s 1.2s ease-in-out infinite; }
+
+    /* Step slider arrows hover */
+    .step-arrow { transition: background 0.2s, opacity 0.2s; }
+    .step-arrow:hover { background: #f3663d !important; }
+    .step-arrow:hover svg { stroke: #fff !important; }
+  </style>
+
+<style id="mob-nav-css">
+/* ── Mobile nav ── */
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:10px;flex-shrink:0;}
+@media(max-width:767px){
+  .mob-btn{display:flex;}
+  .mob-logo-wrap{left:0!important;position:relative!important;}
+  #nav-registrarse,a.nav-cta-btn{display:none!important;}
+}
+.mob-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s;}
+.mob-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-btn.is-open span:nth-child(2){opacity:0;}
+.mob-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mob-nav-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#082028 0%,#041218 100%);z-index:197;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#mob-nav-panel .mob-inner{padding-top:96px;padding-bottom:60px;}
+.mob-section-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.09);cursor:pointer;text-align:left;}
+.mob-section-btn svg{transition:transform .2s;flex-shrink:0;}
+.mob-section-btn.mob-open svg{transform:rotate(180deg);}
+.mob-sub{background:rgba(0,0,0,0.25);display:none;}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:13px 32px;color:#c7e9e4;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mob-sub a:active{background:rgba(31,214,179,0.15);}
+.mob-plain-link{display:flex;align-items:center;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.09);}
+.mob-cta-wrap{padding:28px 24px;}
+.mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
+</style>
+</head>
+<body>
+
+  <!-- ══════════════ NAVBAR ══════════════ -->
+  <nav class="sticky top-0 z-50 shadow-lg" style="background:linear-gradient(90deg,#1fd6b3 0%,#23acb7 100%);">
+    <div class="max-w-8xl mx-auto px-6">
+      <div class="flex items-center justify-between h-24">
+
+        <div class="flex items-center gap-3 flex-shrink-0" style="position:relative;left:120px;">
+          <a href="index.html"><img src="soyrappi_logo.png" alt="Soy Rappi" style="width:200px;height:auto;object-fit:contain;" /></a>
+          <img src="bandera_col.png" alt="Colombia" style="width:75px;height:75px;object-fit:contain;flex-shrink:0;margin-left:-40px;" />
+        </div>
+
+        <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
+          <!-- Ganancias dropdown -->
+          <div class="relative" id="nav-ganancias">
+            <button onclick="toggleGananciasDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Ganancias <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="ganancias-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;">
+              <a href="cuenta-bancaria.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg></span>
+                ¿Cómo recibir ganancias?
+              </a>
+              <a href="cuanto-ganar.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                ¿Cuánto puedes ganar?
+              </a>
+              <a href="incentivos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                Incentivos
+              </a>
+              <a href="referidos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+                Referidos
+              </a>
+              <a href="propinas.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;background:rgba(31,214,179,0.12);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(31,214,179,0.12)'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/><circle cx="12" cy="12" r="10" stroke-width="1.5" stroke-dasharray="3 2"/></svg></span>
+                Propinas
+              </a>
+              <a href="alta-demanda.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </span>
+                Punto de Alta Demanda
+              </a>
+            </div>
+          </div>
+
+          <!-- Estados -->
+          <div class="relative" id="nav-estados">
+            <button onclick="toggleEstadosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Estados <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="estados-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);min-width:220px;overflow:hidden;z-index:200;">
+              <a href="sistema-de-estados.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1a1a2e,#3d3d6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/></svg></span>
+                Sistema de estados
+              </a>
+            </div>
+          </div>
+
+          <div class="relative" id="nav-beneficios"><button onclick="toggleBeneficiosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Beneficios <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="beneficios-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;"><a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Beneficios Exclusivos</a><a href="seguro-accidentes.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>Seguro de Accidentes</a></div></div>
+          <div class="relative" id="nav-turbo"><button onclick="toggleTurboDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Turbo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="turbo-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:300px;overflow:hidden;z-index:200;"><a href="turbo.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Todo lo que debes saber sobre Turbo</a></div></div>
+          <div class="relative" id="nav-evoluciona"><button onclick="toggleEvolucionaDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">SoyRappi Evoluciona <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="evoluciona-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:280px;overflow:hidden;z-index:200;"><a href="soyrappi-evoluciona.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>Te escuchamos</a></div></div>
+          <a href="#" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Conoce más</a>
+          <a href="#" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Pregúntanos</a>
+        </div>
+
+        <a href="index.html#registro" class="nav-font flex-shrink-0 bg-white hover:bg-gray-100 font-bold px-10 py-3.5 rounded-full text-base transition-colors shadow-md" style="color:#1fd6b3;position:relative;right:80px;">
+          Regístrate
+        </a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section class="hero-propinas py-28 relative overflow-hidden">
+
+    <!-- Video de fondo -->
+    <video autoplay muted loop playsinline
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;">
+      <source src="hero_propinas.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Overlay oscuro sobre el video -->
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,4,2,0.74)0%,rgba(40,10,0,0.68)100%);z-index:1;"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
+
+      <!-- Título grande, blanco, una sola línea -->
+      <h1 class="font-black fade-up" style="font-size:clamp(2.8rem,5.8vw,5rem);color:#fff;text-align:center;text-shadow:0 3px 24px rgba(0,0,0,0.55);letter-spacing:-0.02em;margin-bottom:40px;line-height:1.08;">
+        ¡El 100% de tus propinas son para ti!
+      </h1>
+
+      <!-- Subtexto introductorio -->
+      <p class="fade-up-2" style="color:#fff;font-size:1.1rem;font-weight:600;line-height:1.65;margin-bottom:28px;text-shadow:0 2px 10px rgba(0,0,0,0.5);">
+        Tus usuarios pueden darte propina <span style="color:#1fd6b3;font-weight:800;">antes, durante y después</span> de entregarles el pedido.
+      </p>
+
+      <!-- 3 pills animadas: Antes · Durante · Después -->
+      <div class="fade-up-2" style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:0;">
+
+        <div class="hero-tip-card">
+          <div class="hero-tip-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tip-icon-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <span class="hero-tip-label">Antes del pedido</span>
+        </div>
+
+        <div class="hero-tip-card">
+          <div class="hero-tip-icon" style="background:linear-gradient(135deg,#1fd6b3,#0fb39e);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tip-icon-bag"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </div>
+          <span class="hero-tip-label">Durante el pedido</span>
+        </div>
+
+        <div class="hero-tip-card">
+          <div class="hero-tip-icon" style="background:linear-gradient(135deg,#a259ff,#7c3aed);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tip-icon-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="hero-tip-label">Después del pedido</span>
+        </div>
+
+      </div>
+
+
+    </div>
+  </section>
+
+  <style>
+    /* Tarjetas hero glassmorphism */
+    .hero-tip-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 50px;
+      padding: 12px 22px 12px 12px;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-tip-icon {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,#f3663d,#ff3d55);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-tip-label {
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+    /* Animaciones hero iconos */
+    @keyframes spinClock  { to { transform: rotate(360deg); } }
+    @keyframes bagBounce  { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-6px)} }
+    @keyframes starPulse  { 0%,100%{transform:scale(1)} 50%{transform:scale(1.25)} }
+    .tip-icon-clock { animation: spinClock  3s linear infinite; }
+    .tip-icon-bag   { animation: bagBounce  1.8s ease-in-out infinite; }
+    .tip-icon-star  { animation: starPulse  1.6s ease-in-out infinite; }
+    /* Slide 3 — icono animado de llegada */
+    @keyframes arrivalPulse { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.08);opacity:1} }
+    @keyframes arrivalBounce { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-10px)} }
+    @keyframes checkAppear { 0%,60%{opacity:0;transform:scale(0.5)} 80%,100%{opacity:1;transform:scale(1)} }
+    @keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-8px) rotate(8deg)} }
+    @keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-6px) rotate(-6deg)} }
+    @keyframes floatC { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .arrival-pulse  { animation: arrivalPulse  2.4s ease-in-out infinite; }
+    .arrival-bounce { animation: arrivalBounce 2s ease-in-out infinite; }
+    .arrival-check  { animation: checkAppear   2s ease-in-out infinite; }
+    .float-coin-1   { animation: floatA 2.2s ease-in-out infinite; }
+    .float-coin-2   { animation: floatB 2.8s ease-in-out infinite 0.4s; }
+    .float-coin-3   { animation: floatC 2.4s ease-in-out infinite 0.8s; }
+    /* Slide 1 — iconos de tarjetas */
+    @keyframes s1ClockSpin { to { transform: rotate(360deg); } }
+    @keyframes s1PhoneRing { 0%,85%,100%{transform:rotate(0deg)} 88%{transform:rotate(-18deg)} 91%{transform:rotate(18deg)} 94%{transform:rotate(-12deg)} 97%{transform:rotate(10deg)} }
+    @keyframes s1BagBounce { 0%,100%{transform:translateY(0) scale(1)} 45%{transform:translateY(-6px) scale(1.08)} }
+    @keyframes s1ShieldPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+    @keyframes s1DollarBounce { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)} }
+    .s1-clock  { animation: s1ClockSpin   3s linear infinite; }
+    .s1-phone  { animation: s1PhoneRing   2.5s ease-in-out infinite; }
+    .s1-bag    { animation: s1BagBounce   1.9s ease-in-out infinite; }
+    .s1-shield { animation: s1ShieldPulse 2s ease-in-out infinite; }
+    .s1-dollar { animation: s1DollarBounce 1.7s ease-in-out infinite; }
+  </style>
+
+
+  <!-- ══════════════ CONTENIDO ══════════════ -->
+  <main class="py-16" style="background:#f4f6fb;">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col gap-10">
+
+      <!-- ── INTRO SLIDER ── -->
+      <div style="text-align:center;padding:8px 8px 0;">
+        <p style="font-size:1.25rem;font-weight:700;line-height:1.6;margin:0 auto;max-width:680px;color:#1a2e3b;">
+          Sigue estas recomendaciones para brindar un excelente servicio<br/>
+          y <span style="background:linear-gradient(135deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">aumentar la propina que te dan.</span>
+        </p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;">
+          <div style="height:2px;width:48px;background:linear-gradient(90deg,transparent,#f3663d);border-radius:2px;"></div>
+          <div style="width:7px;height:7px;border-radius:50%;background:#f3663d;"></div>
+          <div style="height:2px;width:48px;background:linear-gradient(90deg,#f3663d,transparent);border-radius:2px;"></div>
+        </div>
+      </div>
+
+      <!-- ── SLIDER 3 PASOS ── -->
+      <div class="section-card" style="padding:0;overflow:hidden;position:relative;">
+
+        <!-- Track deslizante -->
+        <div id="steps-track" style="display:flex;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);">
+
+          <!-- ══ Slide 1: Antes de recibir el pedido ══ -->
+          <div style="min-width:100%;padding:48px;box-sizing:border-box;display:flex;flex-direction:column;">
+            <div class="flex items-center gap-5 mb-7" style="justify-content:center;">
+              <div class="step-badge">1</div>
+              <h2 class="font-black" style="font-size:clamp(1.5rem,3vw,2rem);color:#f3663d;">
+                Antes de recibir el pedido
+              </h2>
+            </div>
+
+            <!-- Grid 2×2 de tarjetas con icono — crece para llenar espacio -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;flex:1;align-content:stretch;">
+
+              <!-- Card 1 -->
+              <div style="display:flex;align-items:flex-start;gap:16px;background:#fff7f4;border:1.5px solid rgba(243,102,61,0.18);border-radius:16px;padding:22px 20px;">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;">
+                  <svg class="s1-clock" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <p style="margin:0;font-size:0.93rem;color:#2d1a10;line-height:1.6;">Dirígete al punto de recogida <strong>en cuanto aceptes el pedido</strong> para evitar demoras.</p>
+              </div>
+
+              <!-- Card 2 -->
+              <div style="display:flex;align-items:flex-start;gap:16px;background:#fff7f4;border:1.5px solid rgba(243,102,61,0.18);border-radius:16px;padding:22px 20px;">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;">
+                  <svg class="s1-phone" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013.09 5.18 2 2 0 015.07 3h3a2 2 0 012 1.72 12.8 12.8 0 00.7 2.81 2 2 0 01-.45 2.11L9.09 10.91A16 16 0 0015.09 16.91l1.27-1.27a2 2 0 012.11-.45 12.8 12.8 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+                </div>
+                <p style="margin:0;font-size:0.93rem;color:#2d1a10;line-height:1.6;">Avísale a tu usuario <strong>cualquier demora o problema</strong> que surja con el pedido.</p>
+              </div>
+
+              <!-- Card 3 -->
+              <div style="display:flex;align-items:flex-start;gap:16px;background:#f0fdf9;border:1.5px solid rgba(31,214,179,0.28);border-radius:16px;padding:22px 20px;">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;">
+                  <svg class="s1-bag" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+                </div>
+                <p style="margin:0;font-size:0.93rem;color:#0e3a30;line-height:1.6;">Asegúrate de tener suficiente <strong>espacio en tu maleta</strong> para transportar los productos con cuidado.</p>
+              </div>
+
+              <!-- Card 4 -->
+              <div style="display:flex;align-items:flex-start;gap:16px;background:#f0fdf9;border:1.5px solid rgba(31,214,179,0.28);border-radius:16px;padding:22px 20px;">
+                <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;">
+                  <svg class="s1-shield" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <p style="margin:0;font-size:0.93rem;color:#0e3a30;line-height:1.6;">Mantén tu <strong>calificación y perfil actualizados</strong> — los usuarios con buena reputación reciben mejores propinas.</p>
+              </div>
+
+            </div>
+
+            <!-- Tarjeta motivacional inferior -->
+            <div style="display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#f0fdf9,#e6faf5);border:1.5px solid rgba(31,214,179,0.3);border-radius:16px;padding:22px 24px;">
+              <div style="flex-shrink:0;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;">
+                <svg class="s1-dollar" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              </div>
+              <p style="margin:0;color:#0e6655;font-size:0.95rem;line-height:1.6;"><strong>¡Primera impresión cuenta!</strong> Llegar rápido al punto de recogida aumenta tus posibilidades de recibir una <strong>propina más alta</strong>.</p>
+            </div>
+          </div>
+
+          <!-- ══ Slide 2: Durante el pedido ══ -->
+          <div style="min-width:100%;padding:48px;box-sizing:border-box;">
+            <div class="flex items-center gap-5 mb-8" style="justify-content:center;">
+              <div class="step-badge">2</div>
+              <h2 class="font-black" style="font-size:clamp(1.5rem,3vw,2rem);color:#f3663d;">
+                Durante el pedido
+              </h2>
+            </div>
+            <ul class="teal-list list-none p-0 m-0 mb-8 flex flex-col gap-1">
+              <li>Cuando recibas el pedido, recuerda <strong>revisar que estén todos los productos</strong> solicitados por tu usuario.</li>
+              <li>Procura guardar el pedido con cuidado en tu maleta.</li>
+              <li>Avísale a tu usuario cuando tengas los productos y te dirijas a la dirección de entrega.</li>
+              <li>Conduce con precaución para que los productos lleguen en buen estado.</li>
+            </ul>
+            <!-- Sub-bloque: encabezado + grid 2×2 + carrito animado -->
+            <div style="background:#f0fdf9;border:1.5px solid #1fd6b3;border-radius:16px;padding:20px 22px;">
+              <div style="display:flex;align-items:flex-start;gap:20px;">
+                <div style="flex:1;min-width:0;">
+                  <p class="font-bold mb-3" style="color:#0e7a6a;font-size:0.9rem;">Si estás realizando la selección y compra de los productos:</p>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <div style="background:#fff;border:1px solid #b2ece1;border-radius:10px;padding:9px 11px;font-size:0.82rem;color:#1a3a34;line-height:1.45;">Mantente atento a <strong>sustituciones o adiciones</strong> de tu usuario.</div>
+                    <div style="background:#fff;border:1px solid #b2ece1;border-radius:10px;padding:9px 11px;font-size:0.82rem;color:#1a3a34;line-height:1.45;">Elige el mejor sustituto y revisa las <strong>preferencias de tu usuario.</strong></div>
+                    <div style="background:#fff;border:1px solid #b2ece1;border-radius:10px;padding:9px 11px;font-size:0.82rem;color:#1a3a34;line-height:1.45;">Confirma cambios con tu usuario <strong>antes de pagar en caja.</strong></div>
+                    <div style="background:#fff;border:1px solid #b2ece1;border-radius:10px;padding:9px 11px;font-size:0.82rem;color:#1a3a34;line-height:1.45;">Empaca bien los productos para <strong>evitar inconvenientes.</strong></div>
+                  </div>
+                </div>
+                <div style="flex-shrink:0;width:112px;height:112px;border-radius:50%;background:#fef3e2;display:flex;align-items:center;justify-content:center;">
+                  <div class="cart-float" style="filter:drop-shadow(0 6px 16px rgba(243,102,61,0.28));">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#f3663d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.66a2 2 0 001.98-1.71l1.37-7.29H6"/>
+                      <rect class="item-drop-1" x="7"  y="9" width="2.5" height="2" rx="0.4" fill="#f3663d" stroke="none"/>
+                      <rect class="item-drop-2" x="11" y="8.5" width="2" height="2.5" rx="0.4" fill="#1fd6b3" stroke="none"/>
+                      <rect class="item-drop-3" x="14.5" y="9" width="2" height="2" rx="0.4" fill="#f3663d" stroke="none"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ══ Slide 3: Al llegar a la dirección ══ -->
+          <div style="min-width:100%;padding:48px;box-sizing:border-box;display:flex;flex-direction:column;">
+            <div class="flex items-center gap-5 mb-7" style="justify-content:center;">
+              <div class="step-badge">3</div>
+              <h2 class="font-black" style="font-size:clamp(1.5rem,3vw,2rem);color:#f3663d;">
+                Al llegar a la dirección de tu usuario
+              </h2>
+            </div>
+
+            <!-- Icono animado izquierda + tarjetas derecha -->
+            <div style="display:flex;align-items:stretch;gap:32px;margin-bottom:20px;flex:1;">
+
+              <!-- Composición animada (reemplaza la foto) -->
+              <div style="flex-shrink:0;width:240px;display:flex;align-items:center;justify-content:center;">
+                <div style="position:relative;width:220px;height:220px;">
+                  <!-- Círculo de fondo pulsante -->
+                  <div class="arrival-pulse" style="position:absolute;inset:0;border-radius:50%;background:linear-gradient(135deg,rgba(243,102,61,0.12),rgba(255,61,85,0.08));"></div>
+                  <div style="position:absolute;inset:12px;border-radius:50%;background:linear-gradient(135deg,#fff7f4,#fff0ea);display:flex;align-items:center;justify-content:center;">
+                    <!-- Pin de ubicación animado -->
+                    <div class="arrival-bounce" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="none" viewBox="0 0 24 24" stroke="#f3663d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                        <circle cx="12" cy="10" r="3" fill="#f3663d" stroke="none"/>
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#1fd6b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrival-check">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <!-- Moneda flotante -->
+                  <div class="float-coin-1" style="position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#f3663d,#ff8c42);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(243,102,61,0.35);">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                  </div>
+                  <!-- Estrella flotante -->
+                  <div class="float-coin-2" style="position:absolute;bottom:18px;right:10px;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(162,89,255,0.35);">
+                    <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  </div>
+                  <!-- Corazón flotante -->
+                  <div class="float-coin-3" style="position:absolute;bottom:22px;left:12px;width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(31,214,179,0.35);">
+                    <svg width="15" height="15" fill="white" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3 tarjetas con icono a la derecha -->
+              <div style="flex:1;display:flex;flex-direction:column;gap:14px;">
+                <div style="display:flex;align-items:flex-start;gap:16px;background:#fff7f4;border:1.5px solid rgba(243,102,61,0.18);border-radius:16px;padding:20px;flex:1;">
+                  <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                  </div>
+                  <p style="margin:0;font-size:0.95rem;color:#2d1a10;line-height:1.6;">Entrega los productos con <strong>amabilidad.</strong></p>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:16px;background:#f0fdf9;border:1.5px solid rgba(31,214,179,0.28);border-radius:16px;padding:20px;flex:1;">
+                  <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <p style="margin:0;font-size:0.95rem;color:#0e3a30;line-height:1.6;">Revisa las <strong>preferencias de tu usuario</strong> para la entrega de su pedido.</p>
+                </div>
+                <div style="display:flex;align-items:flex-start;gap:16px;background:#fff7f4;border:1.5px solid rgba(243,102,61,0.18);border-radius:16px;padding:20px;flex:1;">
+                  <div style="flex-shrink:0;width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                  </div>
+                  <p style="margin:0;font-size:0.95rem;color:#2d1a10;line-height:1.6;">Procura tener dinero suelto en caso de que tu usuario <strong>pague en efectivo.</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tarjeta motivacional -->
+            <div style="display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#fff7f4,#fff0ea);border:1.5px solid rgba(243,102,61,0.2);border-radius:16px;padding:20px 24px;">
+              <div style="flex-shrink:0;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tip-icon-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </div>
+              <p style="margin:0;color:#8b3a20;font-size:0.93rem;line-height:1.6;"><strong>Recuerda:</strong> una entrega amable y puntual es la mejor estrategia para recibir una buena propina y mantener una <strong>alta calificación</strong> en la plataforma.</p>
+            </div>
+          </div>
+
+        </div><!-- /steps-track -->
+
+        <!-- Controles: flecha ← · dots · flecha → -->
+        <div style="padding:20px 48px 28px;border-top:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;">
+
+          <button id="step-prev" onclick="goStep(stepCurrent - 1)" class="step-arrow"
+            style="width:42px;height:42px;border-radius:50%;border:2px solid #f3663d;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0.35;">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#f3663d" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+
+          <div style="display:flex;gap:10px;align-items:center;">
+            <button class="step-dot" onclick="goStep(0)" style="width:11px;height:11px;border-radius:50%;background:#f3663d;border:none;cursor:pointer;transform:scale(1.3);transition:all 0.25s;padding:0;"></button>
+            <button class="step-dot" onclick="goStep(1)" style="width:11px;height:11px;border-radius:50%;background:#d0d0d0;border:none;cursor:pointer;transition:all 0.25s;padding:0;"></button>
+            <button class="step-dot" onclick="goStep(2)" style="width:11px;height:11px;border-radius:50%;background:#d0d0d0;border:none;cursor:pointer;transition:all 0.25s;padding:0;"></button>
+          </div>
+
+          <button id="step-next" onclick="goStep(stepCurrent + 1)" class="step-arrow"
+            style="width:42px;height:42px;border-radius:50%;border:2px solid #f3663d;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#f3663d" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </button>
+
+        </div>
+      </div><!-- /slider -->
+
+
+      <!-- ── CTA FINAL ── -->
+      <div class="rounded-3xl p-10 text-center" style="background:linear-gradient(135deg,#f3663d 0%,#ff3d55 100%);">
+        <div class="text-4xl mb-4">💰</div>
+        <h3 class="font-black text-white mb-3" style="font-size:1.8rem;text-shadow:0 2px 12px rgba(0,0,0,0.18);">¡Brinda un servicio increíble<br/>y multiplica tus propinas!</h3>
+        <p class="mb-8 max-w-md mx-auto" style="color:rgba(255,255,255,0.88);">Cada pedido es una oportunidad de ganar más. Un buen servicio siempre se nota.</p>
+        <a href="index.html#registro"
+           class="inline-flex items-center gap-3 text-white font-bold px-10 py-4 rounded-full text-lg transition-all shadow-xl hover:scale-105"
+           style="background:linear-gradient(90deg,#1fd6b3 0%,#23acb7 100%);">
+          <img src="bigote.png" alt="" style="width:28px;height:auto;filter:brightness(0) invert(1);" />
+          Regístrate y empieza a ganar
+        </a>
+      </div>
+
+
+    </div>
+  </main>
+
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <section class="py-12" style="background:#f4f4f4;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="flex flex-col gap-6">
+          <img src="soyrappi_logo.png" alt="Soy Rappi" style="width:160px;height:auto;object-fit:contain;filter:brightness(0) saturate(100%) invert(45%) sepia(80%) saturate(500%) hue-rotate(330deg);" />
+          <div class="flex gap-4 items-center">
+            <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="w-12 h-10 rounded-lg flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-2xl font-black text-gray-800 mb-6">¿Nos visitas de otro país?</h3>
+          <div class="grid grid-cols-3 gap-x-8 gap-y-3">
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇦🇷</span> Argentina</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇧🇷</span> Brasil</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇨🇱</span> Chile</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇨🇷</span> Costa Rica</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇪🇨</span> Ecuador</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇲🇽</span> México</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇵🇪</span> Perú</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇺🇾</span> Uruguay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="py-4 px-6 flex justify-between items-center text-xs text-gray-400" style="background:#e8e8e8;">
+    <span>© 2026 Rappi Inc. Todos los derechos reservados.</span>
+    <span>🇨🇴 Colombia</span>
+  </div>
+
+  <script>
+    /* ── Slider 3 pasos ── */
+    var stepCurrent = 0;
+    var stepTotal   = 3;
+
+    function goStep(n) {
+      stepCurrent = ((n % stepTotal) + stepTotal) % stepTotal;
+      document.getElementById('steps-track').style.transform =
+        'translateX(-' + (stepCurrent * 100) + '%)';
+
+      document.querySelectorAll('.step-dot').forEach(function(d, i) {
+        d.style.background = i === stepCurrent ? '#f3663d' : '#d0d0d0';
+        d.style.transform  = i === stepCurrent ? 'scale(1.3)' : 'scale(1)';
+      });
+
+      document.getElementById('step-prev').style.opacity = stepCurrent === 0 ? '0.35' : '1';
+      document.getElementById('step-next').style.opacity = stepCurrent === stepTotal - 1 ? '0.35' : '1';
+    }
+  </script>
+
+  <script>
+    function toggleGananciasDrop() {
+      const d = document.getElementById('ganancias-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-ganancias').contains(e.target))
+        document.getElementById('ganancias-drop').style.display = 'none';
+    });
+    function toggleEstadosDrop() {
+      const d = document.getElementById('estados-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-estados').contains(e.target))
+        document.getElementById('estados-drop').style.display = 'none';
+    });
+  </script>
+
+
+<script>
+/* navbar-fix: unified dropdowns */
+(function(){
+  function navCloseAll(){['ganancias-drop','estados-drop','beneficios-drop','turbo-drop','evoluciona-drop','nav-drop'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});}
+  function mkToggle(dropId){return function(){var d=document.getElementById(dropId);if(!d)return;var show=d.style.display==='none'||!d.style.display;navCloseAll();if(show)d.style.display='block';};}
+  window.toggleGananciasDrop=mkToggle('ganancias-drop');
+  window.toggleEstadosDrop=mkToggle('estados-drop');
+  window.toggleBeneficiosDrop=mkToggle('beneficios-drop');
+  window.toggleBeneficiosDrop2=mkToggle('beneficios-drop');
+  window.toggleTurboDrop=mkToggle('turbo-drop');
+  window.toggleEvolucionaDrop=mkToggle('evoluciona-drop');
+  window.toggleDrop=mkToggle('nav-drop');
+  document.addEventListener('click',function(e){
+    var ids=['nav-ganancias','nav-estados','nav-beneficios','nav-turbo','nav-evoluciona'];
+    var inside=ids.some(function(id){var el=document.getElementById(id);return el&&el.contains(e.target);});
+    if(!inside)navCloseAll();
+  });
+})();
+</script>
+
+<script id="mob-nav-js">
+(function(){
+  if(document.getElementById('mob-nav-panel')) return;
+  // Hamburger button
+  var btn = document.createElement('button');
+  btn.className='mob-btn';
+  btn.setAttribute('aria-label','Menú');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  btn.onclick = toggleMobNav;
+  var nav = document.querySelector('nav');
+  var row = nav && nav.querySelector('.flex.items-center.justify-between');
+  if(row){ row.appendChild(btn); }
+
+  // Fix logo left offset on mobile via JS (in case inline style overrides CSS)
+  var logoWrap = row && row.querySelector('.flex.items-center.gap-3.flex-shrink-0, .flex.items-center.gap-3');
+  if(logoWrap) logoWrap.classList.add('mob-logo-wrap');
+
+  // Mobile panel
+  var panel = document.createElement('div');
+  panel.id='mob-nav-panel';
+  panel.innerHTML=[
+    '<div class="mob-inner">',
+    // Ganancias
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Ganancias<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="cuenta-bancaria.html">¿Cómo recibir ganancias?</a>',
+      '<a href="cuanto-ganar.html">¿Cuánto puedes ganar?</a>',
+      '<a href="incentivos.html">Incentivos</a>',
+      '<a href="referidos.html">Referidos</a>',
+      '<a href="propinas.html">Propinas</a>',
+      '<a href="alta-demanda.html">Punto de Alta Demanda</a>',
+    '</div>',
+    // Estados
+    '<a href="sistema-de-estados.html" class="mob-plain-link">Estados</a>',
+    // Beneficios
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Beneficios<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="beneficios-exclusivos.html">Beneficios Exclusivos</a>',
+      '<a href="seguro-accidentes.html">Seguro de Accidentes</a>',
+    '</div>',
+    // Turbo
+    '<a href="turbo.html" class="mob-plain-link">Turbo</a>',
+    // Evoluciona
+    '<a href="soyrappi-evoluciona.html" class="mob-plain-link">SoyRappi Evoluciona</a>',
+    // CTA
+    '<div class="mob-cta-wrap"><a href="index.html#registro">Regístrate</a></div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(panel);
+
+  window.toggleMobNav = function(){
+    var p = document.getElementById('mob-nav-panel');
+    var b = document.querySelector('.mob-btn');
+    var open = p && p.style.display==='block';
+    if(p) p.style.display = open?'none':'block';
+    if(b) b.classList.toggle('is-open',!open);
+    document.body.style.overflow = open?'':'hidden';
+  };
+  window.mobToggleSec = function(hdr){
+    var sub = hdr.nextElementSibling;
+    if(!sub) return;
+    var open = sub.style.display==='block';
+    sub.style.display = open?'none':'block';
+    hdr.classList.toggle('mob-open',!open);
+  };
+  // Close mobile menu on nav link click
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#mob-nav-panel a')){
+      var p=document.getElementById('mob-nav-panel');
+      var b=document.querySelector('.mob-btn');
+      if(p) p.style.display='none';
+      if(b) b.classList.remove('is-open');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

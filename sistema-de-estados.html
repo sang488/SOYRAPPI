@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Estados — Soy Rappi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    @font-face { font-family:'PPObjectSans'; src:local('PP Object Sans Bold'),local('PPObjectSans-Bold'); font-weight:700; }
+    .nav-font { font-family:'PPObjectSans','Inter',sans-serif; font-weight:700; }
+    body { font-family:'Inter',sans-serif; background:#f9f9fb; }
+    html { scroll-behavior:smooth; }
+    .card { background:#fff; border-radius:18px; box-shadow:0 4px 20px rgba(0,0,0,0.07); }
+
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+    .phone-float { animation: phoneFloat 3.2s ease-in-out infinite; }
+
+    @keyframes badgeFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50%       { transform: translateY(-8px) rotate(3deg); }
+    }
+    .badge-float-1 { animation: badgeFloat 3.0s ease-in-out infinite; }
+    .badge-float-2 { animation: badgeFloat 3.5s ease-in-out infinite 0.4s; }
+    .badge-float-3 { animation: badgeFloat 2.8s ease-in-out infinite 0.8s; }
+    .badge-float-4 { animation: badgeFloat 4.0s ease-in-out infinite 1.2s; }
+
+    .state-bar { border-radius:10px 10px 0 0; transition:transform 0.2s; }
+    .state-bar:hover { transform:scaleY(1.04); }
+
+    .comp-icon {
+      width:58px; height:58px; border-radius:14px;
+      background:linear-gradient(135deg,#1fd6b3,#23acb7);
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 16px;
+    }
+
+    .mult-badge {
+      width:44px; height:44px; border-radius:50%;
+      background:linear-gradient(135deg,#f97316,#ef4444);
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; font-weight:900; font-size:0.95rem;
+      flex-shrink:0;
+    }
+
+    .state-pill {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:5px 14px; border-radius:20px; font-size:0.8rem; font-weight:700;
+    }
+
+    .table-state-header {
+      padding:10px 18px; text-align:center; font-weight:800; font-size:0.85rem;
+      border-radius:10px;
+    }
+
+    @keyframes thunderPulse {
+      0%,100% { transform:scale(1) rotate(0deg); filter:brightness(1); }
+      20%     { transform:scale(1.25) rotate(-8deg); filter:brightness(1.4); }
+      40%     { transform:scale(0.95) rotate(6deg); filter:brightness(1); }
+      60%     { transform:scale(1.15) rotate(-4deg); filter:brightness(1.3); }
+      80%     { transform:scale(1) rotate(0deg); filter:brightness(1); }
+    }
+    .thunder-anim { animation: thunderPulse 2.4s ease-in-out infinite; }
+  </style>
+
+<style id="mob-nav-css">
+/* ── Mobile nav ── */
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:10px;flex-shrink:0;}
+@media(max-width:767px){
+  .mob-btn{display:flex;}
+  .mob-logo-wrap{left:0!important;position:relative!important;}
+  #nav-registrarse,a.nav-cta-btn{display:none!important;}
+}
+.mob-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s;}
+.mob-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-btn.is-open span:nth-child(2){opacity:0;}
+.mob-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mob-nav-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#082028 0%,#041218 100%);z-index:197;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#mob-nav-panel .mob-inner{padding-top:96px;padding-bottom:60px;}
+.mob-section-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.09);cursor:pointer;text-align:left;}
+.mob-section-btn svg{transition:transform .2s;flex-shrink:0;}
+.mob-section-btn.mob-open svg{transform:rotate(180deg);}
+.mob-sub{background:rgba(0,0,0,0.25);display:none;}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:13px 32px;color:#c7e9e4;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mob-sub a:active{background:rgba(31,214,179,0.15);}
+.mob-plain-link{display:flex;align-items:center;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.09);}
+.mob-cta-wrap{padding:28px 24px;}
+.mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 shadow-lg" style="background:linear-gradient(90deg,#1fd6b3 0%,#23acb7 100%);">
+    <div class="max-w-8xl mx-auto px-6">
+      <div class="flex items-center justify-between h-24">
+        <div class="flex items-center gap-3 flex-shrink-0" style="position:relative;left:120px;">
+          <a href="index.html">
+            <img src="soyrappi_logo.png" alt="Soy Rappi" style="width:200px;height:auto;object-fit:contain;" />
+          </a>
+          <img src="bandera_col.png" alt="Colombia" style="width:75px;height:75px;object-fit:contain;flex-shrink:0;margin-left:-40px;" />
+        </div>
+        <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
+
+          <!-- Ganancias dropdown -->
+          <div class="relative" id="nav-ganancias">
+            <button onclick="toggleDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Ganancias <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="nav-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(8,40,42,0.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);min-width:230px;overflow:hidden;z-index:200;">
+              <a href="cuenta-bancaria.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg></span>
+                ¿Cómo recibir ganancias?
+              </a>
+              <a href="cuanto-ganar.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                ¿Cuánto puedes ganar?
+              </a>
+              <a href="incentivos.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                Incentivos
+              </a>
+              <a href="referidos.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+                Referidos
+              </a>
+            </div>
+          </div>
+
+          <!-- Estados dropdown (active page) -->
+          <div class="relative" id="nav-estados">
+            <button onclick="toggleEstadosDrop()" class="nav-font flex items-center gap-1 text-white text-sm whitespace-nowrap bg-transparent border-none cursor-pointer p-0" style="text-decoration:underline;text-underline-offset:4px;">
+              Estados <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="estados-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(8,40,42,0.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);min-width:230px;overflow:hidden;z-index:200;">
+              <a href="sistema-de-estados.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;background:rgba(255,255,255,0.18);text-shadow:0 1px 4px rgba(0,0,0,0.15);">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1a1a2e,#3d3d6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/><circle cx="12" cy="12" r="3" fill="white" stroke="none"/></svg></span>
+                Sistema de estados
+              </a>
+            </div>
+          </div>
+
+          <div class="relative" id="nav-beneficios"><button onclick="toggleBeneficiosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Beneficios <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="beneficios-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;"><a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Beneficios Exclusivos</a><a href="seguro-accidentes.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>Seguro de Accidentes</a></div></div>
+          <div class="relative" id="nav-turbo"><button onclick="toggleTurboDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Turbo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="turbo-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:300px;overflow:hidden;z-index:200;"><a href="turbo.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Todo lo que debes saber sobre Turbo</a></div></div>
+          <div class="relative" id="nav-evoluciona"><button onclick="toggleEvolucionaDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">SoyRappi Evoluciona <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="evoluciona-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:280px;overflow:hidden;z-index:200;"><a href="soyrappi-evoluciona.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>Te escuchamos</a></div></div>
+          <a href="index.html#" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Conoce más</a>
+          <a href="index.html#faq" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Pregúntanos</a>
+        </div>
+        <a href="index.html#registro" class="nav-font text-sm px-7 py-2.5 rounded-full transition-all hover:scale-105 whitespace-nowrap" style="background:#fff;color:#23acb7;">Regístrate</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div style="background:#f5f5f7;border-bottom:1px solid #e8e8e8;padding:12px 24px;">
+    <div class="max-w-4xl mx-auto">
+      <span style="font-size:0.82rem;color:#999;">
+        <a href="index.html" style="color:#23acb7;text-decoration:none;font-weight:600;">Inicio</a>
+        <span style="margin:0 6px;">›</span>
+        <span style="color:#555;font-weight:600;">Sistema de estados</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div style="background:linear-gradient(135deg,#0d0d1a 0%,#1a1a3e 50%,#0f2027 100%);padding:72px 24px;overflow:hidden;position:relative;">
+    <!-- Background pattern -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%, rgba(31,214,179,0.08) 0%, transparent 60%);pointer-events:none;"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 80%, rgba(249,115,22,0.07) 0%, transparent 50%);pointer-events:none;"></div>
+
+    <div class="max-w-5xl mx-auto" style="display:flex;align-items:center;gap:60px;position:relative;z-index:2;">
+      <!-- Left: text -->
+      <div style="flex:1;">
+        <p style="color:#1fd6b3;font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:20px;">Sistema de estados Rappi</p>
+        <h1 style="color:#fff;font-size:clamp(2rem,5vw,3.4rem);font-weight:900;line-height:1.08;text-transform:uppercase;margin-bottom:24px;">AHORA PODRÁS<br>GANAR MÁS CON<br>LOS CAMBIOS QUE<br><span style="color:#1fd6b3;">HICIMOS PARA TI</span></h1>
+        <p style="color:rgba(255,255,255,0.7);font-size:1rem;line-height:1.7;max-width:440px;">Te escuchamos y mejoramos para que tengas una mejor experiencia en la app y puedas subir de estado más rápido, aumentar tus ganancias y acceder a beneficios exclusivos.</p>
+      </div>
+      <!-- Right: floating state badges -->
+      <div style="flex:0 0 320px;position:relative;height:320px;display:flex;align-items:center;justify-content:center;">
+        <!-- Diamante -->
+        <div class="badge-float-1" style="position:absolute;top:10px;right:30px;">
+          <div style="width:110px;height:110px;background:linear-gradient(135deg,#2d2d2d,#1a1a1a);border-radius:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,0.4),0 0 0 2px rgba(255,255,255,0.1);">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="6" y2="9"/><line x1="12" y1="3" x2="18" y2="9"/></svg>
+          </div>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.78rem;font-weight:700;text-align:center;margin-top:8px;">Diamante</p>
+        </div>
+        <!-- Plata -->
+        <div class="badge-float-2" style="position:absolute;top:60px;left:10px;">
+          <div style="width:95px;height:95px;background:linear-gradient(135deg,#8b8b9e,#6b7280);border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,0,0,0.3);">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.78rem;font-weight:700;text-align:center;margin-top:8px;">Plata</p>
+        </div>
+        <!-- Bronce -->
+        <div class="badge-float-3" style="position:absolute;bottom:50px;right:10px;">
+          <div style="width:95px;height:95px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(249,115,22,0.4);">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.78rem;font-weight:700;text-align:center;margin-top:8px;">Bronce</p>
+        </div>
+        <!-- Alerta -->
+        <div class="badge-float-4" style="position:absolute;bottom:20px;left:40px;">
+          <div style="width:85px;height:85px;background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(239,68,68,0.4);">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+          <p style="color:rgba(255,255,255,0.8);font-size:0.78rem;font-weight:700;text-align:center;margin-top:8px;">Alerta</p>
+        </div>
+        <!-- Center glow -->
+        <div style="width:120px;height:120px;background:radial-gradient(circle,rgba(31,214,179,0.2) 0%,transparent 70%);border-radius:50%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="max-w-4xl mx-auto" style="padding:56px 24px;display:flex;flex-direction:column;gap:56px;">
+
+    <!-- AHORA TU ESTADO SE ACTUALIZA A DIARIO -->
+    <div style="display:flex;align-items:center;gap:48px;">
+      <div style="flex:1;">
+        <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:#1a1a2e;line-height:1.15;margin-bottom:20px;">Ahora tu estado<br>se actualiza <span style="color:#1fd6b3;">a diario</span></h2>
+        <p style="color:#555;font-size:1rem;line-height:1.8;">tomando tus <strong>últimos 30 días de conexión</strong> y según tu componente más bajo. Esto te permite subir de estado más rápido y sacarle provecho a todos los beneficios que SoyRappi tiene para ti.</p>
+      </div>
+      <div style="flex:0 0 240px;">
+        <div class="card" style="padding:28px 24px;text-align:center;background:linear-gradient(135deg,#f0fdf9,#ecfeff);">
+          <div style="width:64px;height:64px;background:linear-gradient(135deg,#1fd6b3,#23acb7);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <p style="font-size:2rem;font-weight:900;color:#1a1a2e;line-height:1;">30</p>
+          <p style="font-size:0.85rem;font-weight:600;color:#1fd6b3;margin-top:4px;">días de historial</p>
+          <p style="font-size:0.78rem;color:#888;margin-top:8px;line-height:1.5;">Actualización<br>diaria automática</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADIÓS A TANTOS COMPONENTES -->
+    <div>
+      <div style="text-align:center;margin-bottom:40px;">
+        <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#1a1a2e;margin-bottom:16px;">Adiós a tantos componentes</h2>
+        <p style="color:#555;font-size:1rem;line-height:1.7;max-width:640px;margin:0 auto;">Tenemos <strong>4 componentes</strong> y son estos:</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <!-- Tasa de aceptación -->
+        <div class="card" style="padding:32px 28px;text-align:center;">
+          <div class="comp-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </div>
+          <h3 style="font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:10px;">Tasa de aceptación</h3>
+          <p style="color:#666;font-size:0.9rem;line-height:1.65;">Este porcentaje varía según el número de pedidos que <strong>has aceptado, rechazado o ignorado en los últimos 30 días.</strong></p>
+        </div>
+        <!-- Tasa de finalización -->
+        <div class="card" style="padding:32px 28px;text-align:center;">
+          <div class="comp-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/><polyline points="9 14 11 16 15 12"/></svg>
+          </div>
+          <h3 style="font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:10px;">Tasa de finalización</h3>
+          <p style="color:#666;font-size:0.9rem;line-height:1.65;">Porcentaje de pedidos completados en los últimos 30 días. <strong>Este disminuye si cancelas o liberas pedidos.</strong></p>
+        </div>
+        <!-- Satisfacción del usuario -->
+        <div class="card" style="padding:32px 28px;text-align:center;">
+          <div class="comp-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3 style="font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:10px;">Satisfacción del usuario</h3>
+          <p style="color:#666;font-size:0.9rem;line-height:1.65;">Pedidos calificados de 1 a 5 estrellas en los últimos 30 días por los usuarios.</p>
+        </div>
+        <!-- Pedidos completados -->
+        <div class="card" style="padding:32px 28px;text-align:center;">
+          <div class="comp-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </div>
+          <h3 style="font-size:1.2rem;font-weight:800;color:#1a1a2e;margin-bottom:10px;">Pedidos completados</h3>
+          <p style="color:#666;font-size:0.9rem;line-height:1.65;">Total de pedidos realizados en los últimos 30 días.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- POTENCIADORES -->
+    <div>
+      <div style="display:flex;align-items:center;gap:40px;">
+        <!-- Left: visual card -->
+        <div style="flex:0 0 340px;">
+          <div class="card" style="padding:0;overflow:hidden;background:#f0f4f8;">
+            <!-- Map-like header -->
+            <div style="background:linear-gradient(135deg,#e2e8f0,#cbd5e1);padding:0;position:relative;height:200px;overflow:hidden;">
+              <!-- Grid lines simulating map -->
+              <svg width="100%" height="200" style="position:absolute;inset:0;opacity:0.4;">
+                <defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="#94a3b8" stroke-width="0.5"/></pattern></defs>
+                <rect width="100%" height="100%" fill="url(#grid)"/>
+                <!-- Roads -->
+                <line x1="0" y1="80" x2="340" y2="100" stroke="#94a3b8" stroke-width="3"/>
+                <line x1="120" y1="0" x2="160" y2="200" stroke="#94a3b8" stroke-width="3"/>
+                <line x1="0" y1="140" x2="340" y2="130" stroke="#94a3b8" stroke-width="2"/>
+                <line x1="200" y1="0" x2="220" y2="200" stroke="#94a3b8" stroke-width="2"/>
+              </svg>
+              <!-- Delivery icon -->
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);">
+                <div style="width:52px;height:52px;background:linear-gradient(135deg,#f97316,#ef4444);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(249,115,22,0.5);">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2" ry="2"/><circle cx="12" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Multiplier info box -->
+            <div style="padding:16px 20px;background:#fff;border-top:1px solid #e2e8f0;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <div class="thunder-anim" style="width:28px;height:28px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <p style="font-size:0.82rem;font-weight:700;color:#1a1a2e;">Potenciador: <span style="color:#f97316;">3X</span> · Horas de alta demanda</p>
+              </div>
+              <div style="background:#f8f8fb;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:0.8rem;color:#555;">
+                <span style="font-size:1rem;font-weight:800;color:#1a1a2e;">( 1</span>
+                <span style="color:#999;">Pedido</span>
+                <span style="color:#1a1a2e;">+</span>
+                <span style="color:#f97316;font-weight:700;">⚡ 3x</span>
+                <span style="color:#999;font-size:0.72rem;">Horas alta demanda</span>
+                <span style="color:#1a1a2e;font-weight:800;">)</span>
+                <span style="color:#1a1a2e;font-weight:800;">=</span>
+                <span style="font-size:1.1rem;font-weight:900;color:#1fd6b3;">3 Pedidos</span>
+              </div>
+              <p style="font-size:0.72rem;color:#888;margin-top:8px;">ej. Si tienes un potenciador en <strong>"3x"</strong>, cada pedido que completes <strong>contará por tres.</strong></p>
+            </div>
+          </div>
+        </div>
+        <!-- Right: text -->
+        <div style="flex:1;">
+          <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;color:#1a1a2e;line-height:1.2;margin-bottom:16px;">Potenciadores para<br><span style="color:#1fd6b3;">cualquier situación</span></h2>
+          <p style="color:#555;font-size:0.95rem;line-height:1.7;margin-bottom:24px;">¿Lluvia, alta demanda o reserva? ¡No hay problema! Para esas condiciones hemos creado los potenciadores, los cuales te ayudan a aumentar más rápido el componente de pedidos completados.</p>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div style="display:flex;align-items:flex-start;gap:14px;">
+              <div class="mult-badge">2x</div>
+              <div>
+                <p style="font-weight:800;color:#1a1a2e;font-size:0.95rem;margin-bottom:2px;">Reservas</p>
+                <p style="color:#666;font-size:0.88rem;line-height:1.5;">Cuando entregas durante una reserva.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:14px;">
+              <div class="mult-badge">3x</div>
+              <div>
+                <p style="font-weight:800;color:#1a1a2e;font-size:0.95rem;margin-bottom:2px;">Horas de alta demanda</p>
+                <p style="color:#666;font-size:0.88rem;line-height:1.5;">Las horas donde llegan más pedidos.</p>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:14px;">
+              <div class="mult-badge">4x</div>
+              <div>
+                <p style="font-weight:800;color:#1a1a2e;font-size:0.95rem;margin-bottom:2px;">Bajo la Lluvia</p>
+                <p style="color:#666;font-size:0.88rem;line-height:1.5;">Sea ligera, moderada o fuerte.</p>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:20px;padding:14px 16px;background:#fef9f0;border-radius:10px;border-left:3px solid #f97316;">
+            <p style="font-size:0.78rem;color:#666;line-height:1.6;">*Los Potenciadores no son acumulables y solo se contará el de mayor valor.<br>**Los Potenciadores no se tienen en cuenta en las campañas de incentivos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BENEFICIOS EXCLUSIVOS POR ESTADO -->
+    <div>
+      <div style="text-align:center;margin-bottom:48px;">
+        <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:#1a1a2e;margin-bottom:14px;">Beneficios exclusivos por estado</h2>
+        <p style="color:#555;font-size:1rem;line-height:1.7;max-width:680px;margin:0 auto;">Mientras más alto sea tu estado, mejores serán los beneficios que recibirás. Llegando a Diamante recibes más pedidos, en Plata recibes mejores incentivos, en Bronce puedes reservar hasta 3 días antes.</p>
+      </div>
+      <!-- Staircase -->
+      <div style="display:flex;align-items:flex-end;justify-content:center;gap:12px;height:360px;padding:0 40px;overflow:visible;">
+        <!-- Alerta -->
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:160px;">
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,#ef4444,#dc2626);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:10px;box-shadow:0 4px 16px rgba(239,68,68,0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+          <div class="state-bar" style="width:100%;height:70px;background:linear-gradient(180deg,#fca5a5,#ef4444);"></div>
+          <p style="font-weight:800;color:#1a1a2e;font-size:0.9rem;margin-top:10px;">Alerta</p>
+          <p style="font-size:0.75rem;color:#888;text-align:center;margin-top:2px;">Mejora tus<br>componentes</p>
+        </div>
+        <!-- Bronce -->
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:160px;">
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,#f97316,#ea580c);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;box-shadow:0 4px 16px rgba(249,115,22,0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="state-bar" style="width:100%;height:130px;background:linear-gradient(180deg,#fdba74,#f97316);"></div>
+          <p style="font-weight:800;color:#1a1a2e;font-size:0.9rem;margin-top:10px;">Bronce</p>
+          <p style="font-size:0.75rem;color:#888;text-align:center;margin-top:2px;">Reserva hasta<br>3 días antes</p>
+        </div>
+        <!-- Plata -->
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:160px;">
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,#94a3b8,#64748b);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;box-shadow:0 4px 16px rgba(100,116,139,0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="state-bar" style="width:100%;height:180px;background:linear-gradient(180deg,#cbd5e1,#94a3b8);"></div>
+          <p style="font-weight:800;color:#1a1a2e;font-size:0.9rem;margin-top:10px;">Plata</p>
+          <p style="font-size:0.75rem;color:#888;text-align:center;margin-top:2px;">Mejores<br>incentivos</p>
+        </div>
+        <!-- Diamante -->
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:160px;">
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,#2d2d2d,#1a1a1a);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;box-shadow:0 4px 16px rgba(0,0,0,0.4),0 0 0 2px rgba(31,214,179,0.3);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="6" y2="9"/><line x1="12" y1="3" x2="18" y2="9"/></svg>
+          </div>
+          <div class="state-bar" style="width:100%;height:240px;background:linear-gradient(180deg,#4b5563,#1a1a2e);"></div>
+          <p style="font-weight:800;color:#1a1a2e;font-size:0.9rem;margin-top:10px;">Diamante</p>
+          <p style="font-size:0.75rem;color:#888;text-align:center;margin-top:2px;">Más y mejores<br>pedidos</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CÓMO FUNCIONAN LOS ESTADOS -->
+    <div style="display:flex;align-items:flex-start;gap:48px;">
+      <!-- Left: text + table -->
+      <div style="flex:1;">
+        <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:900;color:#1a1a2e;line-height:1.2;margin-bottom:20px;">¿Cómo funcionan<br>los estados?</h2>
+        <p style="color:#555;font-size:0.95rem;line-height:1.7;margin-bottom:12px;">Tu estado se determinará teniendo en cuenta los <strong>4 componentes: La tasa de aceptación, la tasa de finalización, la satisfacción del usuario y el número de pedidos completados.</strong></p>
+        <p style="color:#555;font-size:0.95rem;line-height:1.7;margin-bottom:12px;"><strong>Pero hay algo importante que debes tener en cuenta: tu estado siempre será el del componente más bajo.</strong></p>
+        <p style="color:#555;font-size:0.95rem;line-height:1.7;margin-bottom:28px;"><strong>Por ejemplo, si tienes 3 componentes en estado Diamante y 1 en estado Bronce, tu estado será Bronce.</strong></p>
+
+        <!-- Table -->
+        <div class="card" style="overflow:hidden;padding:0;">
+          <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+            <thead>
+              <tr style="background:#f8f8fb;">
+                <th style="padding:12px 14px;text-align:left;color:#888;font-weight:600;border-bottom:1px solid #f0f0f0;"></th>
+                <th style="padding:8px 10px;border-bottom:1px solid #f0f0f0;">
+                  <div style="background:linear-gradient(135deg,#fee2e2,#fecaca);border-radius:10px;padding:6px 10px;text-align:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" style="display:block;margin:0 auto 3px;" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                    <span style="font-weight:800;color:#ef4444;font-size:0.78rem;">Alerta</span>
+                  </div>
+                </th>
+                <th style="padding:8px 10px;border-bottom:1px solid #f0f0f0;">
+                  <div style="background:linear-gradient(135deg,#fff7ed,#fed7aa);border-radius:10px;padding:6px 10px;text-align:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" style="display:block;margin:0 auto 3px;" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span style="font-weight:800;color:#f97316;font-size:0.78rem;">Bronce</span>
+                  </div>
+                </th>
+                <th style="padding:8px 10px;border-bottom:1px solid #f0f0f0;">
+                  <div style="background:linear-gradient(135deg,#f1f5f9,#e2e8f0);border-radius:10px;padding:6px 10px;text-align:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" style="display:block;margin:0 auto 3px;" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span style="font-weight:800;color:#64748b;font-size:0.78rem;">Plata</span>
+                  </div>
+                </th>
+                <th style="padding:8px 10px;border-bottom:1px solid #f0f0f0;">
+                  <div style="background:linear-gradient(135deg,#f0fdf9,#d1fae5);border-radius:10px;padding:6px 10px;text-align:center;border:1px solid rgba(31,214,179,0.3);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="1.8" style="display:block;margin:0 auto 3px;" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="6" y2="9"/><line x1="12" y1="3" x2="18" y2="9"/></svg>
+                    <span style="font-weight:800;color:#1a1a2e;font-size:0.78rem;">Diamante</span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #f5f5f5;">
+                <td style="padding:12px 14px;color:#555;font-weight:600;">Tasa de aceptación (%)</td>
+                <td style="padding:12px 10px;text-align:center;color:#ef4444;font-weight:700;">0-69</td>
+                <td style="padding:12px 10px;text-align:center;color:#f97316;font-weight:700;">70-80</td>
+                <td style="padding:12px 10px;text-align:center;color:#64748b;font-weight:700;">81-90</td>
+                <td style="padding:12px 10px;text-align:center;color:#1a1a2e;font-weight:700;background:#f0fdf9;">91-100</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f5f5f5;background:#fafafa;">
+                <td style="padding:12px 14px;color:#555;font-weight:600;">Tasa de finalización (%)</td>
+                <td style="padding:12px 10px;text-align:center;color:#ef4444;font-weight:700;">0-69</td>
+                <td style="padding:12px 10px;text-align:center;color:#f97316;font-weight:700;">70-80</td>
+                <td style="padding:12px 10px;text-align:center;color:#64748b;font-weight:700;">81-90</td>
+                <td style="padding:12px 10px;text-align:center;color:#1a1a2e;font-weight:700;background:#f0fdf9;">91-100</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f5f5f5;">
+                <td style="padding:12px 14px;color:#555;font-weight:600;">Satisfacción del usuario</td>
+                <td style="padding:12px 10px;text-align:center;color:#ef4444;font-weight:700;">0-2.5</td>
+                <td style="padding:12px 10px;text-align:center;color:#f97316;font-weight:700;">2.6-3.5</td>
+                <td style="padding:12px 10px;text-align:center;color:#64748b;font-weight:700;">3.6-4.5</td>
+                <td style="padding:12px 10px;text-align:center;color:#1a1a2e;font-weight:700;background:#f0fdf9;">4.6-5</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 14px;color:#555;font-weight:600;">Pedidos realizados</td>
+                <td style="padding:12px 10px;text-align:center;color:#ef4444;font-weight:700;">0-20</td>
+                <td style="padding:12px 10px;text-align:center;color:#f97316;font-weight:700;">21-30</td>
+                <td style="padding:12px 10px;text-align:center;color:#64748b;font-weight:700;">31-50</td>
+                <td style="padding:12px 10px;text-align:center;color:#1a1a2e;font-weight:700;background:#f0fdf9;">51-80</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.75rem;color:#aaa;margin-top:12px;line-height:1.5;"><strong>Nota:</strong> Las imágenes mostradas son ilustrativas y no representan necesariamente los criterios aplicables en tu ciudad. Te recomendamos consultar los valores exactos directamente en la app.</p>
+      </div>
+
+      <!-- Right: phone mockup -->
+      <div style="flex:0 0 220px;">
+        <div class="phone-float" style="background:#fff;border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,0.14),0 4px 16px rgba(0,0,0,0.08);overflow:hidden;border:1px solid #e8e8e8;">
+          <!-- Phone top bar -->
+          <div style="background:#1a1a2e;padding:14px 16px 12px;display:flex;align-items:center;gap:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            <span style="color:#fff;font-size:0.82rem;font-weight:700;flex:1;text-align:center;">Detalle de mi estado</span>
+            <div style="width:14px;"></div>
+          </div>
+          <!-- Diamante card -->
+          <div style="background:linear-gradient(135deg,#1a1a2e,#2d2d4e);margin:12px;border-radius:14px;padding:14px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+              <div style="width:32px;height:32px;background:linear-gradient(135deg,#1fd6b3,#23acb7);border-radius:10px;display:flex;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="6" y2="9"/><line x1="12" y1="3" x2="18" y2="9"/></svg>
+              </div>
+              <div>
+                <p style="color:#fff;font-size:0.82rem;font-weight:800;">Estado Diamante</p>
+                <p style="color:rgba(255,255,255,0.6);font-size:0.68rem;">Tu estado se renovará mañana</p>
+              </div>
+            </div>
+            <div style="background:rgba(255,255,255,0.12);border-radius:8px;padding:6px 10px;display:inline-flex;align-items:center;gap:4px;">
+              <span style="color:#1fd6b3;font-size:0.72rem;font-weight:700;">Conoce los estados</span>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1fd6b3" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+          <!-- Stats row -->
+          <div style="display:flex;padding:0 12px 12px;gap:8px;">
+            <div style="flex:1;text-align:center;background:#f9f9fb;border-radius:10px;padding:10px 6px;">
+              <p style="font-size:0.65rem;color:#888;margin-bottom:3px;">Fecha de registro</p>
+              <p style="font-size:0.78rem;font-weight:700;color:#1a1a2e;">20/08/2018</p>
+            </div>
+            <div style="flex:1;text-align:center;background:#f9f9fb;border-radius:10px;padding:10px 6px;">
+              <p style="font-size:0.65rem;color:#888;margin-bottom:3px;">Histórico pedidos</p>
+              <p style="font-size:0.78rem;font-weight:700;color:#1a1a2e;">900</p>
+            </div>
+          </div>
+          <!-- Tabs -->
+          <div style="display:flex;border-bottom:2px solid #f0f0f0;padding:0 12px;">
+            <div style="flex:1;text-align:center;padding:8px 0;border-bottom:2px solid #1fd6b3;margin-bottom:-2px;">
+              <span style="font-size:0.72rem;font-weight:700;color:#1fd6b3;">Mi estado</span>
+            </div>
+            <div style="flex:1;text-align:center;padding:8px 0;">
+              <span style="font-size:0.72rem;font-weight:600;color:#999;">Mis beneficios</span>
+            </div>
+          </div>
+          <!-- Components -->
+          <div style="padding:12px;">
+            <p style="font-size:0.72rem;font-weight:700;color:#1a1a2e;margin-bottom:8px;">Componentes de mi estado</p>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#f0fdf9;border-radius:8px;">
+                <div style="width:20px;height:20px;background:#1a1a2e;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/></svg></div>
+                <div style="flex:1;">
+                  <p style="font-size:0.68rem;font-weight:700;color:#1a1a2e;">Tasa de aceptación</p>
+                  <p style="font-size:0.6rem;color:#1fd6b3;">Compatible con Diamante</p>
+                </div>
+                <span style="font-size:0.72rem;font-weight:800;color:#1a1a2e;">91%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#fff7ed;border-radius:8px;">
+                <div style="width:20px;height:20px;background:#f97316;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/></svg></div>
+                <div style="flex:1;">
+                  <p style="font-size:0.68rem;font-weight:700;color:#1a1a2e;">Tasa de finalización</p>
+                  <p style="font-size:0.6rem;color:#f97316;">Compatible con Bronce</p>
+                </div>
+                <span style="font-size:0.72rem;font-weight:800;color:#1a1a2e;">96%</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#f0fdf9;border-radius:8px;">
+                <div style="width:20px;height:20px;background:#1a1a2e;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/></svg></div>
+                <div style="flex:1;">
+                  <p style="font-size:0.68rem;font-weight:700;color:#1a1a2e;">Satisfacción del usuario</p>
+                  <p style="font-size:0.6rem;color:#1fd6b3;">Compatible con Diamante</p>
+                </div>
+                <span style="font-size:0.72rem;font-weight:800;color:#1a1a2e;">4.7</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:7px 8px;background:#f1f5f9;border-radius:8px;">
+                <div style="width:20px;height:20px;background:#64748b;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/></svg></div>
+                <div style="flex:1;">
+                  <p style="font-size:0.68rem;font-weight:700;color:#1a1a2e;">Pedidos completados</p>
+                  <p style="font-size:0.6rem;color:#64748b;">Compatible con Plata</p>
+                </div>
+                <span style="font-size:0.72rem;font-weight:800;color:#1a1a2e;">60</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO INFO CARDS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="card" style="padding:36px 28px;text-align:center;">
+        <div style="width:62px;height:62px;background:linear-gradient(135deg,#1fd6b3,#23acb7);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2" ry="2"/><circle cx="12" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg>
+        </div>
+        <h3 style="font-size:1.15rem;font-weight:800;color:#1a1a2e;margin-bottom:12px;line-height:1.3;">¡Tú decides cuándo<br>conectarte!</h3>
+        <p style="color:#666;font-size:0.88rem;line-height:1.7;">Si un día no te conectas, tu estado se seguirá calculando en función de los últimos 30 días. De esta manera, puedes aprovechar para cuadrar tu conexión de la forma en que prefieras.</p>
+      </div>
+      <div class="card" style="padding:36px 28px;text-align:center;">
+        <div style="width:62px;height:62px;background:linear-gradient(135deg,#1fd6b3,#23acb7);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <h3 style="font-size:1.15rem;font-weight:800;color:#1a1a2e;margin-bottom:12px;line-height:1.3;">¿Dónde puedo ver<br>mis beneficios?</h3>
+        <p style="color:#666;font-size:0.88rem;line-height:1.7;">En la app, encontrarás una sección dedicada a tus beneficios activos, donde podrás ver los que tienes según tu estado. Además, todas las novedades serán comunicadas por nuestros canales oficiales y a través de esta sección de la app.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer style="background:#1a1a2e;padding:32px 24px;text-align:center;">
+    <p style="color:rgba(255,255,255,0.4);font-size:0.8rem;">© 2024 Rappi Inc. Todos los derechos reservados.</p>
+  </footer>
+
+  <script>
+    function toggleDrop() {
+      const d = document.getElementById('nav-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-ganancias').contains(e.target)) {
+        document.getElementById('nav-drop').style.display = 'none';
+      }
+    });
+
+    function toggleEstadosDrop() {
+      const d = document.getElementById('estados-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-estados').contains(e.target)) {
+        document.getElementById('estados-drop').style.display = 'none';
+      }
+    });
+  </script>
+
+
+<script>
+/* navbar-fix: unified dropdowns */
+(function(){
+  function navCloseAll(){['ganancias-drop','estados-drop','beneficios-drop','turbo-drop','evoluciona-drop','nav-drop'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});}
+  function mkToggle(dropId){return function(){var d=document.getElementById(dropId);if(!d)return;var show=d.style.display==='none'||!d.style.display;navCloseAll();if(show)d.style.display='block';};}
+  window.toggleGananciasDrop=mkToggle('ganancias-drop');
+  window.toggleEstadosDrop=mkToggle('estados-drop');
+  window.toggleBeneficiosDrop=mkToggle('beneficios-drop');
+  window.toggleBeneficiosDrop2=mkToggle('beneficios-drop');
+  window.toggleTurboDrop=mkToggle('turbo-drop');
+  window.toggleEvolucionaDrop=mkToggle('evoluciona-drop');
+  window.toggleDrop=mkToggle('nav-drop');
+  document.addEventListener('click',function(e){
+    var ids=['nav-ganancias','nav-estados','nav-beneficios','nav-turbo','nav-evoluciona'];
+    var inside=ids.some(function(id){var el=document.getElementById(id);return el&&el.contains(e.target);});
+    if(!inside)navCloseAll();
+  });
+})();
+</script>
+
+<script id="mob-nav-js">
+(function(){
+  if(document.getElementById('mob-nav-panel')) return;
+  // Hamburger button
+  var btn = document.createElement('button');
+  btn.className='mob-btn';
+  btn.setAttribute('aria-label','Menú');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  btn.onclick = toggleMobNav;
+  var nav = document.querySelector('nav');
+  var row = nav && nav.querySelector('.flex.items-center.justify-between');
+  if(row){ row.appendChild(btn); }
+
+  // Fix logo left offset on mobile via JS (in case inline style overrides CSS)
+  var logoWrap = row && row.querySelector('.flex.items-center.gap-3.flex-shrink-0, .flex.items-center.gap-3');
+  if(logoWrap) logoWrap.classList.add('mob-logo-wrap');
+
+  // Mobile panel
+  var panel = document.createElement('div');
+  panel.id='mob-nav-panel';
+  panel.innerHTML=[
+    '<div class="mob-inner">',
+    // Ganancias
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Ganancias<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="cuenta-bancaria.html">¿Cómo recibir ganancias?</a>',
+      '<a href="cuanto-ganar.html">¿Cuánto puedes ganar?</a>',
+      '<a href="incentivos.html">Incentivos</a>',
+      '<a href="referidos.html">Referidos</a>',
+      '<a href="propinas.html">Propinas</a>',
+      '<a href="alta-demanda.html">Punto de Alta Demanda</a>',
+    '</div>',
+    // Estados
+    '<a href="sistema-de-estados.html" class="mob-plain-link">Estados</a>',
+    // Beneficios
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Beneficios<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="beneficios-exclusivos.html">Beneficios Exclusivos</a>',
+      '<a href="seguro-accidentes.html">Seguro de Accidentes</a>',
+    '</div>',
+    // Turbo
+    '<a href="turbo.html" class="mob-plain-link">Turbo</a>',
+    // Evoluciona
+    '<a href="soyrappi-evoluciona.html" class="mob-plain-link">SoyRappi Evoluciona</a>',
+    // CTA
+    '<div class="mob-cta-wrap"><a href="index.html#registro">Regístrate</a></div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(panel);
+
+  window.toggleMobNav = function(){
+    var p = document.getElementById('mob-nav-panel');
+    var b = document.querySelector('.mob-btn');
+    var open = p && p.style.display==='block';
+    if(p) p.style.display = open?'none':'block';
+    if(b) b.classList.toggle('is-open',!open);
+    document.body.style.overflow = open?'':'hidden';
+  };
+  window.mobToggleSec = function(hdr){
+    var sub = hdr.nextElementSibling;
+    if(!sub) return;
+    var open = sub.style.display==='block';
+    sub.style.display = open?'none':'block';
+    hdr.classList.toggle('mob-open',!open);
+  };
+  // Close mobile menu on nav link click
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#mob-nav-panel a')){
+      var p=document.getElementById('mob-nav-panel');
+      var b=document.querySelector('.mob-btn');
+      if(p) p.style.display='none';
+      if(b) b.classList.remove('is-open');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

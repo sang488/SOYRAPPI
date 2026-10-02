@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuenta bancaria — Soy Rappi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    @font-face {
+      font-family: 'PPObjectSans';
+      src: local('PP Object Sans Bold'), local('PPObjectSans-Bold'), local('PPObjectSans Bold');
+      font-weight: 700;
+    }
+    .nav-font { font-family: 'PPObjectSans', 'Inter', sans-serif; font-weight: 700; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+
+<style id="mob-nav-css">
+/* ── Mobile nav ── */
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:10px;flex-shrink:0;}
+@media(max-width:767px){
+  .mob-btn{display:flex;}
+  .mob-logo-wrap{left:0!important;position:relative!important;}
+  #nav-registrarse,a.nav-cta-btn{display:none!important;}
+}
+.mob-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s;}
+.mob-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-btn.is-open span:nth-child(2){opacity:0;}
+.mob-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mob-nav-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#082028 0%,#041218 100%);z-index:197;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#mob-nav-panel .mob-inner{padding-top:96px;padding-bottom:60px;}
+.mob-section-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.09);cursor:pointer;text-align:left;}
+.mob-section-btn svg{transition:transform .2s;flex-shrink:0;}
+.mob-section-btn.mob-open svg{transform:rotate(180deg);}
+.mob-sub{background:rgba(0,0,0,0.25);display:none;}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:13px 32px;color:#c7e9e4;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mob-sub a:active{background:rgba(31,214,179,0.15);}
+.mob-plain-link{display:flex;align-items:center;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.09);}
+.mob-cta-wrap{padding:28px 24px;}
+.mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
+</style>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 shadow-lg" style="background: linear-gradient(90deg, #1fd6b3 0%, #23acb7 100%);">
+    <div class="max-w-8xl mx-auto px-6">
+      <div class="flex items-center justify-between h-24">
+        <div class="flex items-center gap-3 flex-shrink-0" style="position:relative; left:120px;">
+          <a href="index.html">
+            <img src="soyrappi_logo.png" alt="Soy Rappi" style="width:200px; height:auto; object-fit:contain;" />
+          </a>
+          <img src="bandera_col.png" alt="Colombia" style="width:75px; height:75px; object-fit:contain; flex-shrink:0; margin-left:-40px;" />
+        </div>
+        <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
+          <div class="relative" id="nav-ganancias">
+            <button onclick="toggleGananciasDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Ganancias <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="ganancias-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(8,40,42,0.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);min-width:230px;overflow:hidden;z-index:200;">
+              <a href="cuenta-bancaria.html"
+                 style="display:flex;align-items:center;gap:10px;padding:14px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;background:rgba(255,255,255,0.18);text-shadow:0 1px 4px rgba(0,0,0,0.15);">
+                <span style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/>
+                  </svg>
+                </span>
+                ¿Cómo recibir ganancias?
+              </a>
+              <a href="cuanto-ganar.html"
+                 style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);"
+                 onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </span>
+                ¿Cuánto puedes ganar?
+              </a>
+              <a href="incentivos.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </span>
+                Incentivos
+              </a>
+              <a href="referidos.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                </span>
+                Referidos
+              </a>
+            </div>
+          </div>
+          <div class="relative" id="nav-estados">
+            <button onclick="toggleEstadosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Estados <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="estados-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(8,40,42,0.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);min-width:220px;overflow:hidden;z-index:200;">
+              <a href="sistema-de-estados.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1a1a2e,#3d3d6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="6" y2="9"/><line x1="12" y1="3" x2="18" y2="9"/></svg></span>
+                Sistema de estados
+              </a>
+            </div>
+          </div>
+          <div class="relative" id="nav-beneficios"><button onclick="toggleBeneficiosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Beneficios <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="beneficios-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;"><a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Beneficios Exclusivos</a><a href="seguro-accidentes.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>Seguro de Accidentes</a></div></div>
+          <div class="relative" id="nav-turbo"><button onclick="toggleTurboDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Turbo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="turbo-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:300px;overflow:hidden;z-index:200;"><a href="turbo.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Todo lo que debes saber sobre Turbo</a></div></div>
+          <div class="relative" id="nav-evoluciona"><button onclick="toggleEvolucionaDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">SoyRappi Evoluciona <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="evoluciona-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:280px;overflow:hidden;z-index:200;"><a href="soyrappi-evoluciona.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>Te escuchamos</a></div></div>
+          <a href="index.html#" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Conoce más</a>
+          <a href="index.html#faq" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Pregúntanos</a>
+        </div>
+        <a href="index.html#registro" class="nav-font text-sm px-7 py-2.5 rounded-full transition-all hover:scale-105 whitespace-nowrap" style="background:#fff; color:#23acb7;">Regístrate</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div style="background:#f5f5f7; border-bottom:1px solid #e8e8e8; padding:12px 24px;">
+    <div class="max-w-4xl mx-auto">
+      <span style="font-size:0.82rem; color:#999;">
+        <a href="index.html" style="color:#23acb7; text-decoration:none; font-weight:600;">Inicio</a>
+        &nbsp;›&nbsp; Ganancias &nbsp;›&nbsp; <strong style="color:#333;">Cuenta bancaria</strong>
+      </span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main style="background:#f9f9fb; padding: 40px 24px 80px;">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- ══ ANIMATED STEP-BY-STEP ══ -->
+      <div style="background:#fff; border-radius:24px; overflow:hidden; box-shadow:0 6px 32px rgba(0,0,0,0.09); margin-bottom:48px;">
+
+        <!-- Card header -->
+        <div style="background:linear-gradient(90deg,#1fd6b3,#23acb7); padding:18px 28px; display:flex; align-items:center; justify-content:center; gap:10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/>
+          </svg>
+          <span style="color:#fff; font-family:'Inter',sans-serif; font-weight:800; font-size:1rem;">¿Cómo recibir tus ganancias?</span>
+        </div>
+
+        <!-- Body grid -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; min-height:420px;">
+
+          <!-- Phone side -->
+          <div style="background:#f0fbf9; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px 24px; gap:18px;">
+            <img id="cb-mockup-img" src="mockup_perfil.png" alt="Paso app"
+                 style="width:200px; height:auto; object-fit:contain; display:block; transition:opacity 0.4s ease, transform 0.4s ease;" />
+            <!-- dots -->
+            <div style="display:flex; gap:8px;">
+              <span class="cb-dot" data-step="0" onclick="cbGoTo(0)" style="width:10px;height:10px;border-radius:50%;background:#1fd6b3;transform:scale(1.3);cursor:pointer;transition:all 0.3s;"></span>
+              <span class="cb-dot" data-step="1" onclick="cbGoTo(1)" style="width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer;transition:all 0.3s;"></span>
+              <span class="cb-dot" data-step="2" onclick="cbGoTo(2)" style="width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer;transition:all 0.3s;"></span>
+              <span class="cb-dot" data-step="3" onclick="cbGoTo(3)" style="width:10px;height:10px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer;transition:all 0.3s;"></span>
+            </div>
+          </div>
+
+          <!-- Text side -->
+          <div style="padding:36px 32px; display:flex; flex-direction:column; justify-content:center; gap:18px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <span id="cb-step-num" style="color:#fff;font-weight:900;font-size:1.15rem;font-family:'Inter',sans-serif;">1</span>
+              </div>
+              <h3 id="cb-step-title" style="font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;color:#1a1a1a;margin:0;">Ve a Mi perfil</h3>
+            </div>
+            <p id="cb-step-desc" style="font-family:'Inter',sans-serif;font-size:0.93rem;color:#555;line-height:1.75;margin:0;">
+              Abre la app Soy Rappi, toca tu foto de perfil y selecciona <strong>"Cuenta bancaria"</strong>.
+            </p>
+            <!-- progress bar -->
+            <div style="background:#e8e8e8;border-radius:99px;height:5px;overflow:hidden;">
+              <div id="cb-progress-bar" style="height:100%;border-radius:99px;background:linear-gradient(90deg,#1fd6b3,#23acb7);width:25%;transition:width 0.6s ease;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>
+        #cb-step-title, #cb-step-desc { transition: opacity 0.35s ease; }
+      </style>
+      <script>
+        const cbSteps = [
+          { img:'mockup_perfil.png',    num:'1', title:'Ve a Mi perfil',               desc:'Abre la app Soy Rappi, toca tu foto de perfil y selecciona <strong>"Cuenta bancaria"</strong>.', pct:'25%' },
+          { img:'mockup_cuenta.png',    num:'2', title:'Registra tu cuenta bancaria',  desc:'Ingresa los datos de tu banco y toca <strong>"Registrar ahora"</strong> para vincularla.', pct:'50%' },
+          { img:'mockup_validando.png', num:'3', title:'Validando tu cuenta',           desc:'Recibirás respuesta en aproximadamente <strong>72 horas</strong>. La revisión puede demorar hasta ese tiempo.', pct:'75%' },
+          { img:'mockup_validando.png', num:'4', title:'¡Cuenta activa!',              desc:'Si tu cuenta se registra con éxito, saldrá un mensaje en verde: <strong>"Tu cuenta está activa"</strong>. Ya puedes recibir tus ganancias.', pct:'100%' }
+        ];
+        let cbCurrent = 0;
+        let cbTimer;
+
+        function cbGoTo(idx) {
+          clearInterval(cbTimer);
+          cbCurrent = idx;
+          const s = cbSteps[idx];
+          const img = document.getElementById('cb-mockup-img');
+          img.style.opacity = '0';
+          img.style.transform = 'translateX(16px)';
+          setTimeout(() => {
+            img.src = s.img;
+            img.style.opacity = '1';
+            img.style.transform = 'translateX(0)';
+          }, 200);
+
+          document.getElementById('cb-step-num').textContent = s.num;
+          const title = document.getElementById('cb-step-title');
+          const desc  = document.getElementById('cb-step-desc');
+          title.style.opacity = '0'; desc.style.opacity = '0';
+          setTimeout(() => {
+            title.textContent = s.title;
+            desc.innerHTML    = s.desc;
+            title.style.opacity = '1'; desc.style.opacity = '1';
+          }, 220);
+
+          document.getElementById('cb-progress-bar').style.width = s.pct;
+          document.querySelectorAll('.cb-dot').forEach((d,i) => {
+            d.style.background = i === idx ? '#1fd6b3' : 'rgba(0,0,0,0.15)';
+            d.style.transform  = i === idx ? 'scale(1.35)' : 'scale(1)';
+          });
+          cbTimer = setInterval(() => { cbGoTo((cbCurrent + 1) % cbSteps.length); }, 3200);
+        }
+        cbTimer = setInterval(() => { cbGoTo((cbCurrent + 1) % cbSteps.length); }, 3200);
+      </script>
+
+      <!-- ══ ICONOS INFO ══ -->
+      <div style="margin-bottom:48px;">
+        <h2 style="font-size:1.3rem; font-weight:900; color:#1a1a1a; margin-bottom:20px;">¿Qué pasa después?</h2>
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
+
+          <div style="background:#fff; border-radius:18px; padding:24px 20px; box-shadow:0 3px 16px rgba(0,0,0,0.07); text-align:center;">
+            <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <h4 style="font-weight:800;color:#1a1a1a;font-size:0.95rem;margin-bottom:8px;">Cuenta activa</h4>
+            <p style="color:#666;font-size:0.83rem;line-height:1.6;margin:0;">Si el registro es exitoso, verás el mensaje <strong>"Tu cuenta está activa"</strong> en verde. También tendrás la opción de cambiarla si es necesario.</p>
+          </div>
+
+          <div style="background:#fff; border-radius:18px; padding:24px 20px; box-shadow:0 3px 16px rgba(0,0,0,0.07); text-align:center;">
+            <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h4 style="font-weight:800;color:#1a1a1a;font-size:0.95rem;margin-bottom:8px;">Respuesta en 72h</h4>
+            <p style="color:#666;font-size:0.83rem;line-height:1.6;margin:0;">Si hay alguna falla en la verificación, deberás solicitar el cambio de cuenta e ingresar tus datos de nuevo.</p>
+          </div>
+
+          <div style="background:#fff; border-radius:18px; padding:24px 20px; box-shadow:0 3px 16px rgba(0,0,0,0.07); text-align:center;">
+            <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#6C47FF,#9B7BFF);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+            </div>
+            <h4 style="font-weight:800;color:#1a1a1a;font-size:0.95rem;margin-bottom:8px;">1 cambio al mes</h4>
+            <p style="color:#666;font-size:0.83rem;line-height:1.6;margin:0;">Recuerda que solo podrás cambiar tu cuenta bancaria <strong>1 vez al mes</strong>, así que verifica bien los datos antes de guardar.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TIPOS DE CUENTA — 4 iconos pequeños -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:40px;">
+
+        <div style="background:#fff; border-radius:14px; padding:16px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.06); text-align:center;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#e8fbf7;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#1fd6b3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/>
+            </svg>
+          </div>
+          <p style="font-weight:700;color:#1a1a1a;font-size:0.78rem;margin:0 0 3px;">Cuenta ahorros</p>
+          <p style="color:#999;font-size:0.72rem;margin:0;line-height:1.4;">La más común</p>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; padding:16px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.06); text-align:center;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#fff3f0;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#f3663d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          </div>
+          <p style="font-weight:700;color:#1a1a1a;font-size:0.78rem;margin:0 0 3px;">Cuenta corriente</p>
+          <p style="color:#999;font-size:0.72rem;margin:0;line-height:1.4;">Número de cuenta</p>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; padding:16px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.06); text-align:center;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#f0edff;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#6C47FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <p style="font-weight:700;color:#1a1a1a;font-size:0.78rem;margin:0 0 3px;">Nequi</p>
+          <p style="color:#999;font-size:0.72rem;margin:0;line-height:1.4;">Ahorros Bancolombia</p>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; padding:16px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.06); text-align:center;">
+          <div style="width:40px;height:40px;border-radius:50%;background:#ffeef0;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#E8002D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <p style="font-weight:700;color:#1a1a1a;font-size:0.78rem;margin:0 0 3px;">Daviplata</p>
+          <p style="color:#999;font-size:0.72rem;margin:0;line-height:1.4;">Ahorros Davivienda</p>
+        </div>
+
+      </div>
+
+      <!-- PREGUNTAS FRECUENTES -->
+      <h2 style="font-size:1.45rem; font-weight:900; color:#1a1a1a; margin-bottom:20px;">Preguntas frecuentes</h2>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:48px;" id="faq-cuenta">
+
+        <div style="background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 3px 16px rgba(0,0,0,0.06);">
+          <button onclick="toggleFaqCuenta(this)" style="width:100%;text-align:left;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;cursor:pointer;font-family:'Inter',sans-serif;">
+            <span style="font-weight:700;font-size:0.95rem;color:#1a1a1a;">¿Cuánto tarda en llegar el dinero a mi cuenta?</span>
+            <svg style="width:18px;height:18px;flex-shrink:0;transition:transform 0.3s;color:#f3663d;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer" style="display:none;padding:0 24px 20px;">
+            <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:0;">Generalmente entre <strong>1 y 5 minutos</strong> para Nequi y Daviplata. Para cuentas bancarias tradicionales puede tardar hasta <strong>24 horas hábiles</strong>, aunque en la mayoría de casos es casi inmediato.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 3px 16px rgba(0,0,0,0.06);">
+          <button onclick="toggleFaqCuenta(this)" style="width:100%;text-align:left;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;cursor:pointer;font-family:'Inter',sans-serif;">
+            <span style="font-weight:700;font-size:0.95rem;color:#1a1a1a;">¿Tiene costo retirar mis ganancias?</span>
+            <svg style="width:18px;height:18px;flex-shrink:0;transition:transform 0.3s;color:#f3663d;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer" style="display:none;padding:0 24px 20px;">
+            <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:0;">No. El retiro de tus ganancias desde la billetera Rappi a tu cuenta bancaria es <strong>completamente gratuito</strong>. Sin comisiones ni descuentos adicionales.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 3px 16px rgba(0,0,0,0.06);">
+          <button onclick="toggleFaqCuenta(this)" style="width:100%;text-align:left;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;cursor:pointer;font-family:'Inter',sans-serif;">
+            <span style="font-weight:700;font-size:0.95rem;color:#1a1a1a;">¿Puedo cambiar mi cuenta bancaria después de registrarla?</span>
+            <svg style="width:18px;height:18px;flex-shrink:0;transition:transform 0.3s;color:#f3663d;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer" style="display:none;padding:0 24px 20px;">
+            <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:0;">Sí. Puedes actualizar tu cuenta bancaria en cualquier momento desde <strong>Mi perfil → Datos bancarios</strong> en la app. Ten en cuenta que el cambio puede tardar hasta 48 horas en procesarse.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 3px 16px rgba(0,0,0,0.06);">
+          <button onclick="toggleFaqCuenta(this)" style="width:100%;text-align:left;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;cursor:pointer;font-family:'Inter',sans-serif;">
+            <span style="font-weight:700;font-size:0.95rem;color:#1a1a1a;">¿Cuántas veces al día puedo retirar?</span>
+            <svg style="width:18px;height:18px;flex-shrink:0;transition:transform 0.3s;color:#f3663d;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer" style="display:none;padding:0 24px 20px;">
+            <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:0;">Puedes solicitar retiros <strong>hasta 3 veces por día</strong>. No hay restricción de horario: puedes hacerlo de lunes a domingo, a cualquier hora.</p>
+          </div>
+        </div>
+
+        <div style="background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 3px 16px rgba(0,0,0,0.06);">
+          <button onclick="toggleFaqCuenta(this)" style="width:100%;text-align:left;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;background:transparent;border:none;cursor:pointer;font-family:'Inter',sans-serif;">
+            <span style="font-weight:700;font-size:0.95rem;color:#1a1a1a;">¿Mis datos bancarios están seguros?</span>
+            <svg style="width:18px;height:18px;flex-shrink:0;transition:transform 0.3s;color:#f3663d;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer" style="display:none;padding:0 24px 20px;">
+            <p style="color:#666;font-size:0.9rem;line-height:1.7;margin:0;">Sí. Rappi utiliza <strong>cifrado de extremo a extremo</strong> para proteger tu información bancaria. Tus datos nunca son compartidos con terceros y el acceso está protegido por tu contraseña y datos biométricos.</p>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+  </main>
+
+  <!-- COPYRIGHT -->
+  <div class="py-4 px-6 flex justify-between items-center text-xs text-gray-400" style="background:#e8e8e8;">
+    <span>© 2026 Rappi Inc. Todos los derechos reservados.</span>
+    <span>🇨🇴 Colombia</span>
+  </div>
+
+  <script>
+    function toggleGananciasDrop() {
+      const drop = document.getElementById('ganancias-drop');
+      drop.style.display = drop.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-ganancias').contains(e.target)) {
+        document.getElementById('ganancias-drop').style.display = 'none';
+      }
+    });
+    function toggleFaqCuenta(btn) {
+      const answer = btn.nextElementSibling;
+      const icon = btn.querySelector('svg');
+      const isOpen = answer.style.display !== 'none';
+      document.querySelectorAll('#faq-cuenta .faq-answer').forEach(a => a.style.display = 'none');
+      document.querySelectorAll('#faq-cuenta svg').forEach(i => i.style.transform = 'rotate(0deg)');
+      if (!isOpen) {
+        answer.style.display = 'block';
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+    function toggleEstadosDrop() {
+      const d = document.getElementById('estados-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-estados').contains(e.target))
+        document.getElementById('estados-drop').style.display = 'none';
+    });
+  </script>
+
+
+<script>
+/* navbar-fix: unified dropdowns */
+(function(){
+  function navCloseAll(){['ganancias-drop','estados-drop','beneficios-drop','turbo-drop','evoluciona-drop','nav-drop'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});}
+  function mkToggle(dropId){return function(){var d=document.getElementById(dropId);if(!d)return;var show=d.style.display==='none'||!d.style.display;navCloseAll();if(show)d.style.display='block';};}
+  window.toggleGananciasDrop=mkToggle('ganancias-drop');
+  window.toggleEstadosDrop=mkToggle('estados-drop');
+  window.toggleBeneficiosDrop=mkToggle('beneficios-drop');
+  window.toggleBeneficiosDrop2=mkToggle('beneficios-drop');
+  window.toggleTurboDrop=mkToggle('turbo-drop');
+  window.toggleEvolucionaDrop=mkToggle('evoluciona-drop');
+  window.toggleDrop=mkToggle('nav-drop');
+  document.addEventListener('click',function(e){
+    var ids=['nav-ganancias','nav-estados','nav-beneficios','nav-turbo','nav-evoluciona'];
+    var inside=ids.some(function(id){var el=document.getElementById(id);return el&&el.contains(e.target);});
+    if(!inside)navCloseAll();
+  });
+})();
+</script>
+
+<script id="mob-nav-js">
+(function(){
+  if(document.getElementById('mob-nav-panel')) return;
+  // Hamburger button
+  var btn = document.createElement('button');
+  btn.className='mob-btn';
+  btn.setAttribute('aria-label','Menú');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  btn.onclick = toggleMobNav;
+  var nav = document.querySelector('nav');
+  var row = nav && nav.querySelector('.flex.items-center.justify-between');
+  if(row){ row.appendChild(btn); }
+
+  // Fix logo left offset on mobile via JS (in case inline style overrides CSS)
+  var logoWrap = row && row.querySelector('.flex.items-center.gap-3.flex-shrink-0, .flex.items-center.gap-3');
+  if(logoWrap) logoWrap.classList.add('mob-logo-wrap');
+
+  // Mobile panel
+  var panel = document.createElement('div');
+  panel.id='mob-nav-panel';
+  panel.innerHTML=[
+    '<div class="mob-inner">',
+    // Ganancias
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Ganancias<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="cuenta-bancaria.html">¿Cómo recibir ganancias?</a>',
+      '<a href="cuanto-ganar.html">¿Cuánto puedes ganar?</a>',
+      '<a href="incentivos.html">Incentivos</a>',
+      '<a href="referidos.html">Referidos</a>',
+      '<a href="propinas.html">Propinas</a>',
+      '<a href="alta-demanda.html">Punto de Alta Demanda</a>',
+    '</div>',
+    // Estados
+    '<a href="sistema-de-estados.html" class="mob-plain-link">Estados</a>',
+    // Beneficios
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Beneficios<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="beneficios-exclusivos.html">Beneficios Exclusivos</a>',
+      '<a href="seguro-accidentes.html">Seguro de Accidentes</a>',
+    '</div>',
+    // Turbo
+    '<a href="turbo.html" class="mob-plain-link">Turbo</a>',
+    // Evoluciona
+    '<a href="soyrappi-evoluciona.html" class="mob-plain-link">SoyRappi Evoluciona</a>',
+    // CTA
+    '<div class="mob-cta-wrap"><a href="index.html#registro">Regístrate</a></div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(panel);
+
+  window.toggleMobNav = function(){
+    var p = document.getElementById('mob-nav-panel');
+    var b = document.querySelector('.mob-btn');
+    var open = p && p.style.display==='block';
+    if(p) p.style.display = open?'none':'block';
+    if(b) b.classList.toggle('is-open',!open);
+    document.body.style.overflow = open?'':'hidden';
+  };
+  window.mobToggleSec = function(hdr){
+    var sub = hdr.nextElementSibling;
+    if(!sub) return;
+    var open = sub.style.display==='block';
+    sub.style.display = open?'none':'block';
+    hdr.classList.toggle('mob-open',!open);
+  };
+  // Close mobile menu on nav link click
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#mob-nav-panel a')){
+      var p=document.getElementById('mob-nav-panel');
+      var b=document.querySelector('.mob-btn');
+      if(p) p.style.display='none';
+      if(b) b.classList.remove('is-open');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

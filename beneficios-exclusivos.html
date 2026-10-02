@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beneficios Exclusivos — Soy Rappi</title>
+
+  <!-- Preconnect: abre conexiones antes de necesitarlas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+
+  <!-- Preload: logo crítico above-the-fold -->
+  <link rel="preload" as="image" href="soyrappi_logo.png" fetchpriority="high" />
+
+  <!-- Google Fonts non-blocking -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face { font-family:'PPObjectSans'; src:local('PP Object Sans Bold'),local('PPObjectSans-Bold'); font-weight:700; }
+    .nav-font { font-family:'PPObjectSans','Inter',sans-serif; font-weight:700; }
+    body { font-family:'Inter',sans-serif; background:#f4f6fb; }
+    html { scroll-behavior:smooth; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-up   { animation: fadeUp 0.7s ease forwards; }
+    .fade-up-2 { animation: fadeUp 0.7s 0.15s ease both; }
+    .fade-up-3 { animation: fadeUp 0.7s 0.3s ease both; }
+
+    .section-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.07);
+      padding: 52px;
+    }
+
+    /* ── Tabs ── */
+    .tab-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 20px; border-radius:50px; border:2px solid #f3663d;
+      background:#fff; color:#f3663d; font-weight:700; font-size:0.9rem;
+      cursor:pointer; white-space:nowrap; transition:all 0.2s;
+      flex-shrink:0; font-family:'Inter',sans-serif;
+    }
+    .tab-btn.active, .tab-btn:hover {
+      background:#f3663d; color:#fff;
+    }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; animation:tabFadeIn 0.35s ease forwards; }
+    @keyframes tabFadeIn {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* Logo box */
+    .logo-box {
+      width:220px; min-width:220px; height:180px; border-radius:16px; flex-shrink:0;
+      border:1.5px solid rgba(243,102,61,0.15); background:#fff7f4;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:20px; text-align:center;
+    }
+
+    /* Benefit buttons */
+    .benefit-btn-teal {
+      display:inline-block; padding:12px 22px; border-radius:50px;
+      background:linear-gradient(90deg,#1fd6b3,#23acb7); color:#fff;
+      font-weight:700; font-size:0.88rem; border:none; cursor:pointer;
+      text-decoration:none; transition:transform 0.2s; line-height:1.3; text-align:center;
+    }
+    .benefit-btn-teal:hover { transform:scale(1.04); }
+    .benefit-btn-dark {
+      display:inline-block; padding:12px 22px; border-radius:50px;
+      background:#1e2a4a; color:#fff;
+      font-weight:700; font-size:0.88rem; border:none; cursor:pointer;
+      text-decoration:none; line-height:1.3; text-align:center;
+    }
+    .benefit-btn-orange {
+      display:inline-block; padding:12px 22px; border-radius:50px;
+      background:linear-gradient(90deg,#f3663d,#ff3d55); color:#fff;
+      font-weight:700; font-size:0.88rem; border:none; cursor:pointer;
+      text-decoration:none; line-height:1.3; text-align:center;
+    }
+
+    /* Bullet list */
+    .bullet-list { list-style:none; padding:0; margin:16px 0; }
+    .bullet-list li {
+      position:relative; padding-left:18px; margin-bottom:10px;
+      color:#2d3748; font-size:0.97rem; line-height:1.6;
+    }
+    .bullet-list li::before { content:'•'; position:absolute; left:0; color:#f3663d; font-weight:900; }
+
+    /* ── Character Selection Board ── */
+    .sel-thumb {
+      flex:1; padding:14px 6px 12px; background:transparent; border:none; cursor:pointer;
+      display:flex; flex-direction:column; align-items:center; gap:5px;
+      color:rgba(255,255,255,0.38); font-size:0.72rem; font-weight:700;
+      transition:all 0.2s; border-top:2px solid transparent; font-family:'Inter',sans-serif;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:16.666%;
+    }
+    .sel-thumb.active { color:#fff; border-top-color:#f3663d; background:rgba(255,255,255,0.06); }
+    .sel-thumb:hover:not(.active) { color:rgba(255,255,255,0.7); background:rgba(255,255,255,0.03); }
+    .sel-slide { width:14.2857%;flex-shrink:0;padding:32px 36px;display:flex;gap:28px;align-items:flex-start;box-sizing:border-box; }
+    @keyframes coverPop { 0%{transform:scale(0.92);opacity:0} 100%{transform:scale(1);opacity:1} }
+    @keyframes sosRing { 0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0.5)} 50%{box-shadow:0 0 0 10px rgba(239,68,68,0)} }
+    .cov-card { background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;cursor:default;transition:all 0.2s; }
+    .cov-card:hover { background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.4);transform:translateY(-2px); }
+    .step-circle { width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#f3663d);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:900;color:#fff;flex-shrink:0; }
+    .sel-bullet { color:rgba(255,255,255,0.72);font-size:0.88rem;padding:4px 0 4px 18px;position:relative;line-height:1.5; }
+    .sel-bullet::before { content:'›'; position:absolute;left:0;color:#f3663d;font-weight:900;font-size:1.1rem;line-height:1.3; }
+    .sel-logo { width:160px;min-width:160px;height:160px;border-radius:20px;background:linear-gradient(135deg,rgba(31,214,179,0.08),rgba(35,172,183,0.05));border:1.5px solid rgba(31,214,179,0.35);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;flex-shrink:0;animation:logoGlow 2.8s ease-in-out infinite; }
+    @keyframes tealGlow {
+      0%,100% { filter: drop-shadow(0 0 1px rgba(31,214,179,0.15)); }
+      50%      { filter: drop-shadow(0 0 7px rgba(31,214,179,0.45)) drop-shadow(0 0 16px rgba(31,214,179,0.18)); }
+    }
+    @keyframes tiPulse {
+      0%,100% { opacity:1; letter-spacing:-0.04em; }
+      50%      { opacity:0.55; letter-spacing:0.02em; }
+    }
+    @keyframes statFloat {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-7px); }
+    }
+    @keyframes logoGlow {
+      0%,100% { box-shadow:0 0 0 rgba(31,214,179,0);border-color:rgba(31,214,179,0.3); }
+      50%      { box-shadow:0 0 22px rgba(31,214,179,0.38),inset 0 0 14px rgba(31,214,179,0.07);border-color:rgba(31,214,179,0.75); }
+    }
+
+    /* ── Animated CTA ── */
+    @keyframes marqueeL { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    @keyframes marqueeR { from{transform:translateX(-50%)} to{transform:translateX(0)} }
+    @keyframes floatOrb { 0%,100%{transform:translate(0,0) scale(1)} 40%{transform:translate(20px,-18px) scale(1.08)} 70%{transform:translate(-14px,12px) scale(0.94)} }
+    @keyframes badgePop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+    @keyframes arrowBounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)} }
+    @keyframes badgeGlow {
+      0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.18),0 0 12px rgba(255,255,255,0.1);transform:scale(1);}
+      50%{box-shadow:0 0 0 6px rgba(255,255,255,0),0 0 28px rgba(255,255,255,0.22);transform:scale(1.06);}
+    }
+    .marquee-l { display:flex;width:max-content;animation:marqueeL 22s linear infinite; }
+    .marquee-r { display:flex;width:max-content;animation:marqueeR 18s linear infinite; }
+
+    /* Intro section */
+    .intro-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+    }
+    @media(max-width:768px){
+      .intro-grid { grid-template-columns:1fr; }
+      .tab-panel > div { flex-direction:column; }
+      .logo-box { width:100%; min-width:unset; }
+    }
+
+    /* Category header */
+    .cat-header {
+      display:flex; align-items:center; gap:12px;
+      margin-bottom:32px; padding-bottom:16px;
+      border-bottom:2px solid rgba(243,102,61,0.12);
+    }
+    .cat-header-icon {
+      width:44px; height:44px; border-radius:12px;
+      background:linear-gradient(135deg,#f3663d,#ff3d55);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .cat-header h3 {
+      font-size:1.5rem; font-weight:800; color:#f3663d; margin:0;
+    }
+
+    .teal-note-list li {
+      position:relative; padding-left:20px; margin-bottom:12px;
+      color:#2d4a44; font-size:0.97rem; line-height:1.65;
+    }
+    .teal-note-list li::before {
+      content:''; position:absolute; left:0; top:10px;
+      width:8px; height:8px; border-radius:50%; background:#1fd6b3;
+    }
+  </style>
+
+<style id="mob-nav-css">
+/* ── Mobile nav ── */
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:10px;flex-shrink:0;}
+@media(max-width:767px){
+  .mob-btn{display:flex;}
+  .mob-logo-wrap{left:0!important;position:relative!important;}
+  #nav-registrarse,a.nav-cta-btn{display:none!important;}
+}
+.mob-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s;}
+.mob-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-btn.is-open span:nth-child(2){opacity:0;}
+.mob-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mob-nav-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#082028 0%,#041218 100%);z-index:197;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#mob-nav-panel .mob-inner{padding-top:96px;padding-bottom:60px;}
+.mob-section-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.09);cursor:pointer;text-align:left;}
+.mob-section-btn svg{transition:transform .2s;flex-shrink:0;}
+.mob-section-btn.mob-open svg{transform:rotate(180deg);}
+.mob-sub{background:rgba(0,0,0,0.25);display:none;}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:13px 32px;color:#c7e9e4;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mob-sub a:active{background:rgba(31,214,179,0.15);}
+.mob-plain-link{display:flex;align-items:center;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.09);}
+.mob-cta-wrap{padding:28px 24px;}
+.mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
+</style>
+</head>
+<body>
+
+  <!-- ══════════════ NAVBAR ══════════════ -->
+  <nav class="sticky top-0 z-50 shadow-lg" style="background:linear-gradient(90deg,#1fd6b3 0%,#23acb7 100%);">
+    <div class="max-w-8xl mx-auto px-6">
+      <div class="flex items-center justify-between h-24">
+
+        <div class="flex items-center gap-3 flex-shrink-0" style="position:relative;left:120px;">
+          <a href="index.html"><img src="soyrappi_logo.png" alt="Soy Rappi" fetchpriority="high" decoding="async" style="width:200px;height:auto;object-fit:contain;" /></a>
+          <img src="bandera_col.png" alt="Colombia" loading="lazy" decoding="async" style="width:75px;height:75px;object-fit:contain;flex-shrink:0;margin-left:-40px;" />
+        </div>
+
+        <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
+          <!-- Ganancias dropdown -->
+          <div class="relative" id="nav-ganancias">
+            <button onclick="toggleGananciasDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Ganancias <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="ganancias-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;">
+              <a href="cuenta-bancaria.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg></span>
+                ¿Cómo recibir ganancias?
+              </a>
+              <a href="cuanto-ganar.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                ¿Cuánto puedes ganar?
+              </a>
+              <a href="incentivos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                Incentivos
+              </a>
+              <a href="referidos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
+                Referidos
+              </a>
+              <a href="propinas.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 110 7H6"/></svg></span>
+                Propinas
+              </a>
+              <a href="alta-demanda.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+                Punto de Alta Demanda
+              </a>
+            </div>
+          </div>
+
+          <!-- Estados -->
+          <div class="relative" id="nav-estados">
+            <button onclick="toggleEstadosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Estados <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="estados-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);min-width:220px;overflow:hidden;z-index:200;">
+              <a href="sistema-de-estados.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1a1a2e,#3d3d6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/></svg></span>
+                Sistema de estados
+              </a>
+            </div>
+          </div>
+
+          <!-- Beneficios dropdown -->
+          <div class="relative" id="nav-beneficios">
+            <button onclick="toggleBeneficiosDrop()" class="nav-font flex items-center gap-1 text-white text-sm whitespace-nowrap bg-transparent border-none cursor-pointer p-0" style="border-bottom:2px solid rgba(255,255,255,0.8);padding-bottom:2px;">
+              Beneficios <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="beneficios-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;">
+              <a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                Beneficios Exclusivos
+              </a>
+              <a href="seguro-accidentes.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+                Seguro de Accidentes
+              </a>
+            </div>
+          </div>
+          <div class="relative" id="nav-turbo"><button onclick="toggleTurboDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Turbo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="turbo-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:300px;overflow:hidden;z-index:200;"><a href="turbo.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Todo lo que debes saber sobre Turbo</a></div></div>
+          <div class="relative" id="nav-evoluciona"><button onclick="toggleEvolucionaDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">SoyRappi Evoluciona <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="evoluciona-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:280px;overflow:hidden;z-index:200;"><a href="soyrappi-evoluciona.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>Te escuchamos</a></div></div>
+          <a href="#" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Conoce más</a>
+          <a href="#" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Pregúntanos</a>
+        </div>
+
+        <a href="index.html#registro" class="nav-font flex-shrink-0 bg-white hover:bg-gray-100 font-bold px-10 py-3.5 rounded-full text-base transition-colors shadow-md" style="color:#1fd6b3;position:relative;right:80px;">
+          Regístrate
+        </a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════ HERO ══════════════ -->
+  <section style="position:relative;overflow:hidden;min-height:78vh;display:flex;align-items:center;background:#fff0dd;">
+
+    <!-- BG video -->
+    <video autoplay muted loop playsinline preload="auto"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:75% center;opacity:0.78;pointer-events:none;">
+      <source src="LCI13369.MOV" type="video/mp4">
+      <source src="LCI13369.MOV" type="video/quicktime">
+    </video>
+
+    <!-- CAPA 1: beige #fff0dd sólido -->
+    <div style="position:absolute;inset:0;background:rgba(255,240,221,0.48);pointer-events:none;"></div>
+
+    <!-- CAPA 2: fusión multiply beige-dorado -->
+    <div style="position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,240,221,0.55) 0%,rgba(240,215,185,0.38) 100%);
+      mix-blend-mode:multiply;
+      pointer-events:none;">
+    </div>
+
+    <!-- ONDA inferior -->
+    <div style="position:absolute;bottom:-1px;left:0;right:0;overflow:hidden;line-height:0;pointer-events:none;">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none" style="width:100%;height:90px;display:block;">
+        <path d="M0,30 C240,75 480,0 720,45 C960,90 1200,15 1440,50 L1440,90 L0,90 Z" fill="#f4f6fb"/>
+      </svg>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div style="position:relative;z-index:2;width:100%;padding:120px 24px 100px 100px;">
+
+      <!-- Badge con acento neon -->
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(243,102,61,0.12);border:1.5px solid rgba(243,102,61,0.55);border-radius:100px;padding:10px 24px;margin-bottom:32px;animation:badgeGlow 2.6s ease-in-out infinite;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#f3663d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span style="font-weight:800;font-size:0.88rem;letter-spacing:0.2em;text-transform:uppercase;background:linear-gradient(90deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">PROGRAMA DE ALIANZAS</span>
+      </div>
+
+      <!-- Giant typographic title — degradado neon -->
+      <div style="line-height:0.96;margin-bottom:0;">
+
+        <div style="font-size:clamp(2.8rem,8.5vw,8rem);font-weight:900;letter-spacing:-0.04em;display:block;background:linear-gradient(135deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 12px rgba(243,102,61,0.18));"><span style="display:inline-block;animation:tiPulse 2.2s ease-in-out infinite;background:linear-gradient(135deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">¡</span>BENEFICIOS</div>
+
+        <div style="font-size:clamp(2.8rem,8.8vw,8.4rem);font-weight:900;letter-spacing:-0.01em;display:block;font-style:italic;background:linear-gradient(135deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 12px rgba(243,102,61,0.18));">EXCLUSIVOS</div>
+
+        <div style="font-size:clamp(2.8rem,8.5vw,8rem);font-weight:900;letter-spacing:-0.04em;display:block;background:linear-gradient(135deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 2px 12px rgba(243,102,61,0.18));">PARA <span style="display:inline-block;animation:tiPulse 2.2s ease-in-out infinite;background:linear-gradient(135deg,#ff3d55,#f3663d);-webkit-background-clip:text;background-clip:text;">TI</span>!</div>
+
+      </div>
+
+      <!-- Bottom row -->
+      <div style="display:flex;align-items:flex-end;gap:40px;margin-top:44px;flex-wrap:wrap;">
+        <!-- Stat -->
+        <div style="text-align:left;flex-shrink:0;animation:statFloat 3s ease-in-out infinite;">
+          <div style="font-size:clamp(3rem,7vw,5.5rem);font-weight:900;line-height:1;letter-spacing:-0.04em;background:linear-gradient(135deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">6</div>
+          <div style="font-size:0.78rem;font-weight:800;color:#c14a2a;letter-spacing:0.16em;text-transform:uppercase;line-height:1.3;">ALIANZAS<br/>EXCLUSIVAS</div>
+        </div>
+        <!-- Párrafo con glass cálido -->
+        <div style="background:rgba(80,30,10,0.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-left:3px solid rgba(243,102,61,0.6);border-radius:0 10px 10px 0;padding:14px 20px;max-width:440px;">
+          <p style="color:rgba(60,20,5,0.85);font-size:1.08rem;font-weight:500;line-height:1.65;margin:0;">
+            Hemos desarrollado alianzas que te permiten acceder a <strong style="color:#c03a1a;font-weight:900;">descuentos y servicios especiales</strong> por ser repartidor en Rappi.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════ CONTENIDO ══════════════ -->
+  <main class="py-16" style="background:#f4f6fb;">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col gap-10">
+
+      <!-- ── Intro ── -->
+      <div class="section-card">
+        <div class="intro-grid">
+          <div>
+            <h2 class="font-black" style="font-size:clamp(1.8rem,3.5vw,2.6rem);color:#1e2a4a;line-height:1.2;margin:0;">
+              Conoce los <span style="color:#f3663d;">Beneficios</span> que tienes repartiendo en Soy Rappi
+            </h2>
+          </div>
+          <div>
+            <p style="color:#4a5568;font-size:1rem;line-height:1.75;margin:0 0 16px;">
+              En búsqueda de una mejor experiencia para ti, hemos desarrollado un programa de alianzas que te permitirán acceder a descuentos y servicios especiales por preferirnos.
+            </p>
+            <p style="color:#4a5568;font-size:1rem;line-height:1.75;margin:0;">
+              Desplázate hacia abajo y encuentra todas las alianzas y beneficios agrupados por categorías.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CHARACTER SELECTION BOARD ── -->
+      <div id="seguro-accidentes" style="background:linear-gradient(135deg,#f3663d 0%,#ff3d55 100%);border-radius:28px;overflow:hidden;position:relative;">
+
+        <!-- Glow accent (blanco sobre neon) -->
+        <div id="sel-glow" style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.25) 0%,transparent 70%);opacity:1;pointer-events:none;"></div>
+
+        <!-- Header interactivo -->
+        <div style="padding:24px 36px 20px;border-bottom:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+          <div>
+            <p style="color:rgba(255,255,255,0.7);font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 6px;">Alianzas exclusivas para ti</p>
+            <h2 style="color:#fff;font-size:1.3rem;font-weight:900;margin:0;text-shadow:0 2px 12px rgba(0,0,0,0.15);display:flex;align-items:center;gap:10px;">
+              Elige tu beneficio
+              <!-- flecha animada -->
+              <span style="display:inline-flex;align-items:center;gap:3px;animation:arrowBounce 1.4s ease-in-out infinite;">
+                <svg width="18" height="18" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+              </span>
+            </h2>
+          </div>
+          <!-- Contador de beneficios + hint -->
+          <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+            <div style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:100px;padding:6px 14px;display:flex;align-items:center;gap:7px;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block;animation:badgePop 1.8s ease-in-out infinite;"></span>
+              <span style="color:#fff;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;">7 BENEFICIOS</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:100px;padding:6px 14px;">
+              <span style="color:rgba(255,255,255,0.8);font-size:0.7rem;font-weight:600;">Haz clic para explorar</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6-card selection grid -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:28px 32px 32px;">
+
+          <!-- Card 0: Vehículos -->
+          <button onclick="selOpen(0)" class="sel-grid-card" style="background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.38);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.26)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.14)';this.style.transform='translateY(0)'">
+            <div style="width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:#fff;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+            </div>
+            <div style="color:#fff;font-size:0.88rem;font-weight:800;">Vehículos</div>
+            <div style="color:rgba(255,255,255,0.38);font-size:0.7rem;font-weight:600;">CDA REVIMOTOS</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.9);font-weight:700;display:flex;align-items:center;gap:4px;margin-top:2px;">Ver más <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+          </button>
+
+          <!-- Card 1: Escuelas -->
+          <button onclick="selOpen(1)" class="sel-grid-card" style="background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.38);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.26)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.14)';this.style.transform='translateY(0)'">
+            <div style="width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:#fff;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div style="color:#fff;font-size:0.88rem;font-weight:800;">Escuelas de conducción</div>
+            <div style="color:rgba(255,255,255,0.38);font-size:0.7rem;font-weight:600;">CEA BOGOTÁ VIAL</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.9);font-weight:700;display:flex;align-items:center;gap:4px;margin-top:2px;">Ver más <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+          </button>
+
+          <!-- Card 2: Financiamiento -->
+          <button onclick="selOpen(2)" class="sel-grid-card" style="background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.38);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.26)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.14)';this.style.transform='translateY(0)'">
+            <div style="width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:#fff;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </div>
+            <div style="color:#fff;font-size:0.88rem;font-weight:800;">Financiamiento</div>
+            <div style="color:rgba(255,255,255,0.38);font-size:0.7rem;font-weight:600;">RODA</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.9);font-weight:700;display:flex;align-items:center;gap:4px;margin-top:2px;">Ver más <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+          </button>
+
+          <!-- Card 3: Centros médicos -->
+          <button onclick="selOpen(3)" class="sel-grid-card" style="background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.38);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.26)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.14)';this.style.transform='translateY(0)'">
+            <div style="width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:#fff;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div style="color:#fff;font-size:0.88rem;font-weight:800;">Centros médicos</div>
+            <div style="color:rgba(255,255,255,0.38);font-size:0.7rem;font-weight:600;">CRC MEDYGALERIAS</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.9);font-weight:700;display:flex;align-items:center;gap:4px;margin-top:2px;">Ver más <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+          </button>
+
+          <!-- Card 4: Salud -->
+          <button onclick="selOpen(4)" class="sel-grid-card" style="background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.38);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.26)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.14)';this.style.transform='translateY(0)'">
+            <div style="width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:#fff;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div style="color:#fff;font-size:0.88rem;font-weight:800;">Salud</div>
+            <div style="color:rgba(255,255,255,0.38);font-size:0.7rem;font-weight:600;">GRUPO MOK</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.9);font-weight:700;display:flex;align-items:center;gap:4px;margin-top:2px;">Ver más <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+          </button>
+
+          <!-- Card 5: Bogotá -->
+          <button onclick="selOpen(5)" class="sel-grid-card" style="background:rgba(255,255,255,0.14);border:1.5px solid rgba(255,255,255,0.38);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.26)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.14)';this.style.transform='translateY(0)'">
+            <div style="width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:#fff;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div style="color:#fff;font-size:0.88rem;font-weight:800;">BOGOTÁ</div>
+            <div style="color:rgba(255,255,255,0.38);font-size:0.7rem;font-weight:600;">RODA</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.9);font-weight:700;display:flex;align-items:center;gap:4px;margin-top:2px;">Ver más <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+          </button>
+
+          <!-- Card 6: Seguro de Accidentes — centrado en fila 3 -->
+          <div></div><!-- spacer col 1 -->
+          <button onclick="selOpen(6)" class="sel-grid-card" style="background:rgba(239,68,68,0.15);border:1.5px solid rgba(239,68,68,0.5);border-radius:18px;padding:24px 16px;cursor:pointer;transition:all 0.25s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(239,68,68,0.28)';this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(239,68,68,0.15)';this.style.transform='translateY(0)'">
+            <!-- Pulso SOS de fondo -->
+            <div style="position:absolute;inset:0;border-radius:18px;animation:sosRing 2.5s ease-in-out infinite;pointer-events:none;"></div>
+            <div style="width:54px;height:54px;border-radius:15px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;color:#fff;position:relative;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div style="color:#fff;font-size:0.85rem;font-weight:800;line-height:1.2;">Seguro de<br/>Accidentes</div>
+            <div style="color:rgba(255,255,255,0.55);font-size:0.68rem;font-weight:600;">RAPPI TE PROTEGE</div>
+            <div style="font-size:0.68rem;color:rgba(255,255,255,0.9);font-weight:700;display:flex;align-items:center;gap:4px;margin-top:2px;">Ver cobertura <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+          </button>
+          <div></div><!-- spacer col 3 -->
+
+        </div><!-- /grid -->
+      </div><!-- /character board -->
+
+      <!-- ── BENEFIT MODAL ── -->
+      <div id="sel-modal" onclick="selModalBgClick(event)" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0);align-items:center;justify-content:center;padding:20px;transition:background 0.3s;">
+        <div id="sel-modal-inner" style="background:linear-gradient(160deg,#0f1828,#1a1f3a);border-radius:24px;max-width:780px;width:100%;max-height:88vh;overflow-y:auto;position:relative;transform:translateY(40px) scale(0.96);opacity:0;transition:all 0.35s cubic-bezier(0.34,1.4,0.64,1);border:1px solid rgba(255,255,255,0.1);">
+
+          <!-- Modal header -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 28px 18px;border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:0;background:linear-gradient(160deg,#0f1828,#1a1f3a);z-index:2;">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div id="modal-icon-wrap" style="width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;"></div>
+              <div>
+                <p style="color:rgba(255,255,255,0.35);font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 2px;">Alianza exclusiva</p>
+                <span id="modal-cat-label" style="color:#f3663d;font-size:1.05rem;font-weight:800;transition:color 0.3s;"></span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span id="modal-counter" style="color:rgba(255,255,255,0.22);font-size:0.8rem;font-weight:700;font-variant-numeric:tabular-nums;"></span>
+              <button onclick="selClose()" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Slide track inside modal -->
+          <div style="overflow:hidden;">
+            <div id="sel-track" style="display:flex;width:700%;transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);align-items:flex-start;">
+
+              <!-- SLIDE 1: Vehículos -->
+              <div class="sel-slide">
+                <div class="sel-logo">
+                  <div style="font-size:1.4rem;font-weight:900;color:#fff;line-height:1;">CDA</div>
+                  <div style="font-size:1rem;font-weight:900;color:#1fd6b3;line-height:1.2;">REVIMOTOS</div>
+                  <div style="font-size:0.62rem;color:rgba(255,255,255,0.4);margin-top:6px;font-weight:600;">La Estanzuela</div>
+                  <div style="width:28px;height:2px;background:linear-gradient(90deg,#1fd6b3,#23acb7);border-radius:2px;margin-top:10px;"></div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">CDA REVIMOTOS – BOGOTÁ</div>
+                  <p style="color:#fff;font-size:0.97rem;font-weight:600;line-height:1.6;margin:0 0 14px;">Tienes un increíble descuento en la revisión técnico mecánica por ser repartidor independiente en Bogotá con Soy Rappi</p>
+                  <div class="sel-bullet">Revisión completa y detallada de tu motocicleta.</div>
+                  <div class="sel-bullet">Vigencia inmediata e información cargada en el RUNT.</div>
+                  <div class="sel-bullet">¡Precio preferencial por ser repartidor independiente!</div>
+                  <div style="margin-top:20px;"><a href="#" class="benefit-btn-teal">Conoce más</a></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 2: Escuelas -->
+              <div class="sel-slide">
+                <div class="sel-logo">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+                    <div style="font-size:1.6rem;font-weight:900;color:#1fd6b3;">BV</div>
+                    <div style="width:2px;height:28px;background:linear-gradient(180deg,#1fd6b3,#23acb7);border-radius:2px;"></div>
+                  </div>
+                  <div style="font-size:0.9rem;font-weight:800;color:#1fd6b3;">BogotaVial</div>
+                  <div style="font-size:0.58rem;color:rgba(255,255,255,0.35);margin-top:4px;font-weight:600;text-align:center;">CENTRO DE ENSEÑANZA AUTOMOVILÍSTICA</div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">CEA BOGOTÁ VIAL</div>
+                  <p style="color:#fff;font-size:0.97rem;font-weight:600;line-height:1.6;margin:0 0 14px;">Aprovecha esta alianza para obtener un precio preferencial y exclusivo en tu curso de conducción A2 y la expedición de tu licencia como repartidor en Soy Rappi</p>
+                  <div class="sel-bullet">Precio especial: curso de conducción categoría A2 (motocicleta)</div>
+                  <div class="sel-bullet">Precio especial: examen médico para refrendación / expedición de licencia</div>
+                  <div style="margin-top:20px;"><a href="#" class="benefit-btn-teal">Conoce más</a></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 3: Financiamiento -->
+              <div class="sel-slide">
+                <div class="sel-logo">
+                  <div style="font-size:2rem;font-weight:900;line-height:1;letter-spacing:-0.02em;">
+                    <span style="color:#1fd6b3;">R</span><span style="color:#23acb7;font-style:italic;">O</span><span style="color:#1fd6b3;">da</span>
+                  </div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">RODA</div>
+                  <p style="color:#fff;font-size:0.97rem;font-weight:600;line-height:1.6;margin:0 0 14px;">Entidad financiera con motos cero kilómetros y bicicletas eléctricas para repartidores. Financia tu vehículo y aumenta tus ingresos.</p>
+                  <div class="sel-bullet">Financiamiento sin importar si eres extranjero o estás reportado.</div>
+                  <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+                    <a href="#" class="benefit-btn-teal" style="font-size:0.82rem;">¡Roda en Medellín!</a>
+                    <a href="#" class="benefit-btn-dark" style="font-size:0.82rem;">¡Roda en Bogotá!</a>
+                    <a href="#" class="benefit-btn-orange" style="font-size:0.82rem;">Conoce más ⇌</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 4: Centros médicos -->
+              <div class="sel-slide">
+                <div class="sel-logo">
+                  <div style="display:flex;align-items:center;gap:5px;margin-bottom:4px;">
+                    <div style="font-size:1.5rem;font-weight:900;color:#1fd6b3;">CRC</div>
+                    <div style="width:2px;height:28px;background:linear-gradient(180deg,#1fd6b3,#23acb7);border-radius:2px;"></div>
+                  </div>
+                  <div style="font-size:0.78rem;font-weight:800;color:#1fd6b3;text-align:center;">Medy Galerias</div>
+                  <div style="font-size:0.56rem;color:rgba(255,255,255,0.35);margin-top:4px;font-weight:600;text-align:center;line-height:1.4;">Centro de Reconocimiento<br/>de Conductores</div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">CRC MEDYGALERIAS</div>
+                  <p style="color:#fff;font-size:0.97rem;font-weight:600;line-height:1.6;margin:0 0 14px;">Obtén un descuento preferencial en el examen médico de expedición / refrendación para tu licencia de conducción por ser repartidor en Soy Rappi</p>
+                  <div class="sel-bullet">Examen médico completo y certificado en el RUNT.</div>
+                  <div class="sel-bullet">Personal médico calificado y amable.</div>
+                  <div class="sel-bullet">Atención rápida y sin complicaciones.</div>
+                  <div style="margin-top:20px;"><a href="#" class="benefit-btn-teal">Conoce más</a></div>
+                </div>
+              </div>
+
+              <!-- SLIDE 5: Salud -->
+              <div class="sel-slide">
+                <div class="sel-logo">
+                  <div style="font-size:0.62rem;font-weight:800;color:#1fd6b3;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;">GRUPO</div>
+                  <div style="font-size:2.2rem;font-weight:900;color:#1fd6b3;line-height:1;">MOK</div>
+                  <div style="font-size:0.6rem;color:rgba(255,255,255,0.35);margin-top:6px;font-weight:600;font-style:italic;text-align:center;">Más valor para tus clientes</div>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">PLAN DE SALUD GRATIS</div>
+                  <p style="color:#fff;font-size:0.97rem;font-weight:600;line-height:1.6;margin:0 0 6px;">Plan Mensual de Salud GRATIS para todos los Rappitenderos</p>
+                  <p style="color:rgba(255,255,255,0.45);font-size:0.82rem;font-style:italic;margin:0 0 10px;">*Coberturas varían según Estado de Repartidor</p>
+                  <div class="sel-bullet">Consulta médico general por teléfono y en consultorio</div>
+                  <div class="sel-bullet">Telemedicina Familiar, Psicología y Nutricional</div>
+                  <div class="sel-bullet">Exámenes de laboratorio, imágenes y Odontología</div>
+                  <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+                    <a href="tel:3010123456" class="benefit-btn-teal" style="font-size:0.82rem;">Agenda: 301 0123 4567</a>
+                    <a href="#" class="benefit-btn-dark" style="font-size:0.82rem;">Quiero saber más</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 6: Bogotá -->
+              <div class="sel-slide">
+                <div class="sel-logo" style="justify-content:space-between;padding:20px 16px;">
+                  <div style="font-size:1.7rem;font-weight:900;line-height:1;">
+                    <span style="color:#1fd6b3;">R</span><span style="color:#23acb7;font-style:italic;">O</span><span style="color:#1fd6b3;">da</span>
+                  </div>
+                  <a href="#" class="benefit-btn-teal" style="font-size:0.72rem;padding:7px 14px;">Página web</a>
+                </div>
+                <div style="flex:1;">
+                  <div style="font-size:0.72rem;font-weight:700;color:rgba(255,255,255,0.38);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">RODA EN BOGOTÁ</div>
+                  <p style="color:#fff;font-size:0.97rem;font-weight:600;line-height:1.6;margin:0 0 14px;">Motos cero kilómetros y bicicletas eléctricas disponibles en Bogotá. Financia tu vehículo sin importar tu historial crediticio.</p>
+                  <div class="sel-bullet">Solicita tu financiamiento sin importar si eres extranjero o estás reportado.</div>
+                  <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
+                    <a href="#" class="benefit-btn-teal" style="font-size:0.82rem;">RODA Bogotá — Conoce más</a>
+                    <a href="#" class="benefit-btn-orange" style="font-size:0.82rem;">Regístrate aquí ⇌</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SLIDE 7: Seguro de Accidentes -->
+              <div class="sel-slide" style="flex-direction:column;gap:0;padding:28px 32px;justify-content:center;">
+
+                <!-- Título coberturas -->
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
+                  <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </div>
+                  <h3 style="color:#fff;font-size:1.2rem;font-weight:900;margin:0;">Coberturas</h3>
+                </div>
+
+                <!-- Dos columnas: SURA logo + bullets -->
+                <div style="display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start;">
+
+                  <!-- Logo SURA -->
+                  <div style="background:rgba(255,255,255,0.95);border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:center;min-width:140px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <span style="font-size:0.82rem;font-weight:400;color:#1e3a5f;font-family:'Inter',sans-serif;">Seguros</span>
+                      <div style="width:1px;height:22px;background:#c0ccd8;"></div>
+                      <div style="display:flex;align-items:center;gap:4px;">
+                        <span style="font-size:1.1rem;font-weight:900;color:#1e3a5f;font-family:'Inter',sans-serif;letter-spacing:-0.02em;">sura</span>
+                        <svg width="22" height="18" viewBox="0 0 44 36" fill="none">
+                          <path d="M22 2C18 8 10 10 4 8c2 8 8 16 18 20C32 24 38 16 40 8c-6 2-14 0-18-6z" fill="#2196a0" opacity="0.85"/>
+                          <path d="M26 4C23 9 17 11 12 9c1 6 6 12 14 16C34 21 39 15 40 9c-5 2-11 0-14-5z" fill="#1fd6b3" opacity="0.6"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Texto + bullets -->
+                  <div>
+                    <p style="color:rgba(255,255,255,0.8);font-size:0.82rem;line-height:1.55;margin:0 0 14px;">
+                      Póliza gratuita para Repartidores. Te cubre en caso de accidentes mientras repartes y hasta 30 minutos después de finalizada la orden.
+                    </p>
+                    <div style="font-size:0.73rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;">Coberturas:</div>
+                    <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;">
+                      <li style="display:flex;align-items:center;gap:8px;color:#fff;font-size:0.85rem;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>Gastos médicos</li>
+                      <li style="display:flex;align-items:center;gap:8px;color:#fff;font-size:0.85rem;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>Muerte Accidental</li>
+                      <li style="display:flex;align-items:center;gap:8px;color:#fff;font-size:0.85rem;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>Incapacidad total y permanente</li>
+                      <li style="display:flex;align-items:center;gap:8px;color:#fff;font-size:0.85rem;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>Renta hospitalaria diaria por accidente</li>
+                      <li style="display:flex;align-items:center;gap:8px;color:#fff;font-size:0.85rem;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>Auxilio funerario</li>
+                      <li style="display:flex;align-items:center;gap:8px;color:#fff;font-size:0.85rem;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;"></span>Acompañamiento Emocional</li>
+                    </ul>
+                  </div>
+
+                </div>
+
+                <!-- CTA -->
+                <div style="margin-top:22px;">
+                  <a href="seguro-accidentes.html" style="display:inline-flex;align-items:center;gap:8px;background:#1e2a4a;color:#fff;font-weight:800;font-size:0.88rem;padding:12px 28px;border-radius:100px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#2d3e6a'" onmouseout="this.style.background='#1e2a4a'">
+                    Quiero saber más
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                  </a>
+                </div>
+
+              </div><!-- /slide 7 -->
+
+            </div><!-- /sel-track -->
+          </div>
+
+          <!-- Modal footer: prev / dots / next -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-top:1px solid rgba(255,255,255,0.07);">
+            <button onclick="selPrev()" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:none;cursor:pointer;color:rgba(255,255,255,0.6);font-size:0.82rem;font-weight:700;padding:8px 16px;border-radius:100px;transition:all 0.2s;font-family:'Inter',sans-serif;" onmouseover="this.style.background='rgba(255,255,255,0.14)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+              Anterior
+            </button>
+            <div style="display:flex;gap:7px;" id="modal-dots"></div>
+            <button onclick="selNext()" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:none;cursor:pointer;color:rgba(255,255,255,0.6);font-size:0.82rem;font-weight:700;padding:8px 16px;border-radius:100px;transition:all 0.2s;font-family:'Inter',sans-serif;" onmouseover="this.style.background='rgba(255,255,255,0.14)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">
+              Siguiente
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+        </div><!-- /modal-inner -->
+      </div><!-- /modal -->
+
+
+      <!-- ── ANIMATED CTA ── -->
+      <div style="position:relative;border-radius:28px;overflow:hidden;background:linear-gradient(135deg,#f3663d 0%,#ff3d55 100%);padding:70px 40px 60px;text-align:center;">
+
+        <!-- Animated glow orbs -->
+        <div style="position:absolute;top:10%;left:8%;width:180px;height:180px;border-radius:50%;background:#fff;opacity:0.07;filter:blur(55px);animation:floatOrb 7s ease-in-out infinite;pointer-events:none;"></div>
+        <div style="position:absolute;bottom:10%;right:8%;width:140px;height:140px;border-radius:50%;background:#fff;opacity:0.06;filter:blur(50px);animation:floatOrb 9s ease-in-out infinite reverse;pointer-events:none;"></div>
+
+        <!-- Top marquee (L→) -->
+        <div style="position:absolute;top:0;left:0;right:0;padding:10px 0;overflow:hidden;border-bottom:1px solid rgba(255,255,255,0.15);">
+          <div class="marquee-l">
+            <span style="color:rgba(255,255,255,0.55);font-size:0.72rem;font-weight:800;letter-spacing:0.16em;white-space:nowrap;padding-right:60px;">VEHÍCULOS &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SEGURO DE ACCIDENTES &nbsp;·&nbsp; VEHÍCULOS &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SEGURO DE ACCIDENTES &nbsp;·&nbsp;</span>
+            <span aria-hidden="true" style="color:rgba(255,255,255,0.55);font-size:0.72rem;font-weight:800;letter-spacing:0.16em;white-space:nowrap;padding-right:60px;">VEHÍCULOS &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SEGURO DE ACCIDENTES &nbsp;·&nbsp; VEHÍCULOS &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SEGURO DE ACCIDENTES &nbsp;·&nbsp;</span>
+          </div>
+        </div>
+
+        <!-- Bottom marquee (←R) -->
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 0;overflow:hidden;border-top:1px solid rgba(255,255,255,0.15);">
+          <div class="marquee-r">
+            <span style="color:rgba(255,255,255,0.45);font-size:0.72rem;font-weight:800;letter-spacing:0.16em;white-space:nowrap;padding-right:60px;">SEGURO DE ACCIDENTES &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; VEHÍCULOS &nbsp;·&nbsp; SEGURO DE ACCIDENTES &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; VEHÍCULOS &nbsp;·&nbsp;</span>
+            <span aria-hidden="true" style="color:rgba(255,255,255,0.45);font-size:0.72rem;font-weight:800;letter-spacing:0.16em;white-space:nowrap;padding-right:60px;">SEGURO DE ACCIDENTES &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; VEHÍCULOS &nbsp;·&nbsp; SEGURO DE ACCIDENTES &nbsp;·&nbsp; BOGOTÁ &nbsp;·&nbsp; SALUD &nbsp;·&nbsp; CENTROS MÉDICOS &nbsp;·&nbsp; FINANCIAMIENTO &nbsp;·&nbsp; ESCUELAS DE CONDUCCIÓN &nbsp;·&nbsp; VEHÍCULOS &nbsp;·&nbsp;</span>
+          </div>
+        </div>
+
+        <!-- Central content -->
+        <div style="position:relative;z-index:2;">
+          <!-- Animated badge -->
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:100px;padding:6px 18px;margin-bottom:24px;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#fff;display:inline-block;animation:badgePop 1.8s ease-in-out infinite;"></span>
+            <span style="color:#fff;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;">Beneficios activos</span>
+          </div>
+
+          <h3 style="color:#fff;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:900;margin:0 0 14px;line-height:1.2;text-shadow:0 2px 20px rgba(0,0,0,0.2);">¡Regístrate y accede a todos estos beneficios!</h3>
+          <p style="color:rgba(255,255,255,0.85);font-size:1rem;margin:0 auto 36px;max-width:440px;line-height:1.65;">Únete a la comunidad de repartidores de Rappi y aprovecha las 7 alianzas exclusivas que tenemos para ti.</p>
+
+          <a href="index.html#registro"
+             style="display:inline-flex;align-items:center;gap:12px;background:linear-gradient(90deg,#1fd6b3,#23acb7);color:#fff;font-weight:800;font-size:1rem;padding:16px 36px;border-radius:100px;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 8px 32px rgba(0,0,0,0.2);"
+             onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 12px 40px rgba(0,0,0,0.3)'"
+             onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 32px rgba(0,0,0,0.2)'">
+            <img src="bigote.png" alt="" loading="lazy" decoding="async" style="width:24px;height:auto;filter:brightness(0) invert(1);" />
+            Regístrate y empieza a ganar
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <section class="py-12" style="background:#f4f4f4;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="flex flex-col gap-6">
+          <img src="soyrappi_logo.png" alt="Soy Rappi" loading="lazy" decoding="async" style="width:160px;height:auto;object-fit:contain;filter:brightness(0) saturate(100%) invert(45%) sepia(80%) saturate(500%) hue-rotate(330deg);" />
+          <div class="flex gap-4 items-center">
+            <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="#" class="w-12 h-10 rounded-lg flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-2xl font-black text-gray-800 mb-6">¿Nos visitas de otro país?</h3>
+          <div class="grid grid-cols-3 gap-x-8 gap-y-3">
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇦🇷</span> Argentina</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇧🇷</span> Brasil</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇨🇱</span> Chile</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇨🇷</span> Costa Rica</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇪🇨</span> Ecuador</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇲🇽</span> México</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇵🇪</span> Perú</a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium"><span class="text-2xl">🇺🇾</span> Uruguay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="py-4 px-6 flex justify-between items-center text-xs text-gray-400" style="background:#e8e8e8;">
+    <span>© 2026 Rappi Inc. Todos los derechos reservados.</span>
+    <span>🇨🇴 Colombia</span>
+  </div>
+
+
+  <script>
+    /* ── Character Selection Board + Modal ── */
+    var selCurrent = 0;
+    var selTotal = 7;
+    var selLabels = ['Vehículos','Escuelas de conducción','Financiamiento','Centros médicos','Salud','BOGOTÁ','Seguro de Accidentes'];
+    var selColors = ['#f3663d','#4a90e2','#a28ff5','#1fd6b3','#e91e8c','#6366f1','#ef4444'];
+    var selGlows = [
+      'radial-gradient(circle,#f3663d 0%,transparent 70%)',
+      'radial-gradient(circle,#4a90e2 0%,transparent 70%)',
+      'radial-gradient(circle,#a28ff5 0%,transparent 70%)',
+      'radial-gradient(circle,#1fd6b3 0%,transparent 70%)',
+      'radial-gradient(circle,#e91e8c 0%,transparent 70%)',
+      'radial-gradient(circle,#6366f1 0%,transparent 70%)',
+      'radial-gradient(circle,#ef4444 0%,transparent 70%)'
+    ];
+    var selIconsSvg = [
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+      '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>'
+    ];
+
+    function selGo(n) {
+      selCurrent = ((n % selTotal) + selTotal) % selTotal;
+      var pct = selCurrent * (100 / selTotal);
+      document.getElementById('sel-track').style.transform = 'translateX(-' + pct + '%)';
+      /* update modal header */
+      var color = selColors[selCurrent];
+      document.getElementById('modal-cat-label').textContent = selLabels[selCurrent];
+      document.getElementById('modal-cat-label').style.color = color;
+      var iconWrap = document.getElementById('modal-icon-wrap');
+      iconWrap.style.background = 'rgba(' + hexToRgbStr(color) + ',0.18)';
+      iconWrap.style.color = color;
+      iconWrap.innerHTML = selIconsSvg[selCurrent];
+      var pad = (selCurrent + 1 < 10 ? '0' : '') + (selCurrent + 1);
+      document.getElementById('modal-counter').textContent = pad + ' / 07';
+      /* dots */
+      document.querySelectorAll('#modal-dots .mdot').forEach(function(d, i) {
+        d.style.background = i === selCurrent ? color : 'rgba(255,255,255,0.18)';
+        d.style.width = i === selCurrent ? '22px' : '7px';
+      });
+    }
+
+    function selOpen(n) {
+      var modal = document.getElementById('sel-modal');
+      var inner = document.getElementById('sel-modal-inner');
+      /* build dots once */
+      var dots = document.getElementById('modal-dots');
+      if (!dots.children.length) {
+        for (var i = 0; i < 6; i++) {
+          var d = document.createElement('div');
+          d.className = 'mdot';
+          d.style.cssText = 'width:7px;height:7px;border-radius:100px;background:rgba(255,255,255,0.18);transition:all 0.3s;cursor:pointer;';
+          (function(idx){ d.onclick = function(){ selGo(idx); }; })(i);
+          dots.appendChild(d);
+        }
+      }
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      selGo(n);
+      /* animate in */
+      requestAnimationFrame(function() {
+        modal.style.background = 'rgba(0,0,0,0.75)';
+        inner.style.transform = 'translateY(0) scale(1)';
+        inner.style.opacity = '1';
+      });
+    }
+
+    function selClose() {
+      var modal = document.getElementById('sel-modal');
+      var inner = document.getElementById('sel-modal-inner');
+      modal.style.background = 'rgba(0,0,0,0)';
+      inner.style.transform = 'translateY(40px) scale(0.96)';
+      inner.style.opacity = '0';
+      setTimeout(function() {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    function selModalBgClick(e) {
+      if (e.target === document.getElementById('sel-modal')) selClose();
+    }
+
+    function selNext() { selGo(selCurrent + 1); }
+    function selPrev() { selGo(selCurrent - 1); }
+
+    function hexToRgbStr(hex) {
+      var r = parseInt(hex.slice(1,3),16);
+      var g = parseInt(hex.slice(3,5),16);
+      var b = parseInt(hex.slice(5,7),16);
+      return r+','+g+','+b;
+    }
+
+    /* Keyboard navigation */
+    document.addEventListener('keydown', function(e) {
+      if (document.getElementById('sel-modal').style.display === 'flex') {
+        if (e.key === 'ArrowRight') selNext();
+        if (e.key === 'ArrowLeft') selPrev();
+        if (e.key === 'Escape') selClose();
+      }
+    });
+
+    /* ── Dropdowns ── */
+    function toggleGananciasDrop() {
+      var d = document.getElementById('ganancias-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-ganancias').contains(e.target))
+        document.getElementById('ganancias-drop').style.display = 'none';
+    });
+    function toggleEstadosDrop() {
+      var d = document.getElementById('estados-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-estados').contains(e.target))
+        document.getElementById('estados-drop').style.display = 'none';
+    });
+    /* Auto-abrir slide 7 si llega con #seguro-accidentes */
+    window.addEventListener('load', function() {
+      if (window.location.hash === '#seguro-accidentes') {
+        setTimeout(function() {
+          document.getElementById('seguro-accidentes').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          setTimeout(function() { selOpen(6); }, 600);
+        }, 300);
+      }
+    });
+
+    function toggleBeneficiosDrop() {
+      var d = document.getElementById('beneficios-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-beneficios').contains(e.target))
+        document.getElementById('beneficios-drop').style.display = 'none';
+    });
+  </script>
+
+<script>
+/* navbar-fix: unified dropdowns */
+(function(){
+  function navCloseAll(){['ganancias-drop','estados-drop','beneficios-drop','turbo-drop','evoluciona-drop','nav-drop'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});}
+  function mkToggle(dropId){return function(){var d=document.getElementById(dropId);if(!d)return;var show=d.style.display==='none'||!d.style.display;navCloseAll();if(show)d.style.display='block';};}
+  window.toggleGananciasDrop=mkToggle('ganancias-drop');
+  window.toggleEstadosDrop=mkToggle('estados-drop');
+  window.toggleBeneficiosDrop=mkToggle('beneficios-drop');
+  window.toggleBeneficiosDrop2=mkToggle('beneficios-drop');
+  window.toggleTurboDrop=mkToggle('turbo-drop');
+  window.toggleEvolucionaDrop=mkToggle('evoluciona-drop');
+  window.toggleDrop=mkToggle('nav-drop');
+  document.addEventListener('click',function(e){
+    var ids=['nav-ganancias','nav-estados','nav-beneficios','nav-turbo','nav-evoluciona'];
+    var inside=ids.some(function(id){var el=document.getElementById(id);return el&&el.contains(e.target);});
+    if(!inside)navCloseAll();
+  });
+})();
+</script>
+
+<script id="mob-nav-js">
+(function(){
+  if(document.getElementById('mob-nav-panel')) return;
+  // Hamburger button
+  var btn = document.createElement('button');
+  btn.className='mob-btn';
+  btn.setAttribute('aria-label','Menú');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  btn.onclick = toggleMobNav;
+  var nav = document.querySelector('nav');
+  var row = nav && nav.querySelector('.flex.items-center.justify-between');
+  if(row){ row.appendChild(btn); }
+
+  // Fix logo left offset on mobile via JS (in case inline style overrides CSS)
+  var logoWrap = row && row.querySelector('.flex.items-center.gap-3.flex-shrink-0, .flex.items-center.gap-3');
+  if(logoWrap) logoWrap.classList.add('mob-logo-wrap');
+
+  // Mobile panel
+  var panel = document.createElement('div');
+  panel.id='mob-nav-panel';
+  panel.innerHTML=[
+    '<div class="mob-inner">',
+    // Ganancias
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Ganancias<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="cuenta-bancaria.html">¿Cómo recibir ganancias?</a>',
+      '<a href="cuanto-ganar.html">¿Cuánto puedes ganar?</a>',
+      '<a href="incentivos.html">Incentivos</a>',
+      '<a href="referidos.html">Referidos</a>',
+      '<a href="propinas.html">Propinas</a>',
+      '<a href="alta-demanda.html">Punto de Alta Demanda</a>',
+    '</div>',
+    // Estados
+    '<a href="sistema-de-estados.html" class="mob-plain-link">Estados</a>',
+    // Beneficios
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Beneficios<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="beneficios-exclusivos.html">Beneficios Exclusivos</a>',
+      '<a href="seguro-accidentes.html">Seguro de Accidentes</a>',
+    '</div>',
+    // Turbo
+    '<a href="turbo.html" class="mob-plain-link">Turbo</a>',
+    // Evoluciona
+    '<a href="soyrappi-evoluciona.html" class="mob-plain-link">SoyRappi Evoluciona</a>',
+    // CTA
+    '<div class="mob-cta-wrap"><a href="index.html#registro">Regístrate</a></div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(panel);
+
+  window.toggleMobNav = function(){
+    var p = document.getElementById('mob-nav-panel');
+    var b = document.querySelector('.mob-btn');
+    var open = p && p.style.display==='block';
+    if(p) p.style.display = open?'none':'block';
+    if(b) b.classList.toggle('is-open',!open);
+    document.body.style.overflow = open?'':'hidden';
+  };
+  window.mobToggleSec = function(hdr){
+    var sub = hdr.nextElementSibling;
+    if(!sub) return;
+    var open = sub.style.display==='block';
+    sub.style.display = open?'none':'block';
+    hdr.classList.toggle('mob-open',!open);
+  };
+  // Close mobile menu on nav link click
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#mob-nav-panel a')){
+      var p=document.getElementById('mob-nav-panel');
+      var b=document.querySelector('.mob-btn');
+      if(p) p.style.display='none';
+      if(b) b.classList.remove('is-open');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

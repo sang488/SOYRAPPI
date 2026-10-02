@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soy Rappi — Gana dinero cuando quieras</title>
+
+  <!-- Preconnect: resources cargadas inmediatamente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+
+  <!-- Preload: imagen hero crítica (above the fold) -->
+  <link rel="preload" as="image" href="hero_moto.png" fetchpriority="high" />
+  <link rel="preload" as="image" href="cover_bg.png" />
+
+  <!-- Google Fonts — non-blocking con display=swap -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'PPObjectSans';
+      src: local('PP Object Sans Bold'), local('PPObjectSans-Bold'), local('PPObjectSans Bold');
+      font-weight: 700;
+    }
+    .nav-font {
+      font-family: 'PPObjectSans', 'Inter', sans-serif;
+      font-weight: 700;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            rappi: '#FF441F',
+            'rappi-dark': '#D93200',
+            'rappi-light': '#FF6B47',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .hero-gradient {
+      background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 60%, #2d1000 100%);
+    }
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(254,63,35,0.12);
+    }
+    /* Benefit icon animations — triggered on card hover */
+    @keyframes spinClock   { to { transform: rotate(360deg); } }
+    @keyframes spinGear    { to { transform: rotate(360deg); } }
+    @keyframes bouncePin   { 0%,100%{transform:translateY(0)} 35%{transform:translateY(-10px)} 65%{transform:translateY(-4px)} }
+    @keyframes pulseShield { 0%,100%{transform:scale(1)}      50%{transform:scale(1.18)} }
+
+    .icon-clock, .icon-gear, .icon-pin, .icon-shield {
+      transition: transform 0.3s ease;
+    }
+    .card-hover:hover .icon-clock  { animation: spinClock   1.2s linear infinite; }
+    .card-hover:hover .icon-gear   { animation: spinGear    0.9s linear infinite; }
+    .card-hover:hover .icon-pin    { animation: bouncePin   0.7s ease-in-out infinite; }
+    .card-hover:hover .icon-shield { animation: pulseShield 0.8s ease-in-out infinite; }
+
+    /* Floating step boxes */
+    @keyframes floatStep {
+      0%,100% { transform: translateY(0px);   box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
+      50%      { transform: translateY(-10px); box-shadow: 0 20px 48px rgba(0,0,0,0.16); }
+    }
+    .step-float { animation: floatStep 3s ease-in-out infinite; }
+    .step-float-2 { animation: floatStep 3s ease-in-out infinite; animation-delay: 0.6s; }
+    .step-float-3 { animation: floatStep 3s ease-in-out infinite; animation-delay: 1.2s; }
+
+    /* Wave connector SVG — straight line removed, SVG handles it */
+    .steps-connector {
+      position: relative;
+    }
+    @keyframes waveDash {
+      from { stroke-dashoffset: 120; }
+      to   { stroke-dashoffset: 0; }
+    }
+    .wave-line {
+      stroke-dasharray: 8 5;
+      animation: waveDash 2s linear infinite;
+    }
+    /* Hero amount — wave bounce per letter */
+    @keyframes letterBounce {
+      0%, 100% { transform: translateY(0);    }
+      12%       { transform: translateY(-20px); }
+      22%       { transform: translateY(0);    }
+    }
+    @keyframes letterFillPulse {
+      0%, 100% { background-color: rgba(255,255,255,0.7); }
+      12%       { background-color: rgba(255,255,255,1); }
+      22%       { background-color: rgba(255,255,255,0.7); }
+    }
+    .amount-shimmer {
+      color: transparent;
+      background: rgba(255,255,255,0.7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-stroke: 1.4px rgba(255,255,255,1);
+      text-shadow: 0 0 3px rgba(255,255,255,0.5);
+    }
+    @keyframes shimmerSweep {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -100% 0; }
+    }
+    @keyframes wiggleBtn {
+      0%, 100% { transform: rotate(0deg); }
+      25%       { transform: rotate(-4deg); }
+      50%       { transform: rotate(0deg); }
+      75%       { transform: rotate(4deg); }
+    }
+    @keyframes glowPulse {
+      0%   { box-shadow: 0 4px 20px rgba(43,197,180,0.4), 0 0 0 rgba(255,255,255,0); }
+      40%  { box-shadow: 0 4px 20px rgba(43,197,180,0.4), 0 0 26px 6px rgba(255,255,255,0.85); }
+      100% { box-shadow: 0 4px 20px rgba(43,197,180,0.4), 0 0 0 rgba(255,255,255,0); }
+    }
+    .wiggle-btn { animation: wiggleBtn 0.5s ease-in-out, glowPulse 0.6s ease-out; }
+    .letter-bounce {
+      display: inline-block;
+      color: transparent;
+      background-color: rgba(255,255,255,0.7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-stroke: 1.4px rgba(255,255,255,1);
+      text-shadow: 0 0 3px rgba(255,255,255,0.5);
+      animation: letterBounce 3.2s ease-in-out infinite, letterFillPulse 3.2s ease-in-out infinite;
+    }
+    @keyframes wigglePhone {
+      0%, 100% { transform: rotate(-1.5deg) translateY(0px); }
+      25%       { transform: rotate(0deg)    translateY(-6px); }
+      50%       { transform: rotate(1.5deg)  translateY(0px); }
+      75%       { transform: rotate(0deg)    translateY(-4px); }
+    }
+    .phone-wiggle {
+      animation: wigglePhone 4s ease-in-out infinite;
+    }
+
+    /* Speech bubbles glassmorphism */
+    @keyframes bubblePop {
+      0%   { opacity:0; transform: scale(0.5) translateY(16px); }
+      65%  { transform: scale(1.07) translateY(-3px); }
+      100% { opacity:1; transform: scale(1) translateY(0); }
+    }
+    @keyframes bubbleFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-5px); }
+    }
+    .speech-bubble {
+      position: absolute;
+      background: linear-gradient(135deg, rgba(255,107,71,0.55), rgba(255,61,40,0.45));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 28px;
+      padding: 16px 26px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.35);
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #fff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.88) translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 10;
+    }
+    .speech-bubble.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    /* Tail: rotated square at bottom-left pointing toward face */
+    .speech-bubble .bubble-tail {
+      position:absolute;
+      width:14px; height:14px;
+      background: rgba(255,80,53,0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.4);
+      transform: rotate(45deg);
+    }
+    .bubble-tail-bl { bottom:-7px; left:22px; border-top:none; border-left:none; }
+    .bubble-tail-br { bottom:-7px; right:22px; border-top:none; border-right:none; }
+    .bubble-tail-tl { top:-7px; left:22px; border-bottom:none; border-left:none; }
+
+    /* Inputs del formulario en efecto vidrio */
+    .glass-input {
+      background: rgba(255,255,255,0.16) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.35) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+      color: #fff !important;
+    }
+    .glass-input::placeholder { color: rgba(255,255,255,0.75); }
+    .glass-input option { color: #1f2937; }
+    .whatsapp-input::placeholder { color: #fff; }
+  </style>
+
+<style id="mob-nav-css">
+/* ── Mobile nav ── */
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:10px;flex-shrink:0;}
+@media(max-width:767px){
+  .mob-btn{display:flex;}
+  .mob-logo-wrap{left:0!important;position:relative!important;}
+  #nav-registrarse,a.nav-cta-btn{display:none!important;}
+}
+.mob-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s;}
+.mob-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-btn.is-open span:nth-child(2){opacity:0;}
+.mob-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mob-nav-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#082028 0%,#041218 100%);z-index:197;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#mob-nav-panel .mob-inner{padding-top:96px;padding-bottom:60px;}
+.mob-section-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.09);cursor:pointer;text-align:left;}
+.mob-section-btn svg{transition:transform .2s;flex-shrink:0;}
+.mob-section-btn.mob-open svg{transform:rotate(180deg);}
+.mob-sub{background:rgba(0,0,0,0.25);display:none;}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:13px 32px;color:#c7e9e4;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mob-sub a:active{background:rgba(31,214,179,0.15);}
+.mob-plain-link{display:flex;align-items:center;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.09);}
+.mob-cta-wrap{padding:28px 24px;}
+.mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
+</style>
+</head>
+<body class="font-sans bg-white text-gray-900 antialiased">
+
+  <!-- ══════════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════════ -->
+  <nav class="sticky top-0 z-50 shadow-lg" style="background: linear-gradient(90deg, #1fd6b3 0%, #23acb7 100%);">
+    <div class="max-w-8xl mx-auto px-6">
+      <div class="flex items-center justify-between h-24">
+
+        <!-- Logo + Bandera -->
+        <div class="flex items-center gap-3 flex-shrink-0" style="position:relative; left:120px;">
+          <a href="#" id="logo-link"><img src="soyrappi_logo.png" alt="Soy Rappi" style="width:200px; height:auto; object-fit:contain;" /></a>
+          <img src="bandera_col.png" loading="lazy" decoding="async" alt="Colombia" style="width:75px; height:75px; object-fit:contain; flex-shrink:0; margin-left:-40px;" />
+        </div>
+
+        <!-- Links con PP Object Sans Bold blanco -->
+        <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
+          <div class="relative" id="nav-ganancias">
+            <button onclick="toggleGananciasDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Ganancias <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="ganancias-drop" style="
+              display:none;
+              position:absolute;
+              top:calc(100% + 12px);
+              left:50%;
+              transform:translateX(-50%);
+              background: rgba(10,30,34,0.96);
+              backdrop-filter: blur(18px);
+              -webkit-backdrop-filter: blur(18px);
+              border: 1px solid rgba(255,255,255,0.45);
+              border-radius:16px;
+              box-shadow: 0 8px 32px rgba(31,214,179,0.18), 0 2px 8px rgba(0,0,0,0.10);
+              width:260px;
+              overflow:hidden;
+              z-index:200;
+            ">
+              <a href="cuenta-bancaria.html"
+                 style="display:flex; align-items:center; gap:12px; padding:14px 16px; color:#fff; font-family:'Inter',sans-serif; font-weight:700; font-size:0.95rem; text-decoration:none; transition:background 0.15s; text-shadow:0 1px 4px rgba(0,0,0,0.15);"
+                 onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/>
+                  </svg>
+                </span>
+                ¿Cómo recibir ganancias?
+              </a>
+              <a href="cuanto-ganar.html"
+                 style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);"
+                 onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </span>
+                ¿Cuánto puedes ganar?
+              </a>
+              <a href="incentivos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </span>
+                Incentivos
+              </a>
+              <a href="referidos.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                </span>
+                Referidos
+              </a>
+              <a href="propinas.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);background:rgba(31,214,179,0.10);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='rgba(31,214,179,0.10)'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#0fb39e);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+                </span>
+                Propinas
+              </a>
+              <a href="alta-demanda.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                </span>
+                Punto de Alta Demanda
+              </a>
+            </div>
+          </div>
+          <div class="relative" id="nav-estados">
+            <button onclick="toggleEstadosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Estados <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="estados-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);min-width:220px;overflow:hidden;z-index:200;">
+              <a href="sistema-de-estados.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1a1a2e,#3d3d6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="6" y2="9"/><line x1="12" y1="3" x2="18" y2="9"/></svg></span>
+                Sistema de estados
+              </a>
+            </div>
+          </div>
+          <!-- Beneficios dropdown -->
+          <div class="relative" id="nav-beneficios">
+            <button onclick="toggleBeneficiosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Beneficios <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="beneficios-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;">
+              <a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                Beneficios Exclusivos
+              </a>
+              <a href="seguro-accidentes.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+                Seguro de Accidentes
+              </a>
+            </div>
+          </div>
+          <div class="relative" id="nav-turbo"><button onclick="toggleTurboDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Turbo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="turbo-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:300px;overflow:hidden;z-index:200;"><a href="turbo.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Todo lo que debes saber sobre Turbo</a></div></div>
+          <div class="relative" id="nav-evoluciona">
+            <button onclick="toggleEvolucionaDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              SoyRappi Evoluciona <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="evoluciona-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:280px;overflow:hidden;z-index:200;">
+              <a href="soyrappi-evoluciona.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </span>
+                Te escuchamos
+              </a>
+            </div>
+          </div>
+          <a href="#" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">
+            Conoce más <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <a href="#" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">
+            Pregúntanos
+          </a>
+        </div>
+
+        <!-- CTA -->
+        <a href="#registro" id="nav-registrarse"
+           class="nav-font flex-shrink-0 bg-white hover:bg-gray-100 font-bold px-10 py-3.5 rounded-full text-base transition-colors shadow-md"
+           style="color: #1fd6b3; position:relative; right:80px;">
+          Regístrate
+        </a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════
+       HERO — SLIDER
+  ══════════════════════════════════════════ -->
+  <section id="registro" class="relative min-h-screen flex flex-col overflow-hidden">
+
+    <!-- ── CAPAS DE FONDO (una por slide, crossfade) ── -->
+    <div class="hero-bg-layer" data-slide="0"
+         style="position:absolute;inset:0;z-index:0;
+                background-image:url('cover_bg.png');background-size:cover;background-position:center top;
+                opacity:1;transition:opacity 0.9s ease;"></div>
+    <div class="hero-bg-layer" data-slide="1"
+         style="position:absolute;inset:0;z-index:0;
+                background-image:url('cover_bg.png');background-size:cover;background-position:center top;
+                opacity:0;transition:opacity 0.9s ease;"></div>
+    <div class="hero-bg-layer" data-slide="2"
+         style="position:absolute;inset:0;z-index:0;
+                background-image:url('cover_bg.png');background-size:cover;background-position:center top;
+                opacity:0;transition:opacity 0.9s ease;"></div>
+
+    <!-- ── IMÁGENES REPARTIDOR full-width ── -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden" style="z-index:1;">
+
+      <!-- Slide 0: moto -->
+      <div class="hero-img-layer" data-slide="0"
+           style="position:absolute;inset:0;
+                  transform:translateX(0); opacity:1;
+                  transition:transform 0.9s cubic-bezier(0.4,0,0.2,1), opacity 0.9s ease;">
+        <img src="hero_moto.png" alt="Repartidor Rappi en moto"
+             fetchpriority="high" decoding="async"
+             style="position:absolute; bottom:-20px; right:40px; height:100%; width:auto;
+                    object-fit:contain; object-position:bottom right;
+                    -webkit-mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
+                    mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);" />
+      </div>
+
+      <!-- Slide 1: Supercopa Repartidores -->
+      <div class="hero-img-layer" data-slide="1"
+           style="position:absolute;inset:0;
+                  transform:translateX(100%); opacity:0;
+                  transition:transform 0.9s cubic-bezier(0.4,0,0.2,1), opacity 0.9s ease;">
+        <img src="repartidor2.png" alt="Repartidor Supercopa Rappi"
+             loading="lazy" decoding="async"
+             style="position:absolute; bottom:80px; right:20px; height:86%; width:auto;
+                    object-fit:contain; object-position:bottom center;
+                    -webkit-mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
+                    mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);" />
+      </div>
+
+      <!-- Slide 2: repartidor con casco y mochila -->
+      <div class="hero-img-layer" data-slide="2"
+           style="position:absolute;inset:0;
+                  transform:translateX(100%); opacity:0;
+                  transition:transform 0.9s cubic-bezier(0.4,0,0.2,1), opacity 0.9s ease;">
+        <img src="repartidor3.png" alt="Repartidor Rappi con casco"
+             loading="lazy" decoding="async"
+             style="position:absolute; bottom:0; right:-100px; height:105%; width:auto;
+                    object-fit:contain; object-position:bottom right;
+                    -webkit-mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
+                    mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);" />
+      </div>
+    </div>
+
+    <!-- ── GLASS CARD — vidrio literal, flotando sobre la foto; las fotos pasan por debajo ── -->
+    <div style="position:absolute; left:36px; right:42%; top:36px; bottom:36px; z-index:5; pointer-events:none;
+                background: rgba(255,255,255,0.12);
+                backdrop-filter: blur(26px) saturate(150%);
+                -webkit-backdrop-filter: blur(26px) saturate(150%);
+                border: 1.5px solid rgba(255,255,255,0.45);
+                border-radius: 40px;
+                box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), inset 0 0 50px rgba(255,255,255,0.06), 0 25px 60px rgba(0,0,0,0.35);
+                -webkit-mask-image: linear-gradient(to right, black 0%, black 78%, transparent 100%);
+                mask-image: linear-gradient(to right, black 0%, black 78%, transparent 100%);">
+    </div>
+
+    <!-- ── BURBUJAS DE DIÁLOGO — una por foto, junto al rostro ── -->
+    <div id="hero-bubbles" style="position:absolute;inset:0;z-index:9;pointer-events:none;">
+
+      <!-- SLIDE 0: moto, casco y bolsa — justo arriba de la bolsa de papel -->
+      <div id="bubble-slide-0" class="speech-bubble" style="right:8%;top:18%;">
+        Más pedidos
+        <span class="bubble-tail bubble-tail-bl"></span>
+      </div>
+
+      <!-- SLIDE 1: Supercopa — arriba de la copa del trofeo -->
+      <div id="bubble-slide-1" class="speech-bubble" style="right:22%;top:8%;">
+        Más premios
+        <span class="bubble-tail bubble-tail-bl"></span>
+      </div>
+
+      <!-- SLIDE 2: repartidor3 con casco — encima del casco -->
+      <div id="bubble-slide-2" class="speech-bubble" style="right:10%;top:24%;">
+        Sin jefes
+        <span class="bubble-tail bubble-tail-bl"></span>
+      </div>
+
+    </div>
+
+    <!-- ── CONTENIDO: texto + formulario a la izquierda, foto nítida a la derecha ── -->
+    <div class="w-full relative flex-1 flex flex-col" style="z-index:10;min-height:100vh;justify-content:center;padding:30px 24px 30px 100px;">
+
+      <div style="max-width:880px;color:#fff;margin-left:60px;">
+
+        <!-- TEXTO -->
+        <p style="color:#fff;font-weight:600;margin-bottom:6px;font-size:clamp(1.3rem,2vw,1.6rem);">¿La plata no te alcanza?</p>
+        <p style="color:#fff;font-weight:600;margin-bottom:4px;font-size:clamp(1.1rem,1.6vw,1.3rem);">Gana hasta</p>
+        <p class="amount-shimmer font-black leading-none" style="font-size:clamp(3.4rem,6.9vw,6.1rem);margin-bottom:6px;white-space:nowrap;">
+          <span class="letter-bounce" style="animation-delay:0s;-webkit-text-stroke:1.4px rgba(255,255,255,1);text-shadow:0 0 3px rgba(255,255,255,0.5);background:rgba(255,255,255,0.7);-webkit-background-clip:text;background-clip:text;color:transparent;">$</span><span class="letter-bounce" style="animation-delay:.07s">1</span><span class="letter-bounce" style="animation-delay:.14s">.</span><span class="letter-bounce" style="animation-delay:.21s">0</span><span class="letter-bounce" style="animation-delay:.28s">0</span><span class="letter-bounce" style="animation-delay:.35s">0</span><span class="letter-bounce" style="animation-delay:.42s">.</span><span class="letter-bounce" style="animation-delay:.49s">0</span><span class="letter-bounce" style="animation-delay:.56s">0</span><span class="letter-bounce" style="animation-delay:.63s">0</span><span class="amount-shimmer" style="font-size:0.6em;-webkit-text-stroke:1.2px rgba(255,255,255,0.65);"> COP</span>
+        </p>
+        <p style="color:#fff;font-weight:900;margin-bottom:24px;font-size:clamp(1.4rem,2.4vw,1.9rem);">por semana<sup style="font-size:0.5em;vertical-align:super;">*</sup></p>
+
+        <!-- FORMULARIO — grid 2 columnas -->
+        <p style="color:#fff;font-weight:800;font-size:1.05rem;margin-bottom:14px;letter-spacing:0.01em;">Regístrate ahora</p>
+        <form onsubmit="return false;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;max-width:520px;">
+            <input type="text" placeholder="Nombre" class="glass-input"
+              style="width:100%;box-sizing:border-box;border-radius:14px;padding:16px 18px;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:500;outline:none;" />
+            <input type="text" placeholder="Apellido" class="glass-input"
+              style="width:100%;box-sizing:border-box;border-radius:14px;padding:16px 18px;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:500;outline:none;" />
+            <input type="email" placeholder="Correo electrónico" class="glass-input"
+              style="width:100%;box-sizing:border-box;border-radius:14px;padding:16px 18px;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:500;outline:none;" />
+            <div style="position:relative;">
+              <select class="glass-input" style="width:100%;box-sizing:border-box;border-radius:14px;padding:16px 32px 16px 18px;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:500;outline:none;appearance:none;cursor:pointer;">
+                <option value="" disabled selected>Ciudad</option>
+                <option>Bogotá</option><option>Medellín</option><option>Cali</option>
+                <option>Barranquilla</option><option>Cartagena</option>
+                <option>Bucaramanga</option><option>Pereira</option><option>Manizales</option>
+              </select>
+              <div style="pointer-events:none;position:absolute;right:14px;top:50%;transform:translateY(-50%);">
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+              </div>
+            </div>
+            <div class="glass-input" style="display:flex;align-items:center;border-radius:14px;padding:16px 16px;gap:6px;box-sizing:border-box;">
+              <span style="font-size:1rem;">🇨🇴</span>
+              <span style="color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:500;white-space:nowrap;">+57</span>
+              <input type="tel" placeholder="Número de WhatsApp" class="whatsapp-input"
+                style="flex:1;min-width:0;background:transparent;color:#fff;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:500;border:none;outline:none;" />
+            </div>
+            <div style="position:relative;">
+              <input type="password" placeholder="Contraseña" id="pwd-input" class="glass-input"
+                style="width:100%;box-sizing:border-box;border-radius:14px;padding:16px 42px 16px 18px;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:500;outline:none;" />
+              <button type="button" onclick="togglePwd()"
+                style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:0;line-height:0;">
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Terms -->
+          <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:24px;max-width:480px;">
+            <input type="checkbox" id="terms" style="width:18px;height:18px;margin-top:2px;flex-shrink:0;cursor:pointer;" />
+            <span style="color:rgba(255,255,255,0.9);font-size:0.85rem;line-height:1.5;">
+              Al marcar esta casilla, aceptas
+              <a href="#" style="color:#fff;text-decoration:underline;font-weight:600;">términos y condiciones</a>
+              y nuestra política de uso de datos. También aceptas recibir llamadas o mensajes SMS.
+            </span>
+          </div>
+
+          <button type="submit" id="registrarse-btn"
+            style="background:#2BC5B4;color:#fff;font-weight:800;font-size:1rem;font-family:'Inter',sans-serif;border:none;border-radius:50px;padding:16px 56px;cursor:pointer;box-shadow:0 4px 20px rgba(43,197,180,0.4);"
+            onmouseover="this.style.background='#22a99a'" onmouseout="this.style.background='#2BC5B4'">
+            Registrarse
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── DOTS DE NAVEGACIÓN ── -->
+    <div class="absolute bottom-6 left-1/2 z-20 flex gap-2.5 -translate-x-1/2">
+      <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white transition-all" data-goto="0"
+              style="opacity:1; transform:scale(1.3);" onclick="heroGoTo(0)"></button>
+      <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white/50 transition-all" data-goto="1"
+              onclick="heroGoTo(1)"></button>
+      <button class="hero-dot w-2.5 h-2.5 rounded-full bg-white/50 transition-all" data-goto="2"
+              onclick="heroGoTo(2)"></button>
+    </div>
+
+    <!-- Nota asterisco -->
+    <p class="absolute bottom-3 left-4 text-white/50 text-xs" style="z-index:2;">
+      * Ganancias estimadas. Pueden variar según ciudad, horas activas y número de pedidos.
+    </p>
+  </section>
+
+  <script>
+    (function() {
+      const TOTAL = 3;
+      let current = 0;
+      let timer;
+
+      function heroGoTo(n) {
+        const prev = current;
+        current = (n + TOTAL) % TOTAL;
+
+        // Fondo: fade
+        document.querySelectorAll('.hero-bg-layer').forEach(el => {
+          el.style.opacity = el.dataset.slide == current ? '1' : '0';
+        });
+
+        // Imágenes: slide out left / slide in from right
+        document.querySelectorAll('.hero-img-layer').forEach(el => {
+          const idx = parseInt(el.dataset.slide);
+          if (idx === current) {
+            el.style.transform = 'translateX(0)';
+            el.style.opacity = '1';
+          } else if (idx === prev) {
+            el.style.transform = 'translateX(-30%)';
+            el.style.opacity = '0';
+          } else {
+            el.style.transform = 'translateX(100%)';
+            el.style.opacity = '0';
+          }
+        });
+
+        // Dots
+        document.querySelectorAll('.hero-dot').forEach(el => {
+          const active = el.dataset.goto == current;
+          el.style.opacity = active ? '1' : '0.5';
+          el.style.transform = active ? 'scale(1.3)' : 'scale(1)';
+        });
+
+        // Reiniciar timer
+        clearInterval(timer);
+        timer = setInterval(() => heroGoTo(current + 1), 5500);
+
+        // Burbuja del slide — aparece tras terminar la transición de foto
+        const bubbleMap = {
+          0: 'bubble-slide-0',
+          1: 'bubble-slide-1',
+          2: 'bubble-slide-2'
+        };
+        document.querySelectorAll('.speech-bubble').forEach(b => { b.classList.remove('visible'); void b.offsetWidth; });
+        if (bubbleMap[current]) {
+          setTimeout(() => document.getElementById(bubbleMap[current]).classList.add('visible'), 950); // espera que termine la transición de slide (0.9s)
+        }
+
+        // Wiggle suave del botón Registrarse cada vez que cambia la foto
+        const btn = document.getElementById('registrarse-btn');
+        if (btn) {
+          btn.classList.remove('wiggle-btn');
+          void btn.offsetWidth;
+          btn.classList.add('wiggle-btn');
+        }
+      }
+
+      // Arrancar autoplay
+      timer = setInterval(() => heroGoTo(current + 1), 5500);
+
+      // Burbuja inicial (slide 0 activo al cargar)
+      setTimeout(() => {
+        document.getElementById('bubble-slide-0').classList.add('visible');
+      }, 900);
+
+      // Exponer globalmente para los onclick de dots
+      window.heroGoTo = heroGoTo;
+    })();
+  </script>
+
+  <script>
+    function togglePwd() {
+      const i = document.getElementById('pwd-input');
+      i.type = i.type === 'password' ? 'text' : 'password';
+    }
+    // Checkbox visual
+    document.getElementById('terms').addEventListener('change', function() {
+      this.style.backgroundColor = this.checked ? 'white' : 'transparent';
+    });
+  </script>
+
+
+  <!-- ══════════════════════════════════════════
+       BENEFICIOS
+  ══════════════════════════════════════════ -->
+  <section id="beneficios" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16">
+        <span class="font-bold text-sm uppercase tracking-widest" style="color:#f3663d">Por qué Rappi</span>
+        <h2 class="text-4xl sm:text-5xl font-black mt-2 text-gray-900">
+          Las ventajas de ser<br />
+          <span style="background:linear-gradient(90deg,#f3663d,#ff3d55);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">repartidor Rappi</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#f3663d,#ff3d55);">
+            <svg class="w-8 h-8 text-white icon-clock" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg text-gray-900 mb-2">Horarios flexibles</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Tú decides cuándo trabajar. Mañanas, tardes o noches, el horario lo pones tú.</p>
+        </div>
+
+        <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#f3663d,#ff3d55);">
+            <svg class="w-8 h-8 text-white icon-gear" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93V18c0-.55-.45-1-1-1s-1 .45-1 1v1.93C7.06 19.44 4.56 16.94 4.07 13H6c.55 0 1-.45 1-1s-.45-1-1-1H4.07C4.56 7.06 7.06 4.56 11 4.07V6c0 .55.45 1 1 1s1-.45 1-1V4.07C16.94 4.56 19.44 7.06 19.93 11H18c-.55 0-1 .45-1 1s.45 1 1 1h1.93c-.49 3.94-2.99 6.44-6.93 6.93z"/>
+              <path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg text-gray-900 mb-2">Ganancias diarias</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Retira tus ganancias cuando quieras. Sin esperar el fin de mes.</p>
+        </div>
+
+        <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#f3663d,#ff3d55);">
+            <svg class="w-8 h-8 text-white icon-pin" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg text-gray-900 mb-2">Tú eliges la zona</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Trabaja en el barrio que prefieras. Sin rutas fijas ni obligaciones.</p>
+        </div>
+
+        <div class="card-hover bg-white rounded-2xl p-6 border border-gray-100" style="box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+          <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#f3663d,#ff3d55);">
+            <svg class="w-8 h-8 text-white icon-shield" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-lg text-gray-900 mb-2">Seguro incluido</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">Cobertura de accidentes mientras haces tus entregas. Tu seguridad primero.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       CÓMO FUNCIONA + DESCARGA APP (unificado)
+  ══════════════════════════════════════════ -->
+  <section id="como-funciona" class="py-24 text-white overflow-hidden relative" style="background-image: url('cover_bg.png'); background-size: cover; background-position: center;">
+    <div class="absolute inset-0 bg-black/25 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+        <!-- CELULAR — izquierda, sticky + slide-in + store buttons debajo -->
+        <div class="hidden lg:flex justify-center">
+          <div id="phone-mockup"
+               style="position: sticky; top: 110px; transform: translateY(70px); opacity: 0; transition: transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.9s ease;">
+            <img src="celular_app.png" alt="App Soy Rappi" class="phone-wiggle" loading="lazy" decoding="async"
+                 style="width: 480px; height: auto; filter: drop-shadow(0 32px 64px rgba(0,0,0,0.45));" />
+            <!-- Botón de descarga bajo el celular — solo Google Play -->
+            <div class="flex gap-3 mt-6 justify-center">
+              <a href="#" class="flex items-center gap-2.5 bg-white/20 hover:bg-white/30 text-white px-5 py-3 rounded-xl transition-colors border border-white/30">
+                <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M3 20.5v-17c0-.83.94-1.3 1.6-.8l14 8.5c.6.37.6 1.23 0 1.6l-14 8.5c-.66.5-1.6.03-1.6-.8zM5 6.49v11.02L14.03 12 5 6.49z"/>
+                </svg>
+                <div>
+                  <p class="text-xs text-white/70 leading-none">Disponible en</p>
+                  <p class="font-bold text-sm leading-tight">Google Play</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PASOS — derecha con QR arriba -->
+        <div class="relative">
+
+          <!-- QR — esquina superior derecha del bloque de texto -->
+          <div class="absolute top-0 right-0 flex flex-col items-center hidden lg:flex" style="gap:6px;">
+            <svg width="141" height="141" viewBox="0 0 21 21" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="5" height="5" rx=".5" fill="none" stroke="white" stroke-width="1"/>
+              <rect x="2.5" y="2.5" width="2" height="2" rx=".2"/>
+              <rect x="15" y="1" width="5" height="5" rx=".5" fill="none" stroke="white" stroke-width="1"/>
+              <rect x="16.5" y="2.5" width="2" height="2" rx=".2"/>
+              <rect x="1" y="15" width="5" height="5" rx=".5" fill="none" stroke="white" stroke-width="1"/>
+              <rect x="2.5" y="16.5" width="2" height="2" rx=".2"/>
+              <rect x="7" y="1" width="1" height="1"/><rect x="9" y="1" width="1" height="1"/><rect x="11" y="1" width="2" height="1"/>
+              <rect x="7" y="3" width="2" height="1"/><rect x="10" y="3" width="1" height="1"/><rect x="13" y="3" width="1" height="1"/>
+              <rect x="7" y="5" width="1" height="1"/><rect x="9" y="5" width="3" height="1"/><rect x="13" y="5" width="1" height="1"/>
+              <rect x="1" y="7" width="1" height="1"/><rect x="3" y="7" width="2" height="1"/><rect x="7" y="7" width="1" height="1"/><rect x="9" y="7" width="1" height="1"/><rect x="11" y="7" width="2" height="1"/><rect x="15" y="7" width="1" height="1"/><rect x="17" y="7" width="1" height="1"/><rect x="19" y="7" width="1" height="1"/>
+              <rect x="1" y="9" width="2" height="1"/><rect x="5" y="9" width="1" height="1"/><rect x="8" y="9" width="2" height="1"/><rect x="12" y="9" width="1" height="1"/><rect x="14" y="9" width="1" height="1"/><rect x="16" y="9" width="1" height="1"/><rect x="19" y="9" width="1" height="1"/>
+              <rect x="2" y="11" width="1" height="1"/><rect x="4" y="11" width="2" height="1"/><rect x="7" y="11" width="2" height="1"/><rect x="11" y="11" width="1" height="1"/><rect x="13" y="11" width="2" height="1"/><rect x="17" y="11" width="2" height="1"/>
+              <rect x="1" y="13" width="1" height="1"/><rect x="3" y="13" width="1" height="1"/><rect x="6" y="13" width="2" height="1"/><rect x="10" y="13" width="1" height="1"/><rect x="12" y="13" width="1" height="1"/><rect x="15" y="13" width="1" height="1"/><rect x="18" y="13" width="2" height="1"/>
+              <rect x="7" y="15" width="2" height="1"/><rect x="11" y="15" width="1" height="1"/><rect x="13" y="15" width="2" height="1"/><rect x="17" y="15" width="1" height="1"/><rect x="19" y="15" width="1" height="1"/>
+              <rect x="7" y="17" width="1" height="1"/><rect x="9" y="17" width="2" height="1"/><rect x="13" y="17" width="1" height="1"/><rect x="15" y="17" width="2" height="1"/><rect x="19" y="17" width="1" height="1"/>
+              <rect x="8" y="19" width="1" height="1"/><rect x="10" y="19" width="1" height="1"/><rect x="12" y="19" width="2" height="1"/><rect x="16" y="19" width="1" height="1"/><rect x="18" y="19" width="2" height="1"/>
+            </svg>
+            <p class="text-white/80 text-xs font-semibold">Escanea y descarga</p>
+          </div>
+
+          <!-- Título con espacio para el QR -->
+          <div class="mb-10 pr-28">
+            <span class="text-white font-bold text-sm uppercase tracking-widest">Proceso</span>
+            <h2 class="text-4xl sm:text-5xl font-black mt-2">
+              Empieza en<br />
+              <span class="text-white">3 pasos</span>
+            </h2>
+          </div>
+
+          <!-- Pasos verticales -->
+          <div class="flex flex-col gap-8 relative steps-connector">
+
+            <!-- Paso 1 -->
+            <div class="flex items-start gap-6 relative z-10">
+              <div class="flex-shrink-0 w-20 h-20 bg-white rounded-2xl flex items-center justify-center step-float"
+                   style="box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+                <span class="text-4xl font-black step-number" data-target="1" style="color:#fe3f23;">0</span>
+              </div>
+              <div class="pt-2">
+                <h3 class="text-xl font-bold mb-2 text-white">Regístrate</h3>
+                <p class="text-white/75 leading-relaxed">Descarga la app Rappitendero, crea tu cuenta y sube tus documentos. Tarda menos de 10 minutos.</p>
+              </div>
+            </div>
+
+            <!-- Paso 2 -->
+            <div class="flex items-start gap-6 relative z-10">
+              <div class="flex-shrink-0 w-20 h-20 bg-white rounded-2xl flex items-center justify-center step-float-2"
+                   style="box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+                <span class="text-4xl font-black step-number" data-target="2" style="color:#fe3f23;">0</span>
+              </div>
+              <div class="pt-2">
+                <h3 class="text-xl font-bold mb-2 text-white">Actívate</h3>
+                <p class="text-white/75 leading-relaxed">Recibe tu kit de bienvenida, completa el curso de inducción en línea y activa tu cuenta.</p>
+              </div>
+            </div>
+
+            <!-- Paso 3 -->
+            <div class="flex items-start gap-6 relative z-10">
+              <div class="flex-shrink-0 w-20 h-20 bg-white rounded-2xl flex items-center justify-center step-float-3"
+                   style="box-shadow:0 8px 32px rgba(0,0,0,0.12);">
+                <span class="text-4xl font-black step-number" data-target="3" style="color:#fe3f23;">0</span>
+              </div>
+              <div class="pt-2">
+                <h3 class="text-xl font-bold mb-2 text-white">¡A ganar!</h3>
+                <p class="text-white/75 leading-relaxed">Conéctate cuando quieras, acepta pedidos cerca de ti y recibe tus ganancias al instante.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="mt-10">
+            <a href="#"
+               class="inline-flex items-center gap-3 text-white font-bold px-10 py-4 rounded-full text-lg transition-all shadow-xl hover:scale-105"
+               style="background: linear-gradient(90deg, #1fd6b3 0%, #23acb7 100%);">
+              <img src="bigote.png" alt="" style="width:32px; height:auto; filter: brightness(0) invert(1);" />
+              <span style="font-size:1.25rem;">Comenzar ahora</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       REQUISITOS
+  ══════════════════════════════════════════ -->
+  <section id="requisitos" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Texto -->
+        <div>
+          <span class="text-rappi font-bold text-sm uppercase tracking-widest">Requisitos</span>
+          <h2 class="text-4xl sm:text-5xl font-black mt-2 mb-6 text-gray-900">
+            ¿Qué necesitas<br />
+            <span class="text-rappi">para empezar?</span>
+          </h2>
+          <p class="text-gray-500 text-lg mb-10 leading-relaxed">
+            No necesitas experiencia previa. Solo ganas de trabajar y estos requisitos básicos.
+          </p>
+
+          <ul class="space-y-4">
+            <li class="flex items-center gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-gray-700 font-medium">Ser mayor de 18 años</span>
+            </li>
+            <li class="flex items-center gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-gray-700 font-medium">Cédula de ciudadanía o documento de identidad</span>
+            </li>
+            <li class="flex items-center gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-gray-700 font-medium">Smartphone Android o iPhone</span>
+            </li>
+            <li class="flex items-center gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-gray-700 font-medium">Bicicleta, moto o ir a pie</span>
+            </li>
+            <li class="flex items-center gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="text-gray-700 font-medium">Cuenta bancaria o Nequi / Daviplata</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Slider vehículos -->
+        <div class="rounded-3xl overflow-hidden relative" style="background:#111; min-height:560px;">
+
+          <!-- Slides -->
+          <div id="vehicle-slider" class="relative w-full h-full" style="min-height:560px;">
+
+            <!-- Slide Moto -->
+            <div class="vehicle-slide absolute inset-0 transition-all duration-700 ease-in-out" data-index="0">
+              <img src="vehicle_moto.png" loading="lazy" decoding="async"
+                   alt="Repartidor en moto"
+                   class="w-full h-full object-cover" style="min-height:560px; object-position: center 20%;" />
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-8">
+                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
+                <h3 class="text-white text-4xl font-black mt-1 mb-1">Moto</h3>
+                <p class="text-white/80 text-sm">Mayor radio de entrega y más pedidos por turno.</p>
+              </div>
+            </div>
+
+            <!-- Slide Bicicleta -->
+            <div class="vehicle-slide absolute inset-0 transition-all duration-700 ease-in-out opacity-0 translate-x-full" data-index="1">
+              <img src="vehicle_bici.png" loading="lazy" decoding="async"
+                   alt="Repartidor en bicicleta"
+                   class="w-full h-full object-cover" style="min-height:560px; object-position: top center;" />
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-8">
+                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
+                <h3 class="text-white text-4xl font-black mt-1 mb-1">Bicicleta</h3>
+                <p class="text-white/80 text-sm">La opción más popular. Sin licencia requerida.</p>
+              </div>
+            </div>
+
+            <!-- Slide A pie -->
+            <div class="vehicle-slide absolute inset-0 transition-all duration-700 ease-in-out opacity-0 translate-x-full" data-index="2">
+              <img src="vehicle_apie.png" loading="lazy" decoding="async"
+                   alt="Repartidor a pie"
+                   class="w-full h-full object-cover" style="min-height:560px; object-position: top center;" />
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-8">
+                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
+                <h3 class="text-white text-4xl font-black mt-1 mb-1">A pie</h3>
+                <p class="text-white/80 text-sm">Ideal para zonas céntricas y comerciales.</p>
+              </div>
+            </div>
+
+            <!-- Slide Automóvil -->
+            <div class="vehicle-slide absolute inset-0 transition-all duration-700 ease-in-out opacity-0 translate-x-full" data-index="3">
+              <img src="vehicle_auto.png" loading="lazy" decoding="async"
+                   alt="Repartidor en carro"
+                   class="w-full h-full object-cover" style="min-height:560px; object-position: center center;" />
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-8">
+                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
+                <h3 class="text-white text-4xl font-black mt-1 mb-1">Automóvil</h3>
+                <p class="text-white/80 text-sm">Para pedidos grandes y larga distancia.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Flechas -->
+          <button onclick="changeSlide(-1)"
+            class="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors backdrop-blur-sm">
+            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <button onclick="changeSlide(1)"
+            class="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-colors backdrop-blur-sm">
+            <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+          </button>
+
+
+        </div>
+
+        <script>
+          let currentSlide = 0;
+          const totalSlides = 4;
+
+          function goSlide(n) {
+            const slides = document.querySelectorAll('.vehicle-slide');
+            slides[currentSlide].classList.remove('opacity-100');
+            slides[currentSlide].classList.add('opacity-0','translate-x-full');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.remove('opacity-0','translate-x-full');
+            slides[currentSlide].classList.add('opacity-100');
+          }
+
+          function changeSlide(dir) { goSlide(currentSlide + dir); }
+
+          // Init first slide visible
+          document.querySelectorAll('.vehicle-slide')[0].classList.add('opacity-100');
+
+          // Autoplay
+          setInterval(() => changeSlide(1), 4000);
+        </script>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       TESTIMONIOS
+  ══════════════════════════════════════════ -->
+  <style>
+    .hex-badge {
+      clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    }
+  </style>
+  <section class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16">
+        <h2 class="text-5xl sm:text-6xl font-black text-gray-900">Testimonios</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Card 1 — Elvis Alvarado · Plata (trofeo) -->
+        <div class="bg-gray-100 rounded-3xl p-8 flex flex-col items-center text-center" style="box-shadow:0 2px 16px rgba(0,0,0,0.06);">
+          <div class="relative mb-6">
+            <img src="testimonio_1.png" loading="lazy" decoding="async" alt="Elvis Alvarado" class="w-28 h-28 rounded-full object-cover" style="object-position: top center;" />
+            <!-- Badge Plata: trofeo gris -->
+            <div class="hex-badge absolute -bottom-3 -right-2 w-11 h-11 flex items-center justify-center" style="background:linear-gradient(135deg,#7a7a7a,#b0b0b0); filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));">
+              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94C8.02 14.5 9.93 16 12 16.45V19H8v2h8v-2h-4v-2.55c2.07-.45 3.98-1.95 4.61-3.51C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM7 10.82C5.84 10.4 5 9.3 5 8V7h2v3.82zm10 0V7h2v1c0 1.3-.84 2.4-2 2.82z"/></svg>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">Soy Rappi siempre tiene lo mejor para los usuarios.</p>
+          <hr class="border-gray-300 w-full mb-4" />
+          <div class="text-left w-full">
+            <p class="font-bold text-gray-900 text-sm">Elvis Alvarado</p>
+            <p class="text-gray-500 text-xs mt-0.5">Rappitendero</p>
+          </div>
+        </div>
+
+        <!-- Card 2 — Yair Castro · Diamante -->
+        <div class="bg-gray-100 rounded-3xl p-8 flex flex-col items-center text-center" style="box-shadow:0 2px 16px rgba(0,0,0,0.06);">
+          <div class="relative mb-6">
+            <img src="testimonio_2.png" loading="lazy" decoding="async" alt="Yair Castro" class="w-28 h-28 rounded-full object-cover" style="object-position: top center;" />
+            <!-- Badge Diamante: gema oscura -->
+            <div class="hex-badge absolute -bottom-3 -right-2 w-11 h-11 flex items-center justify-center" style="background:linear-gradient(135deg,#1a1a1a,#3a3a3a); filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
+              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5L2 9l10 12L22 9l-3-6zm-7 14.5L5.5 9.5h13L12 17.5zM5.66 8l1.5-3h9.68l1.5 3H5.66z"/></svg>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">¡Me gusta mucho qué en mis tiempos libres puedo tener la oportunidad de ganarme un ingreso extra!</p>
+          <hr class="border-gray-300 w-full mb-4" />
+          <div class="text-left w-full">
+            <p class="font-bold text-gray-900 text-sm">Yair Castro</p>
+            <p class="text-gray-500 text-xs mt-0.5">Rappitendero</p>
+          </div>
+        </div>
+
+        <!-- Card 3 — Javier Gutiérrez · Diamante -->
+        <div class="bg-gray-100 rounded-3xl p-8 flex flex-col items-center text-center" style="box-shadow:0 2px 16px rgba(0,0,0,0.06);">
+          <div class="relative mb-6">
+            <img src="testimonio_3.png" loading="lazy" decoding="async" alt="Javier Gutiérrez" class="w-28 h-28 rounded-full object-cover" style="object-position: top center;" />
+            <!-- Badge Diamante -->
+            <div class="hex-badge absolute -bottom-3 -right-2 w-11 h-11 flex items-center justify-center" style="background:linear-gradient(135deg,#1a1a1a,#3a3a3a); filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
+              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5L2 9l10 12L22 9l-3-6zm-7 14.5L5.5 9.5h13L12 17.5zM5.66 8l1.5-3h9.68l1.5 3H5.66z"/></svg>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed mb-6">SoyRappi me ha permitido alcanzar mis metas y mi calidad de vida.</p>
+          <hr class="border-gray-300 w-full mb-4" />
+          <div class="text-left w-full">
+            <p class="font-bold text-gray-900 text-sm">Javier Gutiérrez</p>
+            <p class="text-gray-500 text-xs mt-0.5">Rappitendero e inversionista</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════ PREGUNTAS FRECUENTES ═══════════════════════════ -->
+  <section id="faq" class="py-24 bg-white relative overflow-hidden">
+    <!-- Pattern fondo: signos de pregunta al 5% de opacidad -->
+    <div class="absolute inset-0 pointer-events-none select-none" aria-hidden="true"
+         style="background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Ctext x='20' y='55' font-family='Georgia,serif' font-size='52' font-weight='bold' fill='%23222222' opacity='0.05'%3E%3F%3C/text%3E%3C/svg%3E\");
+                background-size: 80px 80px;"></div>
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <h2 class="text-5xl sm:text-6xl font-black text-center mb-14" style="color:#1e2a4a;">Preguntas frecuentes</h2>
+
+      <div id="faq-list" class="divide-y divide-gray-200">
+
+        <!-- Item 1 -->
+        <div class="faq-item py-5">
+          <button class="faq-btn w-full flex items-center justify-between gap-4 text-left group" onclick="toggleFaq(this)">
+            <span class="text-base sm:text-lg font-semibold" style="color:#1e2a4a;">¿Necesito dinero para conectarme con Soy Rappi?</span>
+            <svg class="faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-300" style="color:#1e2a4a;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer hidden pt-3 pr-8">
+            <p class="text-gray-500 text-sm leading-relaxed">No. Registrarte en Soy Rappi es completamente gratuito. Solo necesitas tu documento de identidad, un smartphone y ganas de trabajar.</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="faq-item py-5">
+          <button class="faq-btn w-full flex items-center justify-between gap-4 text-left group" onclick="toggleFaq(this)">
+            <span class="text-base sm:text-lg font-semibold" style="color:#1e2a4a;">¿Cómo recibo las ganancias?</span>
+            <svg class="faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-300" style="color:#1e2a4a;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer hidden pt-3 pr-8">
+            <p class="text-gray-500 text-sm leading-relaxed">Tus ganancias se acumulan en tu billetera Rappi y puedes retirarlas a tu cuenta bancaria cuando quieras, sin esperas.</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="faq-item py-5">
+          <button class="faq-btn w-full flex items-center justify-between gap-4 text-left group" onclick="toggleFaq(this)">
+            <span class="text-base sm:text-lg font-semibold" style="color:#1e2a4a;">¿Es obligatorio tener la mochila para comenzar a repartir?</span>
+            <svg class="faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-300" style="color:#1e2a4a;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer hidden pt-3 pr-8">
+            <p class="text-gray-500 text-sm leading-relaxed">No es obligatorio desde el primer día, pero se recomienda tenerla para ciertos tipos de pedidos. Puedes conseguirla a través de la app a un precio preferencial.</p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="faq-item py-5">
+          <button class="faq-btn w-full flex items-center justify-between gap-4 text-left group" onclick="toggleFaq(this)">
+            <span class="text-base sm:text-lg font-semibold" style="color:#1e2a4a;">¿En cuánto tiempo estará aprobada mi cuenta?</span>
+            <svg class="faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-300" style="color:#1e2a4a;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer hidden pt-3 pr-8">
+            <p class="text-gray-500 text-sm leading-relaxed">El proceso de activación puede tardar entre 24 y 72 horas hábiles una vez que hayas subido todos tus documentos correctamente.</p>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="faq-item py-5">
+          <button class="faq-btn w-full flex items-center justify-between gap-4 text-left group" onclick="toggleFaq(this)">
+            <span class="text-base sm:text-lg font-semibold" style="color:#1e2a4a;">¿En qué partes de la ciudad me puedo conectar?</span>
+            <svg class="faq-icon w-5 h-5 flex-shrink-0 transition-transform duration-300" style="color:#1e2a4a;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer hidden pt-3 pr-8">
+            <p class="text-gray-500 text-sm leading-relaxed">Puedes conectarte en todas las zonas habilitadas por Rappi en tu ciudad. Desde la app Rappitendero puedes ver el mapa de zonas activas en tiempo real.</p>
+          </div>
+        </div>
+
+      </div><!-- /faq-list -->
+    </div>
+  </section>
+  <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+  <!-- ══════════════════════════════════════════
+       OTROS PAÍSES
+  ══════════════════════════════════════════ -->
+  <section class="py-12" style="background:#f4f4f4;">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+        <!-- Izquierda: logo + redes -->
+        <div class="flex flex-col gap-6">
+          <img src="soyrappi_logo.png" alt="Soy Rappi"
+               style="width:160px; height:auto; object-fit:contain; filter: brightness(0) saturate(100%) invert(45%) sepia(80%) saturate(500%) hue-rotate(330deg);" />
+          <div class="flex gap-4 items-center">
+            <!-- Facebook -->
+            <a href="#" class="w-12 h-12 rounded-full flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+              </svg>
+            </a>
+            <!-- YouTube -->
+            <a href="#" class="w-12 h-10 rounded-lg flex items-center justify-center" style="background:#fe3f23;">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Derecha: otros países -->
+        <div>
+          <h3 class="text-2xl font-black text-gray-800 mb-6">¿Nos visitas de otro país?</h3>
+          <div class="grid grid-cols-3 gap-x-8 gap-y-3">
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇦🇷</span> Argentina
+            </a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇧🇷</span> Brasil
+            </a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇨🇱</span> Chile
+            </a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇨🇷</span> Costa Rica
+            </a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇪🇨</span> Ecuador
+            </a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇲🇽</span> México
+            </a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇵🇪</span> Perú
+            </a>
+            <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-rappi transition-colors text-sm font-medium">
+              <span class="text-2xl">🇺🇾</span> Uruguay
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Copyright bar -->
+  <div class="py-4 px-6 flex justify-between items-center text-xs text-gray-400" style="background:#e8e8e8;">
+    <span>© 2026 Rappi Inc. Todos los derechos reservados.</span>
+    <span>🇨🇴 Colombia</span>
+  </div>
+
+  <script>
+    // Phone slide-in animation on scroll
+    (function() {
+      var phone = document.getElementById('phone-mockup');
+      if (!phone) return;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            phone.style.transform = 'translateY(0)';
+            phone.style.opacity  = '1';
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.2 });
+      obs.observe(phone);
+    })();
+
+    // Sequential count-up animation for step numbers
+    (function() {
+      const section = document.getElementById('como-funciona');
+      const nums    = document.querySelectorAll('.step-number');
+      let fired     = false;
+
+      function runCounter(el, target, delay) {
+        setTimeout(function() {
+          var current = 0;
+          var step    = Math.ceil(target / 8);
+          var timer   = setInterval(function() {
+            current += step;
+            if (current >= target) {
+              current = target;
+              clearInterval(timer);
+            }
+            el.textContent = current;
+          }, 60);
+        }, delay);
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting && !fired) {
+            fired = true;
+            nums.forEach(function(el, i) {
+              runCounter(el, parseInt(el.dataset.target), i * 750);
+            });
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.35 });
+
+      observer.observe(section);
+    })();
+  </script>
+
+  <script>
+    function toggleFaq(btn) {
+      const item   = btn.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const icon   = btn.querySelector('.faq-icon');
+      const isOpen = !answer.classList.contains('hidden');
+
+      // Cierra todos los demás
+      document.querySelectorAll('.faq-item').forEach(el => {
+        el.querySelector('.faq-answer').classList.add('hidden');
+        el.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+      });
+
+      if (!isOpen) {
+        answer.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+  </script>
+
+  <!-- Floating CTA Widget -->
+  <div id="floating-widget" style="
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    pointer-events: none;
+    animation: floatWidget 3s ease-in-out infinite;
+  ">
+    <!-- Bubble label -->
+    <div id="widget-bubble" style="
+      pointer-events: auto;
+      background: #fff;
+      color: #1A1A1A;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      padding: 7px 10px;
+      border-radius: 16px 16px 4px 16px;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.18);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 125px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 2px solid #FF441F;
+      line-height: 1.3;
+    "
+    onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 10px 36px rgba(255,68,31,0.28)'"
+    onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 28px rgba(0,0,0,0.18)'"
+    onclick="openVideoModal()">
+      <svg id="widget-bag-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF441F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; transform-origin:50% 85%; animation: bagWiggle 2.6s ease-in-out infinite;">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span>¡Quiero hacer mi primer pedido!</span>
+    </div>
+
+    <!-- Orange round button -->
+    <div style="pointer-events: auto; display:flex; justify-content:flex-end;">
+      <button onclick="openVideoModal()" style="
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #FF441F, #FF6B47);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 24px rgba(255,68,31,0.45);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        animation: widgetPulse 2.4s ease-in-out infinite;
+      "
+      onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 10px 32px rgba(255,68,31,0.55)'"
+      onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 24px rgba(255,68,31,0.45)'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="white">
+          <polygon points="5,3 19,12 5,21"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Video Modal -->
+  <div id="video-modal" onclick="if(event.target===this)closeVideoModal()" style="
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0,0,0,0.78);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  ">
+    <div style="
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    ">
+      <!-- Close button -->
+      <button onclick="closeVideoModal()" style="
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        z-index: 20;
+        background: rgba(0,0,0,0.6);
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1rem;
+        line-height: 1;
+      ">✕</button>
+
+      <!-- Thumbnail cover (shown first) -->
+      <div id="yt-cover" onclick="playVideo()" style="
+        cursor: pointer;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+      ">
+        <img src="thumbnail_primer_pedido.png" loading="lazy" decoding="async" alt="Mi primer pedido"
+             style="width:100%; height:100%; object-fit:cover; display:block;" />
+        <!-- Play button overlay -->
+        <div style="
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0,0,0,0.22);
+          transition: background 0.2s;
+        "
+        onmouseover="this.style.background='rgba(0,0,0,0.38)'"
+        onmouseout="this.style.background='rgba(0,0,0,0.22)'">
+          <div style="
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: #FF441F;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+          ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white" style="margin-left:4px;">
+              <polygon points="5,3 19,12 5,21"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- iframe (hidden until play clicked) -->
+      <div id="yt-player" style="display:none; position:relative; padding-bottom:56.25%; height:0;">
+        <iframe id="yt-iframe"
+          src=""
+          title="Mi primer pedido"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="position:absolute; top:0; left:0; width:100%; height:100%;">
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes widgetPulse {
+      0%, 100% { box-shadow: 0 6px 24px rgba(255,68,31,0.45); }
+      50%       { box-shadow: 0 6px 36px rgba(255,68,31,0.75), 0 0 0 8px rgba(255,68,31,0.12); }
+    }
+    @keyframes floatWidget {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    @keyframes bagWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      20%       { transform: rotate(-14deg); }
+      40%       { transform: rotate(10deg); }
+      60%       { transform: rotate(-6deg); }
+      80%       { transform: rotate(4deg); }
+    }
+  </style>
+
+  <script>
+    function openVideoModal() {
+      document.getElementById('yt-cover').style.display = 'block';
+      document.getElementById('yt-player').style.display = 'none';
+      document.getElementById('yt-iframe').src = '';
+      const modal = document.getElementById('video-modal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function playVideo() {
+      window.open('https://www.youtube.com/watch?v=YikIJelyd3I', '_blank');
+    }
+    function closeVideoModal() {
+      document.getElementById('yt-iframe').src = '';
+      document.getElementById('video-modal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeVideoModal();
+    });
+
+    function navCloseAll() {
+      ['ganancias-drop','estados-drop','beneficios-drop','turbo-drop','evoluciona-drop'].forEach(function(id) {
+        var el = document.getElementById(id); if (el) el.style.display = 'none';
+      });
+    }
+    function toggleGananciasDrop() {
+      var d = document.getElementById('ganancias-drop');
+      var show = d.style.display === 'none' || !d.style.display;
+      navCloseAll(); if (show) d.style.display = 'block';
+    }
+    function toggleEstadosDrop() {
+      var d = document.getElementById('estados-drop');
+      var show = d.style.display === 'none' || !d.style.display;
+      navCloseAll(); if (show) d.style.display = 'block';
+    }
+    function toggleBeneficiosDrop() {
+      var d = document.getElementById('beneficios-drop');
+      var show = d.style.display === 'none' || !d.style.display;
+      navCloseAll(); if (show) d.style.display = 'block';
+    }
+    function toggleTurboDrop() {
+      var d = document.getElementById('turbo-drop');
+      var show = d.style.display === 'none' || !d.style.display;
+      navCloseAll(); if (show) d.style.display = 'block';
+    }
+    function toggleEvolucionaDrop() {
+      var d = document.getElementById('evoluciona-drop');
+      var show = d.style.display === 'none' || !d.style.display;
+      navCloseAll(); if (show) d.style.display = 'block';
+    }
+    document.addEventListener('click', function(e) {
+      var navIds = ['nav-ganancias','nav-estados','nav-beneficios','nav-turbo','nav-evoluciona'];
+      var inside = navIds.some(function(id) {
+        var el = document.getElementById(id); return el && el.contains(e.target);
+      });
+      if (!inside) navCloseAll();
+    });
+  </script>
+
+
+  <!-- ══════════════════════════════════════════
+       SOUND EFFECTS — Web Audio API
+  ══════════════════════════════════════════ -->
+  <script>
+    (function () {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      let ctx = null;
+
+      function getCtx() {
+        if (!ctx) ctx = new AC();
+        if (ctx.state === 'suspended') ctx.resume();
+        return ctx;
+      }
+
+      /* ── Registrarse: pop ascendente rápido ── */
+      function soundRegister() {
+        const c = getCtx();
+        const osc  = c.createOscillator();
+        const gain = c.createGain();
+        osc.connect(gain);
+        gain.connect(c.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(280, c.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(720, c.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.28, c.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.22);
+        osc.start(c.currentTime);
+        osc.stop(c.currentTime + 0.22);
+      }
+
+      /* ── Video / primer pedido: doble ding ascendente ── */
+      function soundVideo() {
+        const c = getCtx();
+        [700, 1050].forEach(function (freq, i) {
+          const osc  = c.createOscillator();
+          const gain = c.createGain();
+          osc.connect(gain);
+          gain.connect(c.destination);
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const t = c.currentTime + i * 0.13;
+          gain.gain.setValueAtTime(0, t);
+          gain.gain.linearRampToValueAtTime(0.22, t + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
+          osc.start(t);
+          osc.stop(t + 0.4);
+        });
+      }
+
+      /* ── Logo Rappi: acorde de 3 notas (marca) ── */
+      function soundLogo() {
+        const c = getCtx();
+        [440, 554, 659].forEach(function (freq, i) {
+          const osc  = c.createOscillator();
+          const gain = c.createGain();
+          osc.connect(gain);
+          gain.connect(c.destination);
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const t = c.currentTime + i * 0.08;
+          gain.gain.setValueAtTime(0, t);
+          gain.gain.linearRampToValueAtTime(0.18, t + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.32);
+          osc.start(t);
+          osc.stop(t + 0.35);
+        });
+      }
+
+      /* ── Enlazar eventos ── */
+      document.addEventListener('DOMContentLoaded', function () {
+        // Logo
+        var logo = document.getElementById('logo-link');
+        if (logo) logo.addEventListener('click', soundLogo);
+
+        // Registrarse — navbar CTA
+        var navBtn = document.getElementById('nav-registrarse');
+        if (navBtn) navBtn.addEventListener('click', soundRegister);
+
+        // Registrarse — botón del formulario
+        var formBtn = document.getElementById('registrarse-btn');
+        if (formBtn) formBtn.addEventListener('click', soundRegister);
+
+        // Widget video — burbuja y botón play
+        document.querySelectorAll('[onclick="openVideoModal()"]').forEach(function (el) {
+          el.addEventListener('click', soundVideo);
+        });
+      });
+
+      // Exponer para que openVideoModal también pueda usarlo si se llama desde otro lado
+      window._soundVideo = soundVideo;
+    })();
+  </script>
+
+
+<script id="mob-nav-js">
+(function(){
+  if(document.getElementById('mob-nav-panel')) return;
+  // Hamburger button
+  var btn = document.createElement('button');
+  btn.className='mob-btn';
+  btn.setAttribute('aria-label','Menú');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  btn.onclick = toggleMobNav;
+  var nav = document.querySelector('nav');
+  var row = nav && nav.querySelector('.flex.items-center.justify-between');
+  if(row){ row.appendChild(btn); }
+
+  // Fix logo left offset on mobile via JS (in case inline style overrides CSS)
+  var logoWrap = row && row.querySelector('.flex.items-center.gap-3.flex-shrink-0, .flex.items-center.gap-3');
+  if(logoWrap) logoWrap.classList.add('mob-logo-wrap');
+
+  // Mobile panel
+  var panel = document.createElement('div');
+  panel.id='mob-nav-panel';
+  panel.innerHTML=[
+    '<div class="mob-inner">',
+    // Ganancias
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Ganancias<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="cuenta-bancaria.html">¿Cómo recibir ganancias?</a>',
+      '<a href="cuanto-ganar.html">¿Cuánto puedes ganar?</a>',
+      '<a href="incentivos.html">Incentivos</a>',
+      '<a href="referidos.html">Referidos</a>',
+      '<a href="propinas.html">Propinas</a>',
+      '<a href="alta-demanda.html">Punto de Alta Demanda</a>',
+    '</div>',
+    // Estados
+    '<a href="sistema-de-estados.html" class="mob-plain-link">Estados</a>',
+    // Beneficios
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Beneficios<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="beneficios-exclusivos.html">Beneficios Exclusivos</a>',
+      '<a href="seguro-accidentes.html">Seguro de Accidentes</a>',
+    '</div>',
+    // Turbo
+    '<a href="turbo.html" class="mob-plain-link">Turbo</a>',
+    // Evoluciona
+    '<a href="soyrappi-evoluciona.html" class="mob-plain-link">SoyRappi Evoluciona</a>',
+    // CTA
+    '<div class="mob-cta-wrap"><a href="index.html#registro">Regístrate</a></div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(panel);
+
+  window.toggleMobNav = function(){
+    var p = document.getElementById('mob-nav-panel');
+    var b = document.querySelector('.mob-btn');
+    var open = p && p.style.display==='block';
+    if(p) p.style.display = open?'none':'block';
+    if(b) b.classList.toggle('is-open',!open);
+    document.body.style.overflow = open?'':'hidden';
+  };
+  window.mobToggleSec = function(hdr){
+    var sub = hdr.nextElementSibling;
+    if(!sub) return;
+    var open = sub.style.display==='block';
+    sub.style.display = open?'none':'block';
+    hdr.classList.toggle('mob-open',!open);
+  };
+  // Close mobile menu on nav link click
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#mob-nav-panel a')){
+      var p=document.getElementById('mob-nav-panel');
+      var b=document.querySelector('.mob-btn');
+      if(p) p.style.display='none';
+      if(b) b.classList.remove('is-open');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

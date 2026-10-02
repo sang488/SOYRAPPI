@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¿Cuánto puedes ganar? — Soy Rappi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    @font-face { font-family:'PPObjectSans'; src:local('PP Object Sans Bold'),local('PPObjectSans-Bold'); font-weight:700; }
+    .nav-font { font-family:'PPObjectSans','Inter',sans-serif; font-weight:700; }
+    body { font-family:'Inter',sans-serif; background:#f9f9fb; }
+    html { scroll-behavior:smooth; }
+    .card { background:#fff; border-radius:18px; box-shadow:0 4px 20px rgba(0,0,0,0.07); }
+    @keyframes countUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+    .stat-anim { animation: countUp 0.6s ease forwards; }
+
+    /* Coin flip → number reveal */
+    @keyframes letterBounce {
+      0%, 100% { transform: translateY(0);    }
+      12%       { transform: translateY(-20px); }
+      22%       { transform: translateY(0);    }
+    }
+    .letter-bounce {
+      display: inline-block;
+      animation: letterBounce 3.2s ease-in-out infinite;
+    }
+
+    /* Phone slide images */
+    .gslide-img { position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity 0.55s ease; pointer-events:none; }
+    .gslide-img.active { opacity:1; pointer-events:auto; }
+
+    /* Slide text */
+    .gslide-text { position:absolute; top:0; left:0; width:100%; opacity:0; transition:opacity 0.55s ease; pointer-events:none; }
+    .gslide-text.active { opacity:1; pointer-events:auto; }
+
+    /* Slide dots */
+    .gdot { width:9px; height:9px; border-radius:50%; background:#d0d0d0; cursor:pointer; transition:all 0.25s; border:none; padding:0; }
+    .gdot.on { background:#1fd6b3; transform:scale(1.3); }
+
+    /* Coin falling animation */
+    @keyframes coinFall {
+      0%   { transform: translateY(-70px) rotate(0deg); opacity:0; }
+      12%  { opacity:1; }
+      80%  { opacity:0.7; }
+      100% { transform: translateY(340px) rotate(300deg); opacity:0; }
+    }
+    .coin {
+      position:absolute;
+      animation: coinFall linear infinite;
+      pointer-events:none;
+    }
+
+    /* Float animation for phone image */
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-12px); }
+    }
+    .phone-float { animation: phoneFloat 3.2s ease-in-out infinite; }
+
+    /* Slide label badge */
+    .slide-label {
+      display:inline-block;
+      background:linear-gradient(90deg,#1fd6b3,#23acb7);
+      color:#fff;
+      font-weight:800;
+      font-size:0.72rem;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      padding:4px 12px;
+      border-radius:20px;
+      margin-bottom:14px;
+    }
+  </style>
+
+<style id="mob-nav-css">
+/* ── Mobile nav ── */
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;cursor:pointer;padding:10px;flex-shrink:0;}
+@media(max-width:767px){
+  .mob-btn{display:flex;}
+  .mob-logo-wrap{left:0!important;position:relative!important;}
+  #nav-registrarse,a.nav-cta-btn{display:none!important;}
+}
+.mob-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:transform .25s,opacity .25s;}
+.mob-btn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.mob-btn.is-open span:nth-child(2){opacity:0;}
+.mob-btn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+#mob-nav-panel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#082028 0%,#041218 100%);z-index:197;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+#mob-nav-panel .mob-inner{padding-top:96px;padding-bottom:60px;}
+.mob-section-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;background:none;border:none;border-bottom:1px solid rgba(255,255,255,0.09);cursor:pointer;text-align:left;}
+.mob-section-btn svg{transition:transform .2s;flex-shrink:0;}
+.mob-section-btn.mob-open svg{transform:rotate(180deg);}
+.mob-sub{background:rgba(0,0,0,0.25);display:none;}
+.mob-sub a{display:flex;align-items:center;gap:10px;padding:13px 32px;color:#c7e9e4;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+.mob-sub a:active{background:rgba(31,214,179,0.15);}
+.mob-plain-link{display:flex;align-items:center;padding:17px 24px;color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-size:1rem;font-weight:700;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.09);}
+.mob-cta-wrap{padding:28px 24px;}
+.mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
+</style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 shadow-lg" style="background:linear-gradient(90deg,#1fd6b3 0%,#23acb7 100%);">
+    <div class="max-w-8xl mx-auto px-6">
+      <div class="flex items-center justify-between h-24">
+        <div class="flex items-center gap-3 flex-shrink-0" style="position:relative;left:120px;">
+          <a href="index.html">
+            <img src="soyrappi_logo.png" alt="Soy Rappi" style="width:200px;height:auto;object-fit:contain;" />
+          </a>
+          <img src="bandera_col.png" alt="Colombia" style="width:75px;height:75px;object-fit:contain;flex-shrink:0;margin-left:-40px;" />
+        </div>
+        <div class="hidden md:flex items-center gap-6 flex-1 justify-center">
+          <div class="relative" id="nav-ganancias">
+            <button onclick="toggleDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Ganancias <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="nav-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(8,40,42,0.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);min-width:230px;overflow:hidden;z-index:200;">
+              <a href="cuenta-bancaria.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+                </span>
+                ¿Cómo recibir ganancias?
+              </a>
+              <a href="cuanto-ganar.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;background:rgba(255,255,255,0.18);text-shadow:0 1px 4px rgba(0,0,0,0.15);">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </span>
+                ¿Cuánto puedes ganar?
+              </a>
+              <a href="incentivos.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.18)'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#a259ff,#7c3aed);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </span>
+                Incentivos
+              </a>
+              <a href="referidos.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                </span>
+                Referidos
+              </a>
+            </div>
+          </div>
+          <div class="relative" id="nav-estados">
+            <button onclick="toggleEstadosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap bg-transparent border-none cursor-pointer p-0">
+              Estados <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="estados-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(8,40,42,0.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);min-width:220px;overflow:hidden;z-index:200;">
+              <a href="sistema-de-estados.html" style="display:flex;align-items:center;gap:10px;padding:13px 18px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.88rem;text-decoration:none;transition:background 0.15s;text-shadow:0 1px 4px rgba(0,0,0,0.15);" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'">
+                <span style="width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#1a1a2e,#3d3d6b);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="6" y2="9"/><line x1="12" y1="3" x2="18" y2="9"/></svg></span>
+                Sistema de estados
+              </a>
+            </div>
+          </div>
+          <div class="relative" id="nav-beneficios"><button onclick="toggleBeneficiosDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Beneficios <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="beneficios-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18),0 2px 8px rgba(0,0,0,0.10);width:260px;overflow:hidden;z-index:200;"><a href="beneficios-exclusivos.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>Beneficios Exclusivos</a><a href="seguro-accidentes.html" style="display:flex;align-items:center;gap:12px;padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>Seguro de Accidentes</a></div></div>
+          <div class="relative" id="nav-turbo"><button onclick="toggleTurboDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">Turbo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="turbo-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:300px;overflow:hidden;z-index:200;"><a href="turbo.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>Todo lo que debes saber sobre Turbo</a></div></div>
+          <div class="relative" id="nav-evoluciona"><button onclick="toggleEvolucionaDrop()" class="nav-font flex items-center gap-1 text-white text-sm hover:text-white/80 whitespace-nowrap bg-transparent border-none cursor-pointer p-0">SoyRappi Evoluciona <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button><div id="evoluciona-drop" style="display:none;position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);background:rgba(10,30,34,0.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,0.45);border-radius:16px;box-shadow:0 8px 32px rgba(31,214,179,0.18);width:280px;overflow:hidden;z-index:200;"><a href="soyrappi-evoluciona.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;text-decoration:none;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.18)'" onmouseout="this.style.background='transparent'"><span style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span>Te escuchamos</a></div></div>
+          <a href="index.html#" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Conoce más</a>
+          <a href="index.html#faq" class="nav-font text-white text-sm hover:text-white/80 transition-colors whitespace-nowrap">Pregúntanos</a>
+        </div>
+        <a href="index.html#registro" class="nav-font text-sm px-7 py-2.5 rounded-full transition-all hover:scale-105 whitespace-nowrap" style="background:#fff;color:#23acb7;">Regístrate</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div style="background:#f5f5f7;border-bottom:1px solid #e8e8e8;padding:12px 24px;">
+    <div class="max-w-4xl mx-auto">
+      <span style="font-size:0.82rem;color:#999;">
+        <a href="index.html" style="color:#23acb7;text-decoration:none;font-weight:600;">Inicio</a>
+        &nbsp;›&nbsp; Ganancias &nbsp;›&nbsp; <strong style="color:#333;">¿Cuánto puedes ganar?</strong>
+      </span>
+    </div>
+  </div>
+
+  <main style="padding:48px 24px 80px;">
+    <div class="max-w-4xl mx-auto" style="display:flex;flex-direction:column;gap:48px;">
+
+      <!-- HERO STAT -->
+      <div id="hero-stat" class="card" style="background:linear-gradient(135deg,#1fd6b3,#23acb7);padding:48px 36px;text-align:center;position:relative;overflow:visible;">
+        <!-- coin-hero elements injected by JS -->
+        <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;">Gana hasta</p>
+        <div>
+          <p style="color:#fff;font-size:clamp(2.8rem,6vw,4.2rem);font-weight:900;line-height:1;margin-bottom:4px;"><span class="letter-bounce" style="animation-delay:0s">$</span><span class="letter-bounce" style="animation-delay:.07s">1</span><span class="letter-bounce" style="animation-delay:.14s">.</span><span class="letter-bounce" style="animation-delay:.21s">0</span><span class="letter-bounce" style="animation-delay:.28s">0</span><span class="letter-bounce" style="animation-delay:.35s">0</span><span class="letter-bounce" style="animation-delay:.42s">.</span><span class="letter-bounce" style="animation-delay:.49s">0</span><span class="letter-bounce" style="animation-delay:.56s">0</span><span class="letter-bounce" style="animation-delay:.63s">0</span> <span style="font-size:0.5em;font-weight:700;">COP</span></p>
+          <p style="color:rgba(255,255,255,0.9);font-size:1.15rem;font-weight:700;margin-bottom:20px;">por semana*</p>
+        </div>
+        <p style="color:rgba(255,255,255,0.75);font-size:0.85rem;max-width:480px;margin:0 auto;line-height:1.6;">*Cifra estimada. Varía según ciudad, vehículo, horas activas y número de pedidos aceptados.</p>
+      </div>
+
+      <!-- ¿CUÁLES SON LAS DIFERENTES GANANCIAS? -->
+      <div>
+        <div style="display:flex;align-items:center;gap:48px;">
+
+          <!-- LEFT: title + subtitle + slide texts -->
+          <div style="flex:1;">
+            <h2 style="font-size:clamp(2rem,4.5vw,3rem);font-weight:900;color:#1a1a1a;margin-bottom:8px;line-height:1.1;">¿Cuáles son las<br><span style="color:#1fd6b3;">diferentes ganancias?</span></h2>
+            <p style="color:#888;font-size:1.15rem;margin-bottom:32px;margin-top:10px;">Así se compone el dinero que recibes por cada entrega.</p>
+            <div style="position:relative;min-height:200px;">
+              <div id="gslide-text-0" class="gslide-text active">
+                <div class="slide-label">01 / 03</div>
+                <h3 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:#1a1a1a;margin-bottom:14px;line-height:1.2;">Ganancia<br>del pedido</h3>
+                <p style="color:#555;font-size:1rem;line-height:1.7;">Corresponde al valor que recibes por la gestión del pedido.</p>
+              </div>
+              <div id="gslide-text-1" class="gslide-text">
+                <div class="slide-label">02 / 03</div>
+                <h3 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:#1a1a1a;margin-bottom:14px;line-height:1.2;">Propina<br>del usuario</h3>
+                <p style="color:#555;font-size:1rem;line-height:1.7;">Corresponde al valor voluntario otorgado por tu usuario antes, durante, o al finalizar el pedido.</p>
+              </div>
+              <div id="gslide-text-2" class="gslide-text">
+                <div class="slide-label">03 / 03</div>
+                <h3 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:900;color:#1a1a1a;margin-bottom:14px;line-height:1.2;">Incentivos</h3>
+                <p style="color:#555;font-size:1rem;line-height:1.7;">Corresponden a las misiones o ganancias extra por pedido en los que te puedes inscribir.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: phone + vertical dots -->
+          <div style="flex:0 0 460px;display:flex;flex-direction:row;align-items:center;gap:14px;">
+            <div style="position:relative;width:420px;height:708px;">
+              <img id="gslide-img-0" class="gslide-img active" src="Ganancia_ANDROID_4_copia_372faca2a5.png" alt="Ganancia del pedido" />
+              <img id="gslide-img-1" class="gslide-img" src="Ganancia_ANDROID_1_corto_70d4ed0490.png" alt="Propina del usuario" />
+              <img id="gslide-img-2" class="gslide-img" src="Ganancia_ANDROID_33_Corto_5323ba3c79 (1).png" alt="Incentivos" />
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+              <button onclick="gGoTo(gCurrent-1)" style="width:36px;height:36px;border-radius:50%;border:2px solid #e0e0e0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onmouseover="this.style.borderColor='#1fd6b3'" onmouseout="this.style.borderColor='#e0e0e0'"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#555" stroke-width="2.5"><polyline points="6 15 12 9 18 15"/></svg></button>
+              <button class="gdot on" id="gdot-0" onclick="gGoTo(0)"></button>
+              <button class="gdot" id="gdot-1" onclick="gGoTo(1)"></button>
+              <button class="gdot" id="gdot-2" onclick="gGoTo(2)"></button>
+              <button onclick="gGoTo(gCurrent+1)" style="width:36px;height:36px;border-radius:50%;border:2px solid #e0e0e0;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onmouseover="this.style.borderColor='#1fd6b3'" onmouseout="this.style.borderColor='#e0e0e0'"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="#555" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- COINS + PAGO SEMANAL (merged, phone popping out) -->
+      <div style="position:relative;padding:48px 0;margin:-48px 0;">
+        <div class="card" style="padding:0;overflow:hidden;position:relative;">
+          <div style="display:flex;min-height:280px;align-items:stretch;">
+
+            <!-- LEFT: Pink-orange gradient + coins + text -->
+            <div id="coins-section" style="flex:1;background:linear-gradient(135deg,#ff2d78 0%,#ff3d3d 45%,#ff6b21 100%);padding:48px 140px 48px 40px;position:relative;overflow:hidden;display:flex;align-items:center;">
+              <div style="position:relative;z-index:2;">
+                <p style="font-size:clamp(0.95rem,2vw,1.15rem);color:#fff;font-weight:600;line-height:1.8;max-width:300px;">
+                  Semanalmente recibirás a la cuenta bancaria que registres en tu cuenta el dinero que has generado en los últimos <strong style="color:#ffe066;">siete (7) días.</strong>
+                </p>
+              </div>
+            </div>
+
+            <!-- RIGHT: White + "Entra a la app" -->
+            <div style="flex:1;background:#fff;padding:48px 40px 48px 140px;display:flex;align-items:center;">
+              <p style="color:#555;font-size:clamp(0.9rem,1.8vw,1rem);line-height:1.8;">
+                Entra a la Aplicación <strong style="color:#1a1a1a;">'Soy Rappi'</strong>, dirígete a la sección denominada <strong style="color:#1fd6b3;">'Mis Ganancias y deudas'</strong> y en ella podrás revisar cuánto dinero has generado con tus entregas.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Phone absolutely positioned OUTSIDE the card, overlapping top+bottom -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:20;pointer-events:none;">
+          <img src="Ganancia_11ANDROID_2_1_06386e456b.png" alt="Mis Ganancias y deudas" class="phone-float" style="width:240px;height:auto;filter:drop-shadow(0 20px 50px rgba(0,0,0,0.32));" />
+        </div>
+
+      </div>
+
+      <!-- CÓMO AUMENTAR TUS GANANCIAS -->
+      <div style="padding-top:60px;">
+        <h2 style="font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;color:#f3663d;text-align:center;margin-bottom:10px;line-height:1.15;">¿Cómo aumentar tus ganancias?</h2>
+        <p style="color:#888;font-size:0.93rem;text-align:center;margin-bottom:28px;">Ten en cuenta los siguientes consejos:</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+
+          <div class="card" style="padding:22px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;">
+            <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div>
+              <p style="font-weight:800;color:#1a1a1a;font-size:0.92rem;margin-bottom:5px;">Activa el botón de Autoaceptación</p>
+              <p style="color:#666;font-size:0.82rem;line-height:1.6;margin:0;">Acepta pedidos automáticamente y no pierdas ninguna oportunidad de ganar.</p>
+            </div>
+          </div>
+
+          <div class="card" style="padding:22px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;">
+            <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#6C47FF,#9B7BFF);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <p style="font-weight:800;color:#1a1a1a;font-size:0.92rem;margin-bottom:5px;">Reserva tus momentos de conexión</p>
+              <p style="color:#666;font-size:0.82rem;line-height:1.6;margin:0;">Las reservas te permiten ver las zonas y momentos de mayor demanda en tu ciudad.</p>
+            </div>
+          </div>
+
+          <div class="card" style="padding:22px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;">
+            <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#ff9900,#ffb84d);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div>
+              <p style="font-weight:800;color:#1a1a1a;font-size:0.92rem;margin-bottom:5px;">Participa en los Incentivos de la app</p>
+              <p style="color:#666;font-size:0.82rem;line-height:1.6;margin:0;">Participa en los diferentes Incentivos que se muestran dentro de la app y gana bonos extra.</p>
+            </div>
+          </div>
+
+          <!-- Row 2: 2 cards centered across all 3 columns -->
+          <div style="grid-column:1/-1;display:flex;justify-content:center;gap:14px;">
+
+            <div class="card" style="flex:0 0 calc(33.333% - 7px);padding:22px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;">
+              <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#f3663d,#ff3d55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div>
+                <p style="font-weight:800;color:#1a1a1a;font-size:0.92rem;margin-bottom:5px;">Refiere a tus amigos y familiares</p>
+                <p style="color:#666;font-size:0.82rem;line-height:1.6;margin:0;">Gana dinero por cada referido que traigas. Más info en <a href="https://soyrappi.com.co/referidos" target="_blank" style="color:#1fd6b3;font-weight:700;text-decoration:none;">soyrappi.com.co/referidos</a></p>
+              </div>
+            </div>
+
+            <div class="card" style="flex:0 0 calc(33.333% - 7px);padding:22px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;">
+              <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              </div>
+              <div>
+                <p style="font-weight:800;color:#1a1a1a;font-size:0.92rem;margin-bottom:5px;">Aprovecha las horas de alta demanda</p>
+                <p style="color:#666;font-size:0.82rem;line-height:1.6;margin:0;">Conéctate en el almuerzo, la cena y fines de semana para maximizar tus pedidos.</p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- COPYRIGHT -->
+  <div style="background:#e8e8e8;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:#aaa;">
+    <span>© 2026 Rappi Inc. Todos los derechos reservados.</span>
+    <span>🇨🇴 Colombia</span>
+  </div>
+
+  <script>
+    /* ── Navbar dropdown ── */
+    function toggleDrop() {
+      const d = document.getElementById('nav-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-ganancias').contains(e.target))
+        document.getElementById('nav-drop').style.display = 'none';
+    });
+    function toggleEstadosDrop() {
+      const d = document.getElementById('estados-drop');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(e) {
+      if (!document.getElementById('nav-estados').contains(e.target))
+        document.getElementById('estados-drop').style.display = 'none';
+    });
+
+
+    /* ── Ganancia slider ── */
+    var gCurrent = 0;
+    var gTotal = 3;
+    var gTimer;
+
+    function gGoTo(idx) {
+      idx = ((idx % gTotal) + gTotal) % gTotal;
+      // imgs
+      for (var i = 0; i < gTotal; i++) {
+        document.getElementById('gslide-img-' + i).classList.toggle('active', i === idx);
+        document.getElementById('gslide-text-' + i).classList.toggle('active', i === idx);
+        document.getElementById('gdot-' + i).classList.toggle('on', i === idx);
+      }
+      gCurrent = idx;
+      clearInterval(gTimer);
+      gTimer = setInterval(function(){ gGoTo(gCurrent + 1); }, 3800);
+    }
+
+    gTimer = setInterval(function(){ gGoTo(gCurrent + 1); }, 3800);
+
+    /* ── Coins falling animation ── */
+    (function spawnCoins() {
+      var container = document.getElementById('coins-section');
+      var coinSVG = function(size, opacity) {
+        return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="0 0 40 40">'
+          + '<circle cx="20" cy="20" r="17" fill="rgba(255,255,255,' + (opacity * 0.18) + ')" stroke="rgba(255,255,255,' + opacity + ')" stroke-width="2.2"/>'
+          + '<circle cx="20" cy="20" r="11" fill="none" stroke="rgba(255,255,255,' + (opacity * 0.6) + ')" stroke-width="1.4"/>'
+          + '<text x="20" y="26" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" font-weight="bold" fill="rgba(255,255,255,' + opacity + ')">$</text>'
+          + '</svg>';
+      };
+      var configs = [
+        { left:'5%',  delay:'0s',   dur:'2.6s', size:34, op:0.55 },
+        { left:'14%', delay:'0.7s', dur:'3.1s', size:28, op:0.40 },
+        { left:'24%', delay:'1.3s', dur:'2.4s', size:36, op:0.60 },
+        { left:'35%', delay:'0.2s', dur:'2.9s', size:26, op:0.35 },
+        { left:'47%', delay:'1.0s', dur:'2.7s', size:32, op:0.50 },
+        { left:'57%', delay:'1.8s', dur:'2.3s', size:30, op:0.45 },
+        { left:'66%', delay:'0.4s', dur:'3.2s', size:38, op:0.62 },
+        { left:'77%', delay:'1.5s', dur:'2.5s', size:28, op:0.40 },
+        { left:'87%', delay:'0.9s', dur:'2.8s', size:34, op:0.55 },
+        { left:'93%', delay:'2.2s', dur:'2.4s', size:30, op:0.42 },
+        { left:'10%', delay:'2.6s', dur:'3.0s', size:26, op:0.38 },
+        { left:'52%', delay:'2.0s', dur:'2.6s', size:32, op:0.48 },
+      ];
+      configs.forEach(function(c) {
+        var wrap = document.createElement('div');
+        wrap.className = 'coin';
+        wrap.style.left = c.left;
+        wrap.style.top = '-50px';
+        wrap.style.animationDuration = c.dur;
+        wrap.style.animationDelay = c.delay;
+        wrap.style.width = c.size + 'px';
+        wrap.style.height = c.size + 'px';
+        wrap.innerHTML = coinSVG(c.size, c.op);
+        container.appendChild(wrap);
+      });
+    })();
+  </script>
+
+
+<script>
+/* navbar-fix: unified dropdowns */
+(function(){
+  function navCloseAll(){['ganancias-drop','estados-drop','beneficios-drop','turbo-drop','evoluciona-drop','nav-drop'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});}
+  function mkToggle(dropId){return function(){var d=document.getElementById(dropId);if(!d)return;var show=d.style.display==='none'||!d.style.display;navCloseAll();if(show)d.style.display='block';};}
+  window.toggleGananciasDrop=mkToggle('ganancias-drop');
+  window.toggleEstadosDrop=mkToggle('estados-drop');
+  window.toggleBeneficiosDrop=mkToggle('beneficios-drop');
+  window.toggleBeneficiosDrop2=mkToggle('beneficios-drop');
+  window.toggleTurboDrop=mkToggle('turbo-drop');
+  window.toggleEvolucionaDrop=mkToggle('evoluciona-drop');
+  window.toggleDrop=mkToggle('nav-drop');
+  document.addEventListener('click',function(e){
+    var ids=['nav-ganancias','nav-estados','nav-beneficios','nav-turbo','nav-evoluciona'];
+    var inside=ids.some(function(id){var el=document.getElementById(id);return el&&el.contains(e.target);});
+    if(!inside)navCloseAll();
+  });
+})();
+</script>
+
+<script id="mob-nav-js">
+(function(){
+  if(document.getElementById('mob-nav-panel')) return;
+  // Hamburger button
+  var btn = document.createElement('button');
+  btn.className='mob-btn';
+  btn.setAttribute('aria-label','Menú');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  btn.onclick = toggleMobNav;
+  var nav = document.querySelector('nav');
+  var row = nav && nav.querySelector('.flex.items-center.justify-between');
+  if(row){ row.appendChild(btn); }
+
+  // Fix logo left offset on mobile via JS (in case inline style overrides CSS)
+  var logoWrap = row && row.querySelector('.flex.items-center.gap-3.flex-shrink-0, .flex.items-center.gap-3');
+  if(logoWrap) logoWrap.classList.add('mob-logo-wrap');
+
+  // Mobile panel
+  var panel = document.createElement('div');
+  panel.id='mob-nav-panel';
+  panel.innerHTML=[
+    '<div class="mob-inner">',
+    // Ganancias
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Ganancias<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="cuenta-bancaria.html">¿Cómo recibir ganancias?</a>',
+      '<a href="cuanto-ganar.html">¿Cuánto puedes ganar?</a>',
+      '<a href="incentivos.html">Incentivos</a>',
+      '<a href="referidos.html">Referidos</a>',
+      '<a href="propinas.html">Propinas</a>',
+      '<a href="alta-demanda.html">Punto de Alta Demanda</a>',
+    '</div>',
+    // Estados
+    '<a href="sistema-de-estados.html" class="mob-plain-link">Estados</a>',
+    // Beneficios
+    '<button class="mob-section-btn" onclick="mobToggleSec(this)">Beneficios<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>',
+    '<div class="mob-sub">',
+      '<a href="beneficios-exclusivos.html">Beneficios Exclusivos</a>',
+      '<a href="seguro-accidentes.html">Seguro de Accidentes</a>',
+    '</div>',
+    // Turbo
+    '<a href="turbo.html" class="mob-plain-link">Turbo</a>',
+    // Evoluciona
+    '<a href="soyrappi-evoluciona.html" class="mob-plain-link">SoyRappi Evoluciona</a>',
+    // CTA
+    '<div class="mob-cta-wrap"><a href="index.html#registro">Regístrate</a></div>',
+    '</div>'
+  ].join('');
+  document.body.appendChild(panel);
+
+  window.toggleMobNav = function(){
+    var p = document.getElementById('mob-nav-panel');
+    var b = document.querySelector('.mob-btn');
+    var open = p && p.style.display==='block';
+    if(p) p.style.display = open?'none':'block';
+    if(b) b.classList.toggle('is-open',!open);
+    document.body.style.overflow = open?'':'hidden';
+  };
+  window.mobToggleSec = function(hdr){
+    var sub = hdr.nextElementSibling;
+    if(!sub) return;
+    var open = sub.style.display==='block';
+    sub.style.display = open?'none':'block';
+    hdr.classList.toggle('mob-open',!open);
+  };
+  // Close mobile menu on nav link click
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#mob-nav-panel a')){
+      var p=document.getElementById('mob-nav-panel');
+      var b=document.querySelector('.mob-btn');
+      if(p) p.style.display='none';
+      if(b) b.classList.remove('is-open');
+      document.body.style.overflow='';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
