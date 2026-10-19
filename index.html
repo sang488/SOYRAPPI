@@ -77,9 +77,8 @@
       0%,100% { transform: translateY(0px);   box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
       50%      { transform: translateY(-10px); box-shadow: 0 20px 48px rgba(0,0,0,0.16); }
     }
-    .step-float { animation: floatStep 3s ease-in-out infinite; }
-    .step-float-2 { animation: floatStep 3s ease-in-out infinite; animation-delay: 0.6s; }
-    .step-float-3 { animation: floatStep 3s ease-in-out infinite; animation-delay: 1.2s; }
+    /* Pasos estáticos: se quitó la flotación (feedback: demasiados movimientos flotantes) */
+    .step-float, .step-float-2, .step-float-3 { animation: none; }
 
     /* Wave connector SVG — straight line removed, SVG handles it */
     .steps-connector {
@@ -136,7 +135,7 @@
       background-clip: text;
       -webkit-text-stroke: 1.4px rgba(255,255,255,1);
       text-shadow: 0 0 3px rgba(255,255,255,0.5);
-      animation: letterBounce 3.2s ease-in-out infinite, letterFillPulse 3.2s ease-in-out infinite;
+      animation: none;
     }
     @keyframes wigglePhone {
       0%, 100% { transform: rotate(-1.5deg) translateY(0px); }
@@ -145,7 +144,7 @@
       75%       { transform: rotate(0deg)    translateY(-4px); }
     }
     .phone-wiggle {
-      animation: wigglePhone 4s ease-in-out infinite;
+      animation: none;
     }
 
     /* Speech bubbles glassmorphism */
@@ -209,6 +208,18 @@
     .glass-input::placeholder { color: rgba(255,255,255,0.75); }
     .glass-input option { color: #1f2937; }
     .whatsapp-input::placeholder { color: #fff; }
+    @media (max-width: 1023px) { .hero-sticker { display: none !important; } }
+    @media (max-width: 767px) {
+      #hero-content { padding: 48px 20px 90px !important; }
+      #hero-inner { margin-left: 0 !important; }
+      #hero-glass { left: 10px !important; right: 10px !important; top: 14px !important; bottom: 14px !important; -webkit-mask-image: none !important; mask-image: none !important; }
+      #hero-amount { font-size: 2.6rem !important; white-space: normal !important; }
+      #hero-form-grid { grid-template-columns: 1fr !important; }
+      #hero-bubbles { display: none !important; }
+      .hero-img-layer { opacity: .25 !important; }
+      #wa-ia-btn { width: 100%; justify-content: center; }
+      #registrarse-btn { width: 100%; }
+    }
   </style>
 
 <style id="mob-nav-css">
@@ -235,6 +246,7 @@
 .mob-cta-wrap{padding:28px 24px;}
 .mob-cta-wrap a{display:block;text-align:center;background:linear-gradient(135deg,#1fd6b3,#23acb7);color:#fff;font-family:'PP Object Sans',Inter,sans-serif;font-weight:700;font-size:1rem;padding:16px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(31,214,179,0.35);}
 </style>
+<link rel="stylesheet" href="brand.css" />
 </head>
 <body class="font-sans bg-white text-gray-900 antialiased">
 
@@ -410,6 +422,15 @@
                     object-fit:contain; object-position:bottom right;
                     -webkit-mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
                     mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);" />
+        <!-- Gráfica slide 0 -->
+        <div class="hero-sticker" style="right:11%;bottom:31%;position:absolute;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#ff5a3c,#e8174f);border:3px solid #fff;border-radius:22px;padding:12px 20px 12px 12px;box-shadow:0 14px 34px rgba(120,0,20,0.35);color:#fff;transform:rotate(-6deg);">
+          <span style="width:48px;height:48px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e8174f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span>
+          <span style="line-height:1;"><span style="display:block;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.9;">Pedidos</span><span style="display:block;font-size:1.9rem;font-weight:900;letter-spacing:-.01em;">TODO EL DÍA</span></span>
+        </div>
+        <div class="hero-sticker" style="right:19%;bottom:15%;position:absolute;display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:12px 18px 12px 12px;box-shadow:0 14px 34px rgba(0,0,0,0.25);transform:rotate(3deg);">
+          <span style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#1fd6b3,#23acb7);display:flex;align-items:center;justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span>
+          <span style="line-height:1.15;color:#141a26;"><span style="display:block;font-size:.95rem;font-weight:900;">¡Nuevo pedido!</span><span style="display:block;font-size:.8rem;font-weight:600;color:#5b6475;">Acéptalo y empieza a ganar</span></span>
+        </div>
       </div>
 
       <!-- Slide 1: Supercopa Repartidores -->
@@ -436,11 +457,21 @@
                     object-fit:contain; object-position:bottom right;
                     -webkit-mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
                     mask-image:linear-gradient(to bottom, black 0%, black 82%, transparent 100%);" />
+        <!-- Gráfica slide 2 -->
+        <div class="hero-sticker" style="right:14%;bottom:30%;position:absolute;display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#ff5a3c,#e8174f);border:3px solid #fff;border-radius:22px;padding:12px 20px 12px 12px;box-shadow:0 14px 34px rgba(120,0,20,0.35);color:#fff;transform:rotate(-6deg);">
+          <span style="width:48px;height:48px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e8174f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span style="line-height:1;"><span style="display:block;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.9;">Tú decides</span><span style="display:block;font-size:1.9rem;font-weight:900;letter-spacing:-.01em;">TU HORARIO</span></span>
+        </div>
+        <div class="hero-sticker" style="right:20%;bottom:13%;position:absolute;display:flex;gap:8px;transform:rotate(-3deg);">
+          <span style="background:#fff;color:#141a26;font-weight:900;font-size:.95rem;border-radius:999px;padding:10px 16px;box-shadow:0 10px 26px rgba(0,0,0,0.22);">Mañana</span>
+          <span style="background:#141a26;color:#fff;font-weight:900;font-size:.95rem;border-radius:999px;padding:10px 16px;box-shadow:0 10px 26px rgba(0,0,0,0.22);">Tarde</span>
+          <span style="background:#fff;color:#141a26;font-weight:900;font-size:.95rem;border-radius:999px;padding:10px 16px;box-shadow:0 10px 26px rgba(0,0,0,0.22);">Noche</span>
+        </div>
       </div>
     </div>
 
     <!-- ── GLASS CARD — vidrio literal, flotando sobre la foto; las fotos pasan por debajo ── -->
-    <div style="position:absolute; left:36px; right:42%; top:36px; bottom:36px; z-index:5; pointer-events:none;
+    <div id="hero-glass" style="position:absolute; left:36px; right:42%; top:36px; bottom:36px; z-index:5; pointer-events:none;
                 background: rgba(255,255,255,0.12);
                 backdrop-filter: blur(26px) saturate(150%);
                 -webkit-backdrop-filter: blur(26px) saturate(150%);
@@ -475,22 +506,22 @@
     </div>
 
     <!-- ── CONTENIDO: texto + formulario a la izquierda, foto nítida a la derecha ── -->
-    <div class="w-full relative flex-1 flex flex-col" style="z-index:10;min-height:100vh;justify-content:center;padding:30px 24px 30px 100px;">
+    <div id="hero-content" class="w-full relative flex-1 flex flex-col" style="z-index:10;min-height:100vh;justify-content:center;padding:110px 24px 110px 100px;">
 
-      <div style="max-width:880px;color:#fff;margin-left:60px;">
+      <div id="hero-inner" style="max-width:880px;color:#fff;margin-left:60px;">
 
         <!-- TEXTO -->
-        <p style="color:#fff;font-weight:600;margin-bottom:6px;font-size:clamp(1.3rem,2vw,1.6rem);">¿La plata no te alcanza?</p>
-        <p style="color:#fff;font-weight:600;margin-bottom:4px;font-size:clamp(1.1rem,1.6vw,1.3rem);">Gana hasta</p>
-        <p class="amount-shimmer font-black leading-none" style="font-size:clamp(3.4rem,6.9vw,6.1rem);margin-bottom:6px;white-space:nowrap;">
+        <p class="hero-kicker" style="color:#fff;font-weight:800;margin-bottom:6px;line-height:1.1;font-size:clamp(2rem,3.3vw,2.9rem);letter-spacing:-0.01em;">¿La plata no te alcanza?</p>
+        <p style="color:#fff;font-weight:800;margin-bottom:0;line-height:1.1;font-size:clamp(1.7rem,2.7vw,2.4rem);">Gana hasta</p>
+        <p id="hero-amount" class="amount-shimmer font-black leading-none" style="font-size:clamp(3.4rem,6.9vw,6.1rem);margin-bottom:6px;white-space:nowrap;">
           <span class="letter-bounce" style="animation-delay:0s;-webkit-text-stroke:1.4px rgba(255,255,255,1);text-shadow:0 0 3px rgba(255,255,255,0.5);background:rgba(255,255,255,0.7);-webkit-background-clip:text;background-clip:text;color:transparent;">$</span><span class="letter-bounce" style="animation-delay:.07s">1</span><span class="letter-bounce" style="animation-delay:.14s">.</span><span class="letter-bounce" style="animation-delay:.21s">0</span><span class="letter-bounce" style="animation-delay:.28s">0</span><span class="letter-bounce" style="animation-delay:.35s">0</span><span class="letter-bounce" style="animation-delay:.42s">.</span><span class="letter-bounce" style="animation-delay:.49s">0</span><span class="letter-bounce" style="animation-delay:.56s">0</span><span class="letter-bounce" style="animation-delay:.63s">0</span><span class="amount-shimmer" style="font-size:0.6em;-webkit-text-stroke:1.2px rgba(255,255,255,0.65);"> COP</span>
         </p>
-        <p style="color:#fff;font-weight:900;margin-bottom:24px;font-size:clamp(1.4rem,2.4vw,1.9rem);">por semana<sup style="font-size:0.5em;vertical-align:super;">*</sup></p>
+        <p style="color:#fff;font-weight:900;margin-bottom:28px;line-height:1.1;font-size:clamp(1.7rem,2.7vw,2.4rem);">por semana<sup style="font-size:0.5em;vertical-align:super;">*</sup></p>
 
         <!-- FORMULARIO — grid 2 columnas -->
         <p style="color:#fff;font-weight:800;font-size:1.05rem;margin-bottom:14px;letter-spacing:0.01em;">Regístrate ahora</p>
         <form onsubmit="return false;">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;max-width:520px;">
+          <div id="hero-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;max-width:520px;">
             <input type="text" placeholder="Nombre" class="glass-input"
               style="width:100%;box-sizing:border-box;border-radius:14px;padding:16px 18px;font-size:0.9rem;font-family:'Inter',sans-serif;font-weight:500;outline:none;" />
             <input type="text" placeholder="Apellido" class="glass-input"
@@ -534,11 +565,22 @@
             </span>
           </div>
 
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;">
           <button type="submit" id="registrarse-btn"
             style="background:#2BC5B4;color:#fff;font-weight:800;font-size:1rem;font-family:'Inter',sans-serif;border:none;border-radius:50px;padding:16px 56px;cursor:pointer;box-shadow:0 4px 20px rgba(43,197,180,0.4);"
             onmouseover="this.style.background='#22a99a'" onmouseout="this.style.background='#2BC5B4'">
             Registrarse
           </button>
+          <!-- WhatsApp IA: resolver dudas por WhatsApp. Cambiar el número en WHATSAPP_IA (abajo, en el script) -->
+          <a id="wa-ia-btn" href="#" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:#128C4B;font-weight:800;font-size:1rem;border-radius:50px;padding:13px 26px 13px 14px;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,0.18);transition:transform .15s;"
+             onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+            <span style="width:34px;height:34px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.79-1.31l-.34-.2-3.56.93.95-3.47-.22-.36a9.4 9.4 0 0 1-1.44-5.01c0-5.2 4.23-9.43 9.44-9.43 2.52 0 4.89.98 6.67 2.77a9.36 9.36 0 0 1 2.76 6.67c0 5.2-4.24 9.42-9.44 9.42zm8.03-17.45A11.3 11.3 0 0 0 12.05.72C5.79.72.7 5.8.7 12.06c0 2 .52 3.95 1.52 5.67L.6 23.28l5.68-1.49a11.3 11.3 0 0 0 5.76 1.47h.01c6.26 0 11.35-5.09 11.35-11.35 0-3.03-1.18-5.88-3.32-8.02z"/></svg>
+            </span>
+            Pregúntale a la IA por WhatsApp
+          </a>
+        </div>
         </form>
       </div>
     </div>
@@ -554,7 +596,7 @@
     </div>
 
     <!-- Nota asterisco -->
-    <p class="absolute bottom-3 left-4 text-white/50 text-xs" style="z-index:2;">
+    <p class="absolute text-white/70 text-xs" style="z-index:12;left:72px;bottom:46px;">
       * Ganancias estimadas. Pueden variar según ciudad, horas activas y número de pedidos.
     </p>
   </section>
@@ -634,6 +676,11 @@
   </script>
 
   <script>
+    // Número de WhatsApp de la IA (formato internacional sin + ni espacios) y mensaje inicial
+    var WHATSAPP_IA = '573000000000';
+    var WHATSAPP_IA_MSG = 'Hola, tengo preguntas sobre cómo ser repartidor SoyRappi';
+    (function(){ var b=document.getElementById('wa-ia-btn'); if(b) b.href='https://wa.me/'+WHATSAPP_IA+'?text='+encodeURIComponent(WHATSAPP_IA_MSG); })();
+
     function togglePwd() {
       const i = document.getElementById('pwd-input');
       i.type = i.type === 'password' ? 'text' : 'password';
@@ -782,7 +829,7 @@
               </div>
               <div class="pt-2">
                 <h3 class="text-xl font-bold mb-2 text-white">Regístrate</h3>
-                <p class="text-white/75 leading-relaxed">Descarga la app Rappitendero, crea tu cuenta y sube tus documentos. Tarda menos de 10 minutos.</p>
+                <p class="text-white/75 leading-relaxed">En Android, descarga la aplicación SoyRappi y crea tu cuenta.</p>
               </div>
             </div>
 
@@ -793,8 +840,8 @@
                 <span class="text-4xl font-black step-number" data-target="2" style="color:#fe3f23;">0</span>
               </div>
               <div class="pt-2">
-                <h3 class="text-xl font-bold mb-2 text-white">Actívate</h3>
-                <p class="text-white/75 leading-relaxed">Recibe tu kit de bienvenida, completa el curso de inducción en línea y activa tu cuenta.</p>
+                <h3 class="text-xl font-bold mb-2 text-white">Completa tu registro</h3>
+                <p class="text-white/75 leading-relaxed">Llena tus datos, carga tus documentos y regístrate.</p>
               </div>
             </div>
 
@@ -805,8 +852,8 @@
                 <span class="text-4xl font-black step-number" data-target="3" style="color:#fe3f23;">0</span>
               </div>
               <div class="pt-2">
-                <h3 class="text-xl font-bold mb-2 text-white">¡A ganar!</h3>
-                <p class="text-white/75 leading-relaxed">Conéctate cuando quieras, acepta pedidos cerca de ti y recibe tus ganancias al instante.</p>
+                <h3 class="text-xl font-bold mb-2 text-white">Haz tu primera entrega</h3>
+                <p class="text-white/75 leading-relaxed">Apenas te aprueben, da clic en “Conéctate ahora” y acepta tu primer pedido.</p>
               </div>
             </div>
 
@@ -839,52 +886,42 @@
           <span class="text-rappi font-bold text-sm uppercase tracking-widest">Requisitos</span>
           <h2 class="text-4xl sm:text-5xl font-black mt-2 mb-6 text-gray-900">
             ¿Qué necesitas<br />
-            <span class="text-rappi">para empezar?</span>
+            <span class="text-rappi">para comenzar?</span>
           </h2>
           <p class="text-gray-500 text-lg mb-10 leading-relaxed">
             No necesitas experiencia previa. Solo ganas de trabajar y estos requisitos básicos.
           </p>
 
-          <ul class="space-y-4">
-            <li class="flex items-center gap-4">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                </svg>
+          <ul class="space-y-5">
+            <li class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-9 h-9 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <span class="text-gray-700 font-medium">Ser mayor de 18 años</span>
+              <div class="pt-1"><span class="text-gray-900 font-bold text-lg">Ser mayor de edad</span></div>
             </li>
-            <li class="flex items-center gap-4">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                </svg>
+            <li class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-9 h-9 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <span class="text-gray-700 font-medium">Cédula de ciudadanía o documento de identidad</span>
+              <div class="pt-1"><span class="text-gray-900 font-bold text-lg">Cédula de ciudadanía o PPT</span><p class="text-gray-500 text-sm mt-0.5">Cédula de Extranjería en caso de ser extranjero</p></div>
             </li>
-            <li class="flex items-center gap-4">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                </svg>
+            <li class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-9 h-9 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <span class="text-gray-700 font-medium">Smartphone Android o iPhone</span>
+              <div class="pt-1"><span class="text-gray-900 font-bold text-lg">Teléfono Android</span></div>
             </li>
-            <li class="flex items-center gap-4">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                </svg>
+            <li class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-9 h-9 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <span class="text-gray-700 font-medium">Bicicleta, moto o ir a pie</span>
+              <div class="pt-1"><span class="text-gray-900 font-bold text-lg">Moto, bici o carro</span><p class="text-gray-500 text-sm mt-0.5">¿No tienes moto? También puedes repartir en bici o carro.</p></div>
             </li>
-            <li class="flex items-center gap-4">
-              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-rappi/10 flex items-center justify-center">
-                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                </svg>
+            <li class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-9 h-9 rounded-full bg-rappi/10 flex items-center justify-center">
+                <svg class="w-4 h-4 text-rappi" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
               </div>
-              <span class="text-gray-700 font-medium">Cuenta bancaria o Nequi / Daviplata</span>
+              <div class="pt-1"><span class="text-gray-900 font-bold text-lg">Una maleta</span><p class="text-gray-500 text-sm mt-0.5">Puedes empezar con la maleta que tengas, ¡no importa!</p></div>
             </li>
           </ul>
         </div>
@@ -900,11 +937,11 @@
               <img src="vehicle_moto.png" loading="lazy" decoding="async"
                    alt="Repartidor en moto"
                    class="w-full h-full object-cover" style="min-height:560px; object-position: center 20%;" />
-              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-8">
-                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
-                <h3 class="text-white text-4xl font-black mt-1 mb-1">Moto</h3>
-                <p class="text-white/80 text-sm">Mayor radio de entrega y más pedidos por turno.</p>
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.45) 38%, transparent 62%);"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-10">
+                <span class="inline-block text-white text-sm uppercase tracking-widest font-extrabold px-3 py-1 rounded-full" style="background:#fe3f23;">Reparte en</span>
+                <h3 class="text-white font-black mt-3 mb-2" style="font-size:clamp(3rem,5vw,4.4rem);line-height:.95;">Moto</h3>
+                <p class="text-white font-bold" style="font-size:clamp(1.15rem,1.6vw,1.45rem);line-height:1.3;max-width:26rem;">Más radio de entrega y más pedidos por turno.</p>
               </div>
             </div>
 
@@ -913,37 +950,24 @@
               <img src="vehicle_bici.png" loading="lazy" decoding="async"
                    alt="Repartidor en bicicleta"
                    class="w-full h-full object-cover" style="min-height:560px; object-position: top center;" />
-              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-8">
-                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
-                <h3 class="text-white text-4xl font-black mt-1 mb-1">Bicicleta</h3>
-                <p class="text-white/80 text-sm">La opción más popular. Sin licencia requerida.</p>
-              </div>
-            </div>
-
-            <!-- Slide A pie -->
-            <div class="vehicle-slide absolute inset-0 transition-all duration-700 ease-in-out opacity-0 translate-x-full" data-index="2">
-              <img src="vehicle_apie.png" loading="lazy" decoding="async"
-                   alt="Repartidor a pie"
-                   class="w-full h-full object-cover" style="min-height:560px; object-position: top center;" />
-              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-8">
-                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
-                <h3 class="text-white text-4xl font-black mt-1 mb-1">A pie</h3>
-                <p class="text-white/80 text-sm">Ideal para zonas céntricas y comerciales.</p>
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.45) 38%, transparent 62%);"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-10">
+                <span class="inline-block text-white text-sm uppercase tracking-widest font-extrabold px-3 py-1 rounded-full" style="background:#fe3f23;">¿No tienes moto?</span>
+                <h3 class="text-white font-black mt-3 mb-2" style="font-size:clamp(3rem,5vw,4.4rem);line-height:.95;">Bicicleta</h3>
+                <p class="text-white font-bold" style="font-size:clamp(1.15rem,1.6vw,1.45rem);line-height:1.3;max-width:26rem;">También puedes repartir en bici. ¡Sin licencia!</p>
               </div>
             </div>
 
             <!-- Slide Automóvil -->
-            <div class="vehicle-slide absolute inset-0 transition-all duration-700 ease-in-out opacity-0 translate-x-full" data-index="3">
+            <div class="vehicle-slide absolute inset-0 transition-all duration-700 ease-in-out opacity-0 translate-x-full" data-index="2">
               <img src="vehicle_auto.png" loading="lazy" decoding="async"
                    alt="Repartidor en carro"
                    class="w-full h-full object-cover" style="min-height:560px; object-position: center center;" />
-              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%);"></div>
-              <div class="absolute bottom-0 left-0 right-0 p-8">
-                <span class="text-white/60 text-xs uppercase tracking-widest font-bold">¿Con qué puedes repartir?</span>
-                <h3 class="text-white text-4xl font-black mt-1 mb-1">Automóvil</h3>
-                <p class="text-white/80 text-sm">Para pedidos grandes y larga distancia.</p>
+              <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(10,10,10,0.88) 0%, rgba(10,10,10,0.45) 38%, transparent 62%);"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-10">
+                <span class="inline-block text-white text-sm uppercase tracking-widest font-extrabold px-3 py-1 rounded-full" style="background:#fe3f23;">También en</span>
+                <h3 class="text-white font-black mt-3 mb-2" style="font-size:clamp(3rem,5vw,4.4rem);line-height:.95;">Carro</h3>
+                <p class="text-white font-bold" style="font-size:clamp(1.15rem,1.6vw,1.45rem);line-height:1.3;max-width:26rem;">Ideal para pedidos grandes y largas distancias.</p>
               </div>
             </div>
 
@@ -964,7 +988,7 @@
 
         <script>
           let currentSlide = 0;
-          const totalSlides = 4;
+          const totalSlides = 3;
 
           function goSlide(n) {
             const slides = document.querySelectorAll('.vehicle-slide');
@@ -989,6 +1013,41 @@
   </section>
 
 
+
+  <!-- ══════════════════════════════════════════
+       CONOCE MÁS — VIDEO MI PRIMER PEDIDO
+  ══════════════════════════════════════════ -->
+  <section id="video" class="py-24" style="background:#ffe1dc;">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="font-bold text-sm uppercase tracking-widest" style="color:#fe3f23;">Mi primer pedido</span>
+      <h2 class="text-4xl sm:text-5xl font-black mt-2 mb-10" style="color:#2d3a55;">Conoce más sobre nosotros</h2>
+      <div id="home-video" onclick="loadHomeVideo()" style="position:relative;aspect-ratio:16/9;border-radius:24px;overflow:hidden;cursor:pointer;box-shadow:0 24px 60px rgba(120,20,0,0.22);background:#000;">
+        <img src="thumbnail_primer_pedido.png" alt="4 pasos para hacer tu primer pedido" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;" />
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.15);">
+          <span style="width:84px;height:84px;border-radius:50%;background:#FF0000;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,0.4);">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="#fff" style="margin-left:5px;"><polygon points="5,3 19,12 5,21"/></svg>
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4 mt-10">
+        <a href="https://www.youtube.com/watch?v=YikIJelyd3I" target="_blank" rel="noopener" class="inline-flex items-center gap-3 text-white font-bold px-8 py-4 rounded-full text-lg shadow-xl transition-transform hover:-translate-y-0.5" style="background:#FF0000;">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          Ver en YouTube
+        </a>
+        <a href="https://www.youtube.com/@SoyRappi" target="_blank" rel="noopener" class="inline-flex items-center gap-3 font-bold px-8 py-4 rounded-full text-lg transition-transform hover:-translate-y-0.5" style="background:#fff;color:#2d3a55;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+          Más videos en el canal Soy Rappi
+        </a>
+      </div>
+    </div>
+    <script>
+      function loadHomeVideo(){
+        var box=document.getElementById('home-video');
+        box.onclick=null; box.style.cursor='default';
+        box.innerHTML='<iframe src="https://www.youtube.com/embed/YikIJelyd3I?autoplay=1&rel=0" title="4 pasos para hacer tu primer pedido" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;"></iframe>';
+      }
+    </script>
+  </section>
+
   <!-- ══════════════════════════════════════════
        TESTIMONIOS
   ══════════════════════════════════════════ -->
@@ -1006,14 +1065,10 @@
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-        <!-- Card 1 — Elvis Alvarado · Plata (trofeo) -->
+        <!-- Card 1 — Elvis Alvarado-->
         <div class="bg-gray-100 rounded-3xl p-8 flex flex-col items-center text-center" style="box-shadow:0 2px 16px rgba(0,0,0,0.06);">
           <div class="relative mb-6">
-            <img src="testimonio_1.png" loading="lazy" decoding="async" alt="Elvis Alvarado" class="w-28 h-28 rounded-full object-cover" style="object-position: top center;" />
-            <!-- Badge Plata: trofeo gris -->
-            <div class="hex-badge absolute -bottom-3 -right-2 w-11 h-11 flex items-center justify-center" style="background:linear-gradient(135deg,#7a7a7a,#b0b0b0); filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));">
-              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94C8.02 14.5 9.93 16 12 16.45V19H8v2h8v-2h-4v-2.55c2.07-.45 3.98-1.95 4.61-3.51C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM7 10.82C5.84 10.4 5 9.3 5 8V7h2v3.82zm10 0V7h2v1c0 1.3-.84 2.4-2 2.82z"/></svg>
-            </div>
+            <img src="testimonio_real_1.png" loading="lazy" decoding="async" alt="Elvis Alvarado" class="w-28 h-28 rounded-full object-cover" style="object-position:center;" />
           </div>
           <p class="text-gray-600 text-sm leading-relaxed mb-6">Soy Rappi siempre tiene lo mejor para los usuarios.</p>
           <hr class="border-gray-300 w-full mb-4" />
@@ -1023,14 +1078,10 @@
           </div>
         </div>
 
-        <!-- Card 2 — Yair Castro · Diamante -->
+        <!-- Card 2 — Yair Castro-->
         <div class="bg-gray-100 rounded-3xl p-8 flex flex-col items-center text-center" style="box-shadow:0 2px 16px rgba(0,0,0,0.06);">
           <div class="relative mb-6">
-            <img src="testimonio_2.png" loading="lazy" decoding="async" alt="Yair Castro" class="w-28 h-28 rounded-full object-cover" style="object-position: top center;" />
-            <!-- Badge Diamante: gema oscura -->
-            <div class="hex-badge absolute -bottom-3 -right-2 w-11 h-11 flex items-center justify-center" style="background:linear-gradient(135deg,#1a1a1a,#3a3a3a); filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
-              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5L2 9l10 12L22 9l-3-6zm-7 14.5L5.5 9.5h13L12 17.5zM5.66 8l1.5-3h9.68l1.5 3H5.66z"/></svg>
-            </div>
+            <img src="testimonio_real_2.png" loading="lazy" decoding="async" alt="Yair Castro" class="w-28 h-28 rounded-full object-cover" style="object-position:center;" />
           </div>
           <p class="text-gray-600 text-sm leading-relaxed mb-6">¡Me gusta mucho qué en mis tiempos libres puedo tener la oportunidad de ganarme un ingreso extra!</p>
           <hr class="border-gray-300 w-full mb-4" />
@@ -1040,14 +1091,10 @@
           </div>
         </div>
 
-        <!-- Card 3 — Javier Gutiérrez · Diamante -->
+        <!-- Card 3 — Javier Gutiérrez-->
         <div class="bg-gray-100 rounded-3xl p-8 flex flex-col items-center text-center" style="box-shadow:0 2px 16px rgba(0,0,0,0.06);">
           <div class="relative mb-6">
-            <img src="testimonio_3.png" loading="lazy" decoding="async" alt="Javier Gutiérrez" class="w-28 h-28 rounded-full object-cover" style="object-position: top center;" />
-            <!-- Badge Diamante -->
-            <div class="hex-badge absolute -bottom-3 -right-2 w-11 h-11 flex items-center justify-center" style="background:linear-gradient(135deg,#1a1a1a,#3a3a3a); filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));">
-              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5L2 9l10 12L22 9l-3-6zm-7 14.5L5.5 9.5h13L12 17.5zM5.66 8l1.5-3h9.68l1.5 3H5.66z"/></svg>
-            </div>
+            <img src="testimonio_real_3.png" loading="lazy" decoding="async" alt="Javier Gutiérrez" class="w-28 h-28 rounded-full object-cover" style="object-position:center;" />
           </div>
           <p class="text-gray-600 text-sm leading-relaxed mb-6">SoyRappi me ha permitido alcanzar mis metas y mi calidad de vida.</p>
           <hr class="border-gray-300 w-full mb-4" />
@@ -1153,7 +1200,7 @@
               </svg>
             </a>
             <!-- YouTube -->
-            <a href="#" class="w-12 h-10 rounded-lg flex items-center justify-center" style="background:#fe3f23;">
+            <a href="https://www.youtube.com/@SoyRappi" target="_blank" rel="noopener" class="w-12 h-10 rounded-lg flex items-center justify-center" style="background:#fe3f23;">
               <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/>
               </svg>
@@ -1287,7 +1334,6 @@
     align-items: flex-end;
     gap: 10px;
     pointer-events: none;
-    animation: floatWidget 3s ease-in-out infinite;
   ">
     <!-- Bubble label -->
     <div id="widget-bubble" style="

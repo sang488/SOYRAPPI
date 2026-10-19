@@ -1,0 +1,38 @@
+/* ═══ SoyRappi — tipografía de marca + correcciones globales (ajustes oct 2026) ═══ */
+@font-face{font-family:'PP Object Sans';src:url('fonts/PPObjectSans-Regular.otf') format('opentype');font-weight:100 400;font-display:swap;}
+@font-face{font-family:'PP Object Sans';src:url('fonts/PPObjectSans-Medium.otf') format('opentype');font-weight:500;font-display:swap;}
+@font-face{font-family:'PP Object Sans';src:url('fonts/PPObjectSans-Bold.otf') format('opentype');font-weight:600 700;font-display:swap;}
+@font-face{font-family:'PP Object Sans';src:url('fonts/PPObjectSans-Heavy.otf') format('opentype');font-weight:800 900;font-display:swap;}
+
+/* Una sola tipografía en todo el sitio (antes mezclaba Inter + serif por defecto en algunos menús) */
+html,body,body *:not(svg):not(svg *){font-family:'PP Object Sans','Inter',system-ui,-apple-system,'Segoe UI',sans-serif!important;}
+
+/* ── Navbar: el logo y el botón estaban corridos con position:relative y se encimaban con los links ── */
+nav .max-w-8xl{max-width:1440px!important;}
+
+nav img[alt="Soy Rappi"]{width:170px!important;}
+nav .flex-shrink-0:has(img[alt="Soy Rappi"]){left:0!important;margin-right:28px;}
+nav .flex-shrink-0:has(img[alt="Soy Rappi"]) img[alt="Colombia"]{width:58px!important;height:58px!important;margin-left:-30px!important;}
+nav a.flex-shrink-0.rounded-full,#nav-registrarse,nav a.nav-cta-btn{right:0!important;margin-left:24px;padding-left:28px!important;padding-right:28px!important;}
+nav .hidden.md\:flex.flex-1{gap:22px!important;min-width:0;}
+@media (max-width:1280px){
+  nav .hidden.md\:flex.flex-1{gap:14px!important;}
+  nav .hidden.md\:flex.flex-1 .nav-font{font-size:13px!important;}
+  nav img[alt="Soy Rappi"]{width:140px!important;}
+  nav .flex-shrink-0:has(img[alt="Soy Rappi"]) img[alt="Colombia"]{width:46px!important;height:46px!important;margin-left:-24px!important;}
+  nav .flex-shrink-0:has(img[alt="Soy Rappi"]){margin-right:16px;}
+  nav a.flex-shrink-0.rounded-full,#nav-registrarse,nav a.nav-cta-btn{margin-left:14px;padding-left:20px!important;padding-right:20px!important;font-size:14px!important;}
+}
+@media (min-width:768px) and (max-width:1080px){
+  nav .flex-shrink-0:has(img[alt="Soy Rappi"]) img[alt="Colombia"]{display:none!important;}
+  nav .hidden.md\:flex.flex-1{gap:10px!important;}
+  nav .hidden.md\:flex.flex-1 .nav-font{font-size:12px!important;}
+}
+
+/* ── Títulos de cada entrada (subpáginas) más grandes y con más jerarquía ── */
+.page-title-hero{padding:56px 24px 8px;background:#f9f9fb;}
+.page-title-hero .inner{max-width:56rem;margin:0 auto;}
+.page-title-hero .kicker{display:inline-block;color:#1fb8a5;font-weight:800;font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+.page-title-hero h1{font-size:clamp(2.4rem,5.4vw,4.2rem);font-weight:900;line-height:1.02;letter-spacing:-.02em;color:#141a26;margin:0;}
+.page-title-hero h1 span{color:#1fd6b3;}
+.page-title-hero p{margin-top:14px;font-size:clamp(1.05rem,1.6vw,1.25rem);color:#5b6475;max-width:40rem;line-height:1.5;}
